@@ -4,7 +4,7 @@
 
 # License
 
-See [LICENSE](LICENSE) file.
+See `LICENSE` file.
 
 # Author
 

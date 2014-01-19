@@ -20,7 +20,7 @@ a command like
 
 ## Possible server implementations
 
-1) C: need `libevent`. Otherwise should implement all the RFC damn stuff
-2) PHP: `php -S 127.0.0.1:8001 router.php`
-3) Perl: most sane is [HTTP::Daemon](http://search.cpan.org/~gaas/HTTP-Daemon-6.01/lib/HTTP/Daemon.pm)
-4) Python: `cd /some/dir; python -m SimpleHTTPServer 8001` will serve files in `/some/dir` as in doc root
+- C: need `libevent`. Otherwise should implement all the RFC damn stuff
+- PHP: `php -S 127.0.0.1:8001 router.php`
+- Perl: most sane is [HTTP::Daemon](http://search.cpan.org/~gaas/HTTP-Daemon-6.01/lib/HTTP/Daemon.pm)
+- Python: `cd /some/dir; python -m SimpleHTTPServer 8001` will serve files in `/some/dir` as in doc root
