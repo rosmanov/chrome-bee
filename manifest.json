@@ -1,0 +1,29 @@
+{
+	"manifest_version": 2,
+	"name": "Bee",
+	"version": "1.0",
+	"description": "Allows to edit form text fields with an external editor",
+	"icons": {
+		"16": "img/icon16.png",
+		"48": "img/icon48.png",
+		"128": "img/icon128.png"
+	},
+	"permissions": [
+		"http://*/*",
+		"https://*/*"
+	],
+	"options_page": "options.html",
+	"commands": {
+		"open-editor": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+E",
+				"mac": "Command+Shift+E"
+			},
+			"description": "Open external editor"
+		}
+	},
+	"background": {
+		"scripts": ["eventPage.js"],
+		"persistent": false
+	}
+}

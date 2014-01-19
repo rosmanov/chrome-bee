@@ -1,0 +1,37 @@
+#!/bin/bash -
+# vim: noet ts=4 sts=4 sw=4
+#
+# Run the server handling the Chrome extension requests
+
+function usage()
+{
+	if [ $1 -eq 1 ]
+	then
+		printf "Run the Bee server\n"
+	fi
+	printf "Usage: %s [-p port] [-i IP] [-r router.php]\n" "$0"
+	exit $1
+}
+
+while getopts ah f
+do
+	case $f in
+		p)
+			port="$OPTARG";;
+		i)
+			ip="$OPTARG";;
+		r)
+			router="$OPTARG";;
+		h)
+			usage 1;;
+		?)
+			usage 2;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+
+: ${port:=8099}
+: ${ip:='127.0.0.1'}
+: ${router:="${PWD}/router.php"}
+
+php -H -n -t "${PWD}" -S $ip:$port "$router"

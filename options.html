@@ -1,0 +1,29 @@
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+	<title>Bee Extension Options</title>
+	<style type="text/css">
+		.bee-note {
+			font-size: 0.9em;
+		}
+	</style>
+</head>
+<body>
+<div>
+	Server Status: <span id="server-status"></span>
+</div>
+<div>
+	Port: <input id="port" type="text" maxlength="5" size="5" placeholder=">1024"/>
+</div>
+<div>
+	Editor command: <input id="editor" type="text" size="10" placeholder="/usr/bin/gvim -f %f"/><br/>
+	<span class="bee-note"><code>%f</code> is a placeholder for filename (path).</span>
+</div>
+<div id="save_status"></div>
+<button id="save">Save</button>
+</body>
+
+<script src="options.js" type="text/javascript" charset="utf-8"></script>
+
+</html>
