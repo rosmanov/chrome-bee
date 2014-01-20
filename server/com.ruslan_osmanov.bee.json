@@ -1,0 +1,9 @@
+{
+	"name": "com.ruslan_osmanov.bee",
+	"description": "Bee - Browser's external editor",
+	"path": "/opt/bin/beectl",
+	"type": "stdio",
+	"allowed_origins": [
+		"chrome-extension://dbaifkpgelpeecacambibmaochndgooj"
+		]
+}

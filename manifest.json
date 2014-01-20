@@ -9,12 +9,15 @@
 		"128": "img/icon128.png"
 	},
 	"permissions": [
+		"activeTab",
+		"tabs",
+		"storage",
 		"http://*/*",
 		"https://*/*"
 	],
 	"options_page": "options.html",
 	"commands": {
-		"open-editor": {
+		"bee-editor": {
 			"suggested_key": {
 				"default": "Ctrl+Shift+E",
 				"mac": "Command+Shift+E"
