@@ -16,7 +16,6 @@
 		"http://*/*",
 		"https://*/*"
 	],
-	"options_page": "options.html",
 	"commands": {
 		"bee-editor": {
 			"suggested_key": {
