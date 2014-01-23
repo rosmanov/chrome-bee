@@ -12,6 +12,7 @@
 		"activeTab",
 		"tabs",
 		"storage",
+		"nativeMessaging",
 		"http://*/*",
 		"https://*/*"
 	],
