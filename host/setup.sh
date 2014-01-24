@@ -16,7 +16,7 @@ host_dir='/opt/osmanov/chrome/'
 host_name=com.ruslan_osmanov.bee
 host_file=beectl
 
-install -D -m 0644 "${PWD}/server/${host_name}.json" "${manifest_dir}/${host_name}.json"
-install -D -m 0755 "${PWD}/server/${host_file}" "${host_dir}/${host_file}"
+install -D -m 0644 "${PWD}/host/${host_name}.json" "${manifest_dir}/${host_name}.json"
+install -D -m 0755 "${PWD}/host/${host_file}" "${host_dir}/${host_file}"
 
 echo "Native messaging host ${host_name} has been installed into $host_dir."
