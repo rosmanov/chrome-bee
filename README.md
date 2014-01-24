@@ -26,6 +26,10 @@ The rest is just as simple as installing any other Chrome extension.
 
 Currently Windows is not supported. Pull requests are welcome though.
 
+# Usage
+
+Assign keyboard shortcuts in <chrome://extensions/>. Default shortcut is `<Ctrl><Shift>K`.
+
 # License
 
 See `LICENSE` file.
