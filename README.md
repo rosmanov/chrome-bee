@@ -15,7 +15,6 @@ section.
 
 - Run the following commands in a terminal:
 
-	:::bash
 	d=/tmp/chrome-bee
 	mkdir -p $d
 	cd $d
