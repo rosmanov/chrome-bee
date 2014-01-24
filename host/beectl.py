@@ -48,7 +48,7 @@ def parse_user_config():
 
 
 def get_editor(conf):
-    if 'bee_editor' in conf:
+    if conf and 'bee_editor' in conf:
         return conf['bee_editor']
 
     for e in ['gedit', 'kate', 'sublime', 'gvim',
@@ -100,7 +100,7 @@ def main():
     os.unlink(f[1])
 
     # Write message size
-    response = json.dumps({"text": text}
+    response = json.dumps({"text": text})
     sys.stdout.buffer.write(struct.pack('I', len(response)))
     # Write message itself
     sys.stdout.write(response)
