@@ -7,16 +7,22 @@
 
 var ae = document.activeElement;
 
-if (ae.tagName == 'TEXTAREA') {
-	chrome.runtime.sendMessage({bee_input: ae.innerHTML}, function (response) {
+if (ae.tagName == 'TEXTAREA' || ae.contentEditable) {
+	var text = ae.innerText || ae.textContent;
+
+	chrome.runtime.sendMessage({bee_input: text}, function (response) {
 		if (typeof response.text != 'undefined') {
-			ae.innerHTML = response.text;
+			ae.innerText = response.text;
+			// Obsolete
+			//ae.textContent = response.text;
 		}
 	});
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	if (typeof request.bee_editor_output != 'undefined') {
-		ae.innerHTML = request.text;
+		ae.innerText = request.text;
+		// Obsolete
+		//ae.textContent = request.text;
 	}
 });
