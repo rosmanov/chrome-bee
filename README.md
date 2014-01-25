@@ -15,11 +15,13 @@ section.
 
 - Run the following commands in a terminal:
 
-	d=/tmp/chrome-bee
-	mkdir -p $d
-	cd $d
-	wget -q -O - https://bitbucket.org/osmanov/chrome-bee/get/master.tar.gz | tar -xzf - --strip-components 1
-	sudo ./host/install.sh
+```bash
+d=/tmp/chrome-bee
+mkdir -p $d
+cd $d
+wget -q -O - https://bitbucket.org/osmanov/chrome-bee/get/master.tar.gz | tar -xzf - --strip-components 1
+sudo ./host/install.sh
+```
 
 - Download latest `.crx` file from the [downloads](https://bitbucket.org/osmanov/chrome-bee/downloads) page.
 - Open folder with the downloaded file in a graphical file manager
