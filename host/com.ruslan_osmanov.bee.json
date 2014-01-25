@@ -4,6 +4,7 @@
 	"path": "/opt/osmanov/chrome/beectl",
 	"type": "stdio",
 	"allowed_origins": [
-		"chrome-extension://haenebhcepllcpneciadjchacagagfkc/"
+		"chrome-extension://haenebhcepllcpneciadjchacagagfkc/",
+		"chrome-extension://moakhilhbeednkjahjmomncgigcoemoi/"
 	]
 }

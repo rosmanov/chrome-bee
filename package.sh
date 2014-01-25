@@ -6,11 +6,7 @@ dir=$(cd $(dirname "$0"); pwd)
 build_dir=$(dirname "$dir")/build
 paths=('google-chrome' 'chromium-browser' 'chromium')
 
-if [[ $# > 1 ]]; then
-	version=
-else
-	version="$1"
-fi
+version="$1"
 crx="${build_dir}/bee-${version}.crx"
 
 for e in $paths
