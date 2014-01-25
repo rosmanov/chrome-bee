@@ -35,7 +35,7 @@ Currently Windows is not supported. Pull requests are welcome though.
 
 # Usage
 
-Assign keyboard shortcuts in <chrome://extensions/>. Default shortcut is `<Ctrl><Shift>K`.
+Assign keyboard shortcuts in <chrome://extensions/>. Default shortcut is `<Ctrl><Shift>E`.
 
 # License
 
