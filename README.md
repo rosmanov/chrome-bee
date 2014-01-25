@@ -14,20 +14,17 @@ section. Python versions 2 and 3 are both supported.
 
 ## Linux and OS X
 
-1. Run the following commands in a terminal:
-~~~~
+Run the following commands in a terminal:
+
+```bash
 d=/tmp/chrome-bee; mkdir -p $d; cd $d
 wget -q -O - https://bitbucket.org/osmanov/chrome-bee/get/master.tar.gz | tar -xzf - --strip-components 1
 sudo ./host/install.sh
-~~~~
+```
 
-2. Install _Bee_ from the [Chrome Web store](https://chrome.google.com/webstore/detail/moakhilhbeednkjahjmomncgigcoemoi).
-	*Alternatively*:
-	- Download latest `.crx` file from the [downloads](https://bitbucket.org/osmanov/chrome-bee/downloads) page.
-	- Open folder with the downloaded file in a graphical file manager
-	- Open <chrome://extensions> tab in your browser
-	- Drag-and-drop the `.crx` file onto the <chrome://extensions> tab
-3. Chrome will ask for some confirmations. Give your approval, and you're done.
+Install _Bee_ from the [Chrome Web store](https://chrome.google.com/webstore/detail/moakhilhbeednkjahjmomncgigcoemoi).[^1]
+
+Chrome will ask for some confirmations. Give your approval, and you're done.
 
 ## Windows
 
@@ -69,3 +66,6 @@ See `LICENSE` file.
 # Author
 
 Copyright © 2014 Ruslan Osmanov <rrosmanov@gmail.com>
+
+
+[^1]: The `.crx` files are also available on the [downloads](https://bitbucket.org/osmanov/chrome-bee/downloads) page.
