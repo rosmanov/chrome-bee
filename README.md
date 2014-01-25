@@ -15,12 +15,11 @@ section. Python versions 2 and 3 are both supported.
 ## Linux and OS X
 
 1. Run the following commands in a terminal:
-
-		```bash
-		d=/tmp/chrome-bee; mkdir -p $d; cd $d
-		wget -q -O - https://bitbucket.org/osmanov/chrome-bee/get/master.tar.gz | tar -xzf - --strip-components 1
-		sudo ./host/install.sh
-		```
+~~~~
+d=/tmp/chrome-bee; mkdir -p $d; cd $d
+wget -q -O - https://bitbucket.org/osmanov/chrome-bee/get/master.tar.gz | tar -xzf - --strip-components 1
+sudo ./host/install.sh
+~~~~
 
 2. Install _Bee_ from the [Chrome Web store](https://chrome.google.com/webstore/detail/moakhilhbeednkjahjmomncgigcoemoi).
 	*Alternatively*:
