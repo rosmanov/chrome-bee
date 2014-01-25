@@ -5,9 +5,9 @@ editing form `textarea` fields with an external editor.
 
 # Requirements
 
-This extension relies on a _native messaging host_ written in Python 3. So
-you'll need Python 3 itself plus some extra steps described in the following
-section.
+This extension relies on a _native messaging host_ written in Python. So
+you'll need Python itself plus some extra steps described in the following
+section. Python versions 2 and 3 are both supported.
 
 # Installation
 
@@ -33,9 +33,34 @@ sudo ./host/install.sh
 
 Currently Windows is not supported. Pull requests are welcome though.
 
+# Uninstallation
+
+Run the following to uninstall the native messaging host previously installed
+with `host/install.sh`:
+
+```bash
+sudo ./host/uninstall.sh
+```
+
 # Usage
 
-Assign keyboard shortcuts in <chrome://extensions/>. Default shortcut is `<Ctrl><Shift>E`.
+Optionally assign preferred keyboard shortcut on the
+[Extensions](chrome://extensions/) page. Default shortcut is `<Ctrl><Shift>E`.
+
+Put editor's executable filename into: `~/.config/beectl.conf` file, e.g.:
+
+```
+bee_editor = gedit
+```
+or
+```
+bee_editor = /usr/bin/gvim -f
+```
+
+Set cursor on a `textarea` field and invoke the keyboard shortcut. After a
+moment the text contained in the `textarea` should appear in editor of your
+choice. Edit the text, save and close editor's window. Now the text in
+`textarea` should be updated.
 
 # License
 
