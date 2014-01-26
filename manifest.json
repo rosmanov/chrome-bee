@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Browser's external editor",
 	"short_name": "Bee",
-	"version": "1.3",
+	"version": "2.0",
 	"description": "Allows to edit form text fields with an external editor",
 	"author":"Ruslan Osmanov",
 	"icons": {
@@ -15,8 +15,7 @@
 		"tabs",
 		"storage",
 		"nativeMessaging",
-		"http://*/*",
-		"https://*/*"
+		"<all_urls>"
 	],
 	"commands": {
 		"bee-editor": {
@@ -28,7 +27,8 @@
 		}
 	},
 	"background": {
-		"scripts": ["eventPage.js"],
+		"scripts": ["js/eventPage.js"],
 		"persistent": false
-	}
+	},
+	"options_page": "html/options.html"
 }

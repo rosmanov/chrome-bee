@@ -1,0 +1,42 @@
+.wrapper {
+	margin: auto;
+	padding: 10px 25px;
+	width: 400px;
+}
+
+header {
+	margin: 0 0 10px 0;
+}
+
+input[type=text] {
+	width: 100%;
+	font-size: 1.1em;
+	font-family: monospace, courier new;
+}
+
+header>h1 {
+	font-size: 1.4em;
+	margin: 0;
+	padding: 19px 0 10px;
+}
+
+header::after {
+	height: 1px;
+	background-color: #eee;
+	display: block;
+	content: ' ';
+}
+
+.note {
+	padding: 6px;
+	border: 1px solid #e0e0e0;
+	background-color: #e7e7e7;
+	font-size: 0.86em;
+	margin: 14px 1px;
+}
+
+.logo {
+	float: left;
+	margin: 4px 10px;
+	border: 0px none;
+}

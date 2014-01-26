@@ -3,14 +3,11 @@
 #
 # Google Chrome (Chromium) browser's Bee extension native messaging host.
 #
-# User can specify path to desired external editor in ~/.config/beectl.conf
-# file, e.g.:
-#
-#   bee_editor = /usr/bin/gedit
-#
-# Otherwise the script tries to guess editor by iterating over list of popular
-# editors, such as gvim, macvim, qvim, gedit, kate, emacs etc.; then falls back
-# to $EDITOR environment variable.
+# Path of the executable is expected on input. However, it is optional. If
+# there is no executable privided on input, then the script tries to guess
+# editor by iterating over a list of popular editors, such as gvim, macvim,
+# qvim, gedit, kate, emacs etc.; then falls back to $EDITOR environment
+# variable.
 #
 # When editor's subprocess is finished, the script bypasses the new text back
 # to the textarea control.
@@ -25,7 +22,7 @@ import os.path
 import sys
 import tempfile
 import subprocess
-from io import open
+import shlex
 
 
 def which(exe):
@@ -36,46 +33,20 @@ def which(exe):
     return False
 
 
-def parse_user_config():
-    filename = os.path.expanduser(u"~/.config/beectl.conf")
-    if (not os.path.exists(filename)):
-        return None
-
-    conf = {}
-    with open(filename) as fp:
-        for line in iter(fp.readline, u''):
-            c = re.split(u'[\s\=]+', line, 1)
-            conf[c[0]] = c[1]
-
-    return conf
-
-
 def get_editor(conf):
-    if conf and u'bee_editor' in conf:
-        return conf[u'bee_editor'].strip()
+    if conf and 'editor' in conf and conf['editor']:
+        return conf['editor'].strip()
 
-    for e in [u'gedit', u'kate', u'sublime', u'gvim',
-              u'qvim', u'macvim', u'emacs', u'leafpad']:
+    for e in ['gedit', 'kate', 'sublime', 'gvim',
+              'qvim', 'macvim', 'emacs', 'leafpad']:
         path = which(e)
-        if which(e):
+        if path:
             return path
 
-    return os.getenv(u'EDITOR')
+    return os.getenv('EDITOR')
 
 
 def main():
-    conf = parse_user_config()
-    bee_editor = get_editor(conf)
-
-    if not bee_editor:
-        sys.exit("No editor found")
-
-    args = re.split('\s+', bee_editor)
-
-    # no-fork option for vim family
-    if re.match('.*vim', bee_editor):
-        args.append('-f')
-
     # 1st 4 bytes is the message type
     text_len_bytes = sys.stdin.read(4)
 
@@ -85,14 +56,30 @@ def main():
     text_len = struct.unpack('I', text_len_bytes)[0]
 
     json_text = sys.stdin.read(text_len)
-    text = json.loads(json_text.decode(u'UTF-8'))
+    text = json.loads(json_text.decode('UTF-8'))
+
+    # Look if editor is passed in JSON
+    conf = None
+    if 'editor' in text:
+        conf = text
+
+    bee_editor = get_editor(conf)
+
+    if not bee_editor:
+        sys.exit("No editor found")
+
+    args = shlex.split(bee_editor)
+
+    # no-fork option for vim family
+    if re.match('.*vim', bee_editor):
+        args.append('-f')
 
     f = tempfile.mkstemp('.txt', 'chrome_bee_')
-    os.write(f[0],str(text['text']).encode('UTF-8'))
+    os.write(f[0], str(text['text']).encode('UTF-8'))
     args.append(f[1])
 
     subprocess.call(args)
-    text = u""
+    text = ""
     os.lseek(f[0], 0, os.SEEK_SET)
     while True:
         r = os.read(f[0], 1024)
@@ -104,7 +91,7 @@ def main():
 
     # Write message size
     response = json.dumps({'text': text})
-    sys.stdout.write(struct.pack(u'I', len(response)))
+    sys.stdout.write(struct.pack('I', len(response)))
     # Write message itself
     sys.stdout.write(response)
     sys.stdout.flush()

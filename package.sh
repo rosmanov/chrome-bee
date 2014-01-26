@@ -22,7 +22,7 @@ then
 	exit 1
 fi
 
-$exe --pack-extension="${dir}" --pack-extension-key="${build_dir}/bee.pem" > /dev/null
+$exe --pack-extension="${dir}" --pack-extension-key="${build_dir}/bee.pem"
 
 mv "${dir}/../bee.crx" "${crx}" && echo \
 	"Extension has been moved to ${crx}"
@@ -31,3 +31,7 @@ if [[ ! -z "$version" ]]; then
 	sed -r -i 's%("version"\s*:\s*")[0-9\.]*%\1'$version'%g' manifest.json
 	echo "Patched manifest.json"
 fi
+
+cd $dir
+rm -f ${build_dir}/bee.zip
+zip -x *\.git* -x *\.rope* -r ${build_dir}/bee.zip .

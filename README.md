@@ -6,8 +6,8 @@ on (e.g. *Google+* uses such kind of input field) with an external editor.
 
 # Requirements
 
-This extension relies on a _native messaging host_ written in Python. So
-you'll need Python itself plus some extra steps described in the following
+This extension relies on a _native messaging host_ written in Python. So Python
+is required. You'll also need some extra steps described in the following
 section. Python versions 2 and 3 are both supported.
 
 # Installation
@@ -32,32 +32,28 @@ Currently Windows is not supported. Pull requests are welcome though.
 
 # Uninstallation
 
-Run the following to uninstall the native messaging host previously installed
-with `host/install.sh`:
+To uninstall the native messaging host run the following command in terminal:
 
 ```bash
 sudo ./host/uninstall.sh
 ```
 
+# Configuration
+
+Go to [extensions page](chrome://extensions/). Click on `Bee` extension `Options`.
+Options page allows to enter a command to launch external editor. Enter some
+command and close the tab.
+
+Optionally assign custom keyboard shortcut for `Bee`.[^2]  Default is `<Ctrl><Shift>E`.
+
 # Usage
 
-Optionally assign preferred keyboard shortcut on the
-[Extensions](chrome://extensions/) page. Default shortcut is `<Ctrl><Shift>E`.
+- Set cursor on some editable area.
+- Invoke the keyboard shortcut.
+- After a moment the text (if any) should appear your editor.
+- Edit the text, save and close editor's window
 
-Put editor's executable filename into: `~/.config/beectl.conf` file, e.g.:
-
-```
-bee_editor = gedit
-```
-or
-```
-bee_editor = /usr/bin/gvim -f
-```
-
-Set cursor on a `textarea` field and invoke the keyboard shortcut. After a
-moment the text contained in the `textarea` should appear in editor of your
-choice. Edit the text, save and close editor's window. Now the text in
-`textarea` should be updated.
+Now the text in the text area should be updated.
 
 # License
 
@@ -69,3 +65,4 @@ Copyright © 2014 Ruslan Osmanov <rrosmanov@gmail.com>
 
 
 [^1]: The `.crx` files are also available on the [downloads](https://bitbucket.org/osmanov/chrome-bee/downloads) page.
+[^2]: At the time of writing 'Keyboard shortcuts' button was available at the bottom of the [extensions](chrome://extensions/) page.

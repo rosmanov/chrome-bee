@@ -28,14 +28,16 @@ function connect() {
 
 chrome.commands.onCommand.addListener(function(command) {
 	if (command == 'bee-editor') {
-		chrome.tabs.executeScript(null, {file: "content.js"});
+		chrome.tabs.executeScript(null, {file: "/js/content.js"});
 	}
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	if (typeof request.bee_input != 'undefined') {
+	if (request.method == 'input') {
 		connect();
 
-		port.postMessage({text: request.bee_input});
+		port.postMessage({text: request.bee_input, editor: request.bee_editor});
+	} else if (request.method == 'bee_editor') {
+		sendResponse({bee_editor: localStorage['bee-editor']});
 	}
 });
