@@ -40,7 +40,7 @@ sudo ./host/uninstall.sh
 
 # Configuration
 
-Go to [extensions page](chrome://extensions/). Click on `Bee` extension `Options`.
+Go to <chrome://extensions/>. Click on `Bee` extension `Options`.
 Options page allows to enter a command to launch external editor. Enter some
 command and close the tab.
 
@@ -65,4 +65,4 @@ Copyright © 2014 Ruslan Osmanov <rrosmanov@gmail.com>
 
 
 [^1]: The `.crx` files are also available on the [downloads](https://bitbucket.org/osmanov/chrome-bee/downloads) page.
-[^2]: At the time of writing 'Keyboard shortcuts' button was available at the bottom of the [extensions](chrome://extensions/) page.
+[^2]: At the time of writing 'Keyboard shortcuts' button was available at the bottom of the <chrome://extensions/> page.
