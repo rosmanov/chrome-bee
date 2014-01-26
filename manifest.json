@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Browser's external editor",
 	"short_name": "Bee",
-	"version": "2.0",
+	"version": "2.1",
 	"description": "Allows to edit form text fields with an external editor",
 	"author":"Ruslan Osmanov",
 	"icons": {

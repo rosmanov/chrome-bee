@@ -8,7 +8,7 @@
 var ae = document.activeElement;
 
 if (ae.tagName == 'TEXTAREA' || ae.contentEditable) {
-	var text = ae.innerText || ae.textContent;
+	var text = ae.value != undefined ? ae.value : (ae.innerText || ae.textContent);
 	var editor = null;
 
 	// We can't access page's localStorage directly
@@ -19,6 +19,7 @@ if (ae.tagName == 'TEXTAREA' || ae.contentEditable) {
 			chrome.runtime.sendMessage({method: 'input', bee_input: text, bee_editor: editor}, function (response) {
 				if (typeof response.text != 'undefined') {
 					ae.innerText = response.text;
+					ae.value = respon.text;
 					// Obsolete
 					//ae.textContent = response.text;
 				}
@@ -31,6 +32,7 @@ if (ae.tagName == 'TEXTAREA' || ae.contentEditable) {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	if (typeof request.bee_editor_output != 'undefined') {
 		ae.innerText = request.text;
+		ae.value = request.text;
 		// Obsolete
 		//ae.textContent = request.text;
 	}
