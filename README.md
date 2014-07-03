@@ -40,7 +40,7 @@ sudo ./host/uninstall.sh
 
 # Configuration
 
-Go to [extensions page][extensions]. Click on `Bee` extension `Options`.
+Go to _Extensions_ page (`chrome://extensions`). Click on `Bee` extension `Options`.
 Options page allows to enter a command to launch external editor. Enter some
 command and close the tab.
 
@@ -51,7 +51,7 @@ Optionally assign custom keyboard shortcut for `Bee`.[^2]  Default is `<Ctrl><Sh
 - Set cursor on some editable area.
 - Invoke the keyboard shortcut.
 - After a moment the text (if any) should appear your editor.
-- Edit the text, save and close editor's window
+- Edit the text, save it, then close editor's window.
 
 Now the text in the text area should be updated.
 
@@ -64,7 +64,5 @@ See `LICENSE` file.
 Copyright © 2014 Ruslan Osmanov <rrosmanov@gmail.com>
 
 
-[^1]: The `.crx` files are also available on the [downloads](https://bitbucket.org/osmanov/chrome-bee/downloads) page.
+[^1]: The `.crx` file is also available on the [downloads](https://bitbucket.org/osmanov/chrome-bee/downloads) page.
 [^2]: At the time of writing 'Keyboard shortcuts' button was available at the bottom of the [extensions page][extensions].
-
-[extensions]: chrome://extensions "Extensions page"

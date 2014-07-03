@@ -4,7 +4,7 @@ set -e -u -x
 
 dir=$(cd $(dirname "$0"); pwd)
 build_dir=$(dirname "$dir")/build
-paths=('google-chrome' 'chromium-browser' 'chromium')
+paths=('google-chrome-stable' 'google-chrome' 'chromium-browser' 'chromium')
 
 version="$1"
 crx="${build_dir}/bee-${version}.crx"
@@ -16,7 +16,7 @@ do
 	[ -z "$exe" ] && continue
 done
 
-if [ -z "$exe" ]
+if [[ "x$exe" == "x" ]]
 then
 	echo >&2 "Chrome executable not found"
 	exit 1
