@@ -56,7 +56,7 @@ def main():
     text_len = struct.unpack('I', text_len_bytes)[0]
 
     json_text = sys.stdin.read(text_len)
-    text = json.loads(json_text.decode('UTF-8'))
+    text = json.loads(json_text.decode('utf-8'))
 
     # Look if editor is passed in JSON
     conf = None
@@ -75,17 +75,18 @@ def main():
         args.append('-f')
 
     f = tempfile.mkstemp('.txt', 'chrome_bee_')
-    os.write(f[0], str(text['text']).encode('UTF-8'))
+    os.write(f[0], text['text'].encode('utf-8'))
     args.append(f[1])
 
-    subprocess.call(args)
+    with open(os.devnull, 'w') as devnull:
+        subprocess.call(args, stdout = devnull, stderr = devnull)
     text = ""
     os.lseek(f[0], 0, os.SEEK_SET)
     while True:
         r = os.read(f[0], 1024)
         if not r:
             break
-        text += r.decode('UTF-8')
+        text += r.decode('utf-8', 'replace')
     os.close(f[0])
     os.unlink(f[1])
 
