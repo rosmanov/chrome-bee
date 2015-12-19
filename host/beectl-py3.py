@@ -76,13 +76,10 @@ def main():
     args.append(f[1])
 
     subprocess.call(args, stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
-    text = ""
-    os.lseek(f[0], 0, os.SEEK_SET)
-    while True:
-        r = os.read(f[0], 1024)
-        if not r:
-            break
-        text += r.decode('utf-8', 'replace')
+    st = os.stat(f[1])
+    r = os.read(f[0], st.st_size);
+    text = r.decode('utf-8', 'replace')
+
     os.close(f[0])
     os.unlink(f[1])
 
