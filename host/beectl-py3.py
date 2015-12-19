@@ -77,6 +77,7 @@ def main():
 
     subprocess.call(args, stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
     st = os.stat(f[1])
+    os.lseek(f[0], 0, os.SEEK_SET)
     r = os.read(f[0], st.st_size);
     text = r.decode('utf-8', 'replace')
 
