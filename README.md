@@ -18,12 +18,11 @@ Run the following commands in a terminal:
 
 ```bash
 d=/tmp/chrome-bee; mkdir -p $d; cd $d
-wget -q -O - https://bitbucket.org/osmanov/chrome-bee/get/master.tar.gz | tar -xzf - --strip-components 1
+wget -q -O - https://github.com/rosmanov/chrome-bee/archive/master.tar.gz | tar xzvf - --strip-components 1
 sudo ./host/install.sh
 ```
 
-Install _Bee_ from the [Chrome Web store](https://chrome.google.com/webstore/detail/moakhilhbeednkjahjmomncgigcoemoi).[^1]
-
+Install _Bee_ from the [Chrome Web store](https://chrome.google.com/webstore/detail/moakhilhbeednkjahjmomncgigcoemoi)
 Chrome will ask for some confirmations. Give your approval, and you're done.
 
 ## Windows
@@ -44,13 +43,14 @@ Go to _Extensions_ page (`chrome://extensions`). Click on `Bee` extension `Optio
 Options page allows to enter a command to launch external editor. Enter some
 command and close the tab.
 
-Optionally assign custom keyboard shortcut for `Bee`.[^2]  Default is `<Ctrl><Shift>E`.
+Optionally assign custom keyboard shortcut for `Bee`<sup>[1](#footnote-kbd)</sup>
+. Default is `<Ctrl><Shift>E`.
 
 # Usage
 
 - Set cursor on some editable area.
 - Invoke the keyboard shortcut.
-- After a moment the text (if any) should appear your editor.
+- After a moment the entered text should appear in a window of your editor.
 - Edit the text, save it, then close editor's window.
 
 Now the text in the text area should be updated.
@@ -61,8 +61,10 @@ See `LICENSE` file.
 
 # Author
 
-Copyright © 2014 Ruslan Osmanov <rrosmanov@gmail.com>
+Copyright © 2014-2017 Ruslan Osmanov <rrosmanov@gmail.com>
 
+----
 
-[^1]: The `.crx` file is also available on the [downloads](https://bitbucket.org/osmanov/chrome-bee/downloads) page.
-[^2]: At the time of writing 'Keyboard shortcuts' button was available at the bottom of the [extensions page][extensions].
+<p>
+  <sup><a name="footnote-kbd">1</a></sup> At the time of writing "Keyboard shortcuts" button was available at the bottom of the `chrome://extensions` page.
+</p>
