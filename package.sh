@@ -1,48 +1,54 @@
 #!/bin/bash -
-# Package CRX archive.
+# Builds a CRX package.
 # Usage ./package.sh <version>
-# where <version> is a version number, e.g. 2.2
+# where <version> is a version number, e.g. 2.2.
+# If <version> is not specified, then the current version from manifest.json will be used.
 
-set -e -u -x
+set -e -u
+shopt -s extglob
 
-dir=$(cd $(dirname "$0"); pwd)
+dir=$(cd "$(dirname "$0")"; pwd)
 build_dir=$(dirname "$dir")/build
-paths=('google-chrome-stable' 'google-chrome' 'chromium-browser' 'chromium')
 
-version="$1"
-#if [[ "x$1" == "x" ]]; then
-	#version_line="$(grep -o '"version".*' $dir/manifest.json)"
-	#version=`expr "$version_line" : '"version".*\([0-9]\+\\.[0-9]\+\)'`;
-#else
-	#version="$1"
-#fi
+cd "$dir"
 
-crx="${build_dir}/bee-${version}.crx"
+[ $# -ne 0 ] && version="$1" || \
+  version=$(perl -MJSON -e '$_ = do {local $/; <STDIN>}; $_ = decode_json $_; print $_->{"version"}' < manifest.json)
+echo "Version: $version"
 
-for e in $paths
+crx="$build_dir/bee-${version}.crx"
+echo "Target CRX: $crx"
+
+# Find chrome executable
+for e in 'google-chrome-stable' 'google-chrome' 'chromium-browser' 'chromium'
 do
-	exe=$(command -v $e)
-	[ -z "$exe" ] && continue
+  exe=$(command -v $e)
+  [ -n "$exe" ] && break
 done
-
-if [[ "x$exe" == "x" ]]
-then
-	echo >&2 "Chrome executable not found"
-	exit 1
+if [ -z "$exe" ]; then
+  echo >&2 'Chrome executable not found'
+  exit 1
 fi
+echo "Detected Chrome executable: $exe"
 
-$exe --pack-extension="${dir}" --pack-extension-key="${build_dir}/bee.pem"
+manifest_backup_file=manifest.json.bak
+cp manifest.json "$manifest_backup_file" && \
+  echo "Created backup for manifest.json: $manifest_backup_file"
 
-mv "${dir}/../bee.crx" "${crx}" && echo \
-	"Extension has been moved to ${crx}"
+./patch-manifest.pl manifest.json "$version" chrome && \
+  echo Patched manifest.json
 
-if [[ ! -z "$version" ]]; then
-	sed -r -i 's%("version"\s*:\s*")[0-9\.]*%\1'$version'%g' manifest.json
-	echo "Patched manifest.json"
-fi
+echo "Building CRX package..."
+$exe --pack-extension="$dir" --pack-extension-key="$build_dir/bee.pem"
+mv "$dir/../"?(chrome-)bee.crx "$crx" && \
+  echo "Built CRX package: $crx"
 
-cd $dir
-rm -f ${build_dir}/bee.zip
-zip -x *\.git* -x *\.rope* -r ${build_dir}/bee.zip .
+echo "Creating ZIP archive..."
+zip_file="$build_dir/bee.zip"
+rm -f "$zip_file"
+zip -x '*~' '*.git*' '*.rope*' '*.swp' '*.bak' host/beectl "${build_dir}*" '*.xcf'  \
+  -r "$zip_file" . && \
+  echo "Created ZIP archive: $zip_file"
 
-# vim: noet
+cp "$manifest_backup_file" manifest.json &&
+  echo "Restored manifest.json from $manifest_backup_file"

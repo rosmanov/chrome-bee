@@ -1,34 +1,47 @@
 {
-	"manifest_version": 2,
-	"name": "Browser's external editor",
-	"short_name": "Bee",
-	"version": "2.2",
-	"description": "Allows to edit form text fields with an external editor",
-	"author":"Ruslan Osmanov",
-	"icons": {
-		"16": "img/icon16.png",
-		"48": "img/icon48.png",
-		"128": "img/icon128.png"
-	},
-	"permissions": [
-		"activeTab",
-		"tabs",
-		"storage",
-		"nativeMessaging",
-		"<all_urls>"
-	],
-	"commands": {
-		"bee-editor": {
-			"suggested_key": {
-				"default": "Ctrl+Shift+E",
-				"mac": "Command+Shift+E"
-			},
-			"description": "Open external editor"
-		}
-	},
-	"background": {
-		"scripts": ["js/eventPage.js"],
-		"persistent": false
-	},
-	"options_page": "html/options.html"
+   "applications" : {
+      "gecko" : {
+         "id" : "bee@ruslan_osmanov.com",
+         "strict_min_version" : "50.0"
+      }
+   },
+   "author" : "Ruslan Osmanov",
+   "background" : {
+      "persistent" : false,
+      "scripts" : [
+         "js/eventPage.js"
+      ]
+   },
+   "commands" : {
+      "bee-editor" : {
+         "description" : "Open external editor",
+         "suggested_key" : {
+            "default" : "Ctrl+E",
+            "mac" : "Command+E"
+         }
+      }
+   },
+   "description" : "Allows to edit form text fields with an external editor",
+   "icons" : {
+      "128" : "img/icon128.png",
+      "16" : "img/icon16.png",
+      "48" : "img/icon48.png"
+   },
+   "manifest_version" : 2,
+   "name" : "Browser's external editor",
+   "options_page" : "html/options-old-style.html",
+   "options_ui" : {
+      "browser_style" : true,
+      "chrome_style" : true,
+      "page" : "html/options.html"
+   },
+   "permissions" : [
+      "activeTab",
+      "tabs",
+      "storage",
+      "nativeMessaging",
+      "<all_urls>"
+   ],
+   "short_name" : "Bee",
+   "version" : "2.3"
 }

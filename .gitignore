@@ -17,3 +17,6 @@ tags
 *.pem
 *.key
 *.req
+*.bak
+host/vars.cache.sh
+host/beectl

@@ -1,67 +1,81 @@
 # About
 
-*Bee* (_Browser's external editor_) is a Google Chrome (Chromium) extension for
-editing form `textarea` fields and fields having `contenteditable` attribute
-on (e.g. *Google+* uses such kind of input field) with an external editor.
+*Bee* (_Browser's External Editor_) extension allows to edit text fields with an external editor.
+
+# Supported browsers
+
+- **Firefox 57+**
+- **Google Chrome** (**Chromium**)
+- OS **Linux**, or **Mac OS ****X**
 
 # Requirements
 
-This extension relies on a _native messaging host_ written in Python. So Python
-is required. You'll also need some extra steps described in the following
-section. Python versions 2 and 3 are both supported.
+- **Python** 2 or 3
+- **Bash** 4.4+
+- **Perl** 5
 
 # Installation
 
-## Linux and OS X
+## Host Application
 
-Run the following commands in a terminal:
+There are two types of the host application setup:
+
+- **Local** (for the current user).
+- **System-wide** (for all users). Requires `root` permissions.
+
+### Download the Project
 
 ```bash
-d=/tmp/chrome-bee; mkdir -p $d; cd $d
-wget -q -O - https://github.com/rosmanov/chrome-bee/archive/master.tar.gz | tar xzvf - --strip-components 1
-sudo ./host/install.sh
+wget -q -O - https://github.com/rosmanov/chrome-bee/archive/master.tar.gz | \
+  tar xzvf - --strip-components 1
 ```
 
-Install _Bee_ from the [Chrome Web store](https://chrome.google.com/webstore/detail/moakhilhbeednkjahjmomncgigcoemoi)
-Chrome will ask for some confirmations. Give your approval, and you're done.
+### Run the Installation Script
 
-## Windows
+Run `./host/install.sh` script from the project directory.
 
-Currently Windows is not supported. Pull requests are welcome though.
+If the script is run on behalf of *superuser*, the host application manifests will be installed system-wide.
+
+By default, the host application is installed into the project directory (where the project is downloaded). It is possible to set different target directory by passing its path as the first argument, e.g.:
+
+```
+./host/install.sh ~/usr/lib/chrome-bee
+```
+### Install the Browser Extension
+
+Install _Bee_ extension from [Chrome Web store](https://chrome.google.com/webstore/) or [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/). The browser will ask for some confirmations. Give your approval, and you are done.
 
 # Uninstallation
 
-To uninstall the native messaging host run the following command in terminal:
+To uninstall the native messaging host and its manifests, run the following command from the project directory (see "Installation" section above):
 
 ```bash
-sudo ./host/uninstall.sh
+./host/uninstall.sh
 ```
+
+Note, the command should be run on behalf of the same user as in the installation step.
 
 # Configuration
 
-Go to _Extensions_ page (`chrome://extensions`). Click on `Bee` extension `Options`.
-Options page allows to enter a command to launch external editor. Enter some
-command and close the tab.
+Extension options page allows to enter a command for an external editor. Simply enter a command like 'gvim -f'.
 
 Optionally assign custom keyboard shortcut for `Bee`<sup>[1](#footnote-kbd)</sup>
-. Default is `<Ctrl><Shift>E`.
+. Default is `<Ctrl>E`.
 
 # Usage
 
 - Set cursor on some editable area.
 - Invoke the keyboard shortcut.
-- After a moment the entered text should appear in a window of your editor.
-- Edit the text, save it, then close editor's window.
+- After a moment, the entered text should appear in a window of the external editor.
+- Edit the text, save it, and close the window.
 
-Now the text in the text area should be updated.
+The text in the text area should be updated.
 
 # License
 
 See `LICENSE` file.
 
-# Author
-
-Copyright © 2014-2017 Ruslan Osmanov <rrosmanov@gmail.com>
+Copyright © 2014-2018 Ruslan Osmanov <rrosmanov@gmail.com>
 
 ----
 

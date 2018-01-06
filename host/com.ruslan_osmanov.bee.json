@@ -1,10 +1,11 @@
 {
-	"name": "com.ruslan_osmanov.bee",
-	"description": "Bee - Browser's external editor",
-	"path": "/opt/osmanov/chrome/beectl",
-	"type": "stdio",
-	"allowed_origins": [
-		"chrome-extension://haenebhcepllcpneciadjchacagagfkc/",
-		"chrome-extension://moakhilhbeednkjahjmomncgigcoemoi/"
-	]
+  "name": "com.ruslan_osmanov.bee",
+  "description": "Bee - Browser's external editor",
+  "path": "/home/ruslan/projects/chrome-bee/host/beectl",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://haenebhcepllcpneciadjchacagagfkc/",
+    "chrome-extension://moakhilhbeednkjahjmomncgigcoemoi/",
+    "chrome-extension://haenebhcepllcpneciadjchacagagfkc/"
+  ]
 }
