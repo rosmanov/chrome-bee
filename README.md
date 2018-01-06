@@ -43,7 +43,7 @@ By default, the host application is installed into the project directory (where 
 ```
 ### Install the Browser Extension
 
-Install _Bee_ extension from [Chrome Web store](https://chrome.google.com/webstore/) or [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/). The browser will ask for some confirmations. Give your approval, and you are done.
+Install _Bee_ extension from [Chrome Web store](https://chrome.google.com/webstore/) or [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/external-editor/). The browser will ask for some confirmations. Give your approval, and you are done.
 
 # Uninstallation
 
