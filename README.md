@@ -6,7 +6,7 @@
 
 - **Firefox 57+**
 - **Google Chrome** (**Chromium**)
-- OS **Linux**, or **Mac OS ****X**
+- OS **Linux**, or **Mac OS X**
 
 # Requirements
 
