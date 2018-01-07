@@ -52,7 +52,7 @@ mv "$dir/../"?(chrome-)bee.crx "$crx" && \
 echo "Creating ZIP archive..."
 zip_file="$build_dir/bee.zip"
 rm -f "$zip_file"
-zip -x '*~' '*.git*' '*.rope*' '*.swp' '*.bak' host/beectl "${build_dir}*" '*.xcf' 'img/wiki/*' 'host/*' '*.sh'  \
+zip -x '*~' '*.git*' '*.rope*' '*.swp' '*.bak' host/beectl "${build_dir}*" '*.xcf' 'img/wiki/*' 'host/*' '*.pl' '*.sh'  \
   -r "$zip_file" . && \
   echo "Created ZIP archive: $zip_file"
 

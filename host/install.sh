@@ -42,17 +42,14 @@ target_host_path="$target_host_dir/$target_host_file"
 install -D -m 0755 "$dir/$source_host_file" "$target_host_path" && \
   printf "Installed host application into '%s'\n" "$target_host_path"
 
-# Patch host app manifests
-sed -i.bak -e 's/"\$TARGET_HOST_PATH"/"'"${target_host_path//\//\\/}\"/g" \
-  "$dir/$chrome_manifest_file" \
-  "$dir/$firefox_manifest_file"
-
 # Copy host app manifests into browser-specific directories
 
 target_manifest_path="$chrome_target_manifest_dir/$target_manifest_file"
 install -D -m 0644 "$dir/$chrome_manifest_file" "$target_manifest_path" && \
+  ./host/patch-manifest.pl "$target_manifest_path" "$target_host_path" && \
   printf "Installed Chrome manifest into '%s'\n" "$target_manifest_path"
 
 target_manifest_path="$firefox_target_manifest_dir/$target_manifest_file"
 install -D -m 0644 "$dir/$firefox_manifest_file" "$target_manifest_path" && \
+  ./host/patch-manifest.pl "$target_manifest_path" "$target_host_path" && \
   printf "Installed Firefox manifest into '%s'\n" "$target_manifest_path"
