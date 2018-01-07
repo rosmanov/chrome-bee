@@ -44,6 +44,8 @@ By default, the host application is installed into the project directory (where 
 ```
 ./host/install.sh ~/usr/lib/chrome-bee
 ```
+Refer to [Wiki](https://github.com/rosmanov/chrome-bee/wiki/Installing-Host-Application) for more information.
+
 ### Install the Browser Extension
 
 Install _Bee_ extension from [Chrome Web store](https://chrome.google.com/webstore/) or [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/external-editor/). The browser will ask for some confirmations. Give your approval, and you are done.
@@ -64,6 +66,8 @@ Extension options page allows to enter a command for an external editor. Simply 
 
 Optionally assign custom keyboard shortcut for `Bee`<sup>[1](#footnote-kbd)</sup>
 . Default is `<Ctrl>E`.
+
+Refer to [Wiki](https://github.com/rosmanov/chrome-bee/wiki/Configuration) for details.
 
 # Usage
 
