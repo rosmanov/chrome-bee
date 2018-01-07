@@ -1,7 +1,7 @@
 {
   "name": "com.ruslan_osmanov.bee",
   "description": "Bee - Browser's external editor",
-  "path": "/home/ruslan/projects/chrome-bee/host/beectl",
+  "path": "$TARGET_HOST_PATH",
   "type": "stdio",
   "allowed_extensions": [
     "bee@ruslan_osmanov.com"
