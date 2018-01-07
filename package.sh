@@ -1,8 +1,10 @@
 #!/bin/bash -
 # Builds a CRX package.
-# Usage ./package.sh <version>
-# where <version> is a version number, e.g. 2.2.
-# If <version> is not specified, then the current version from manifest.json will be used.
+# Usage ./package.sh <version> <browser>
+# where
+# - <version> is a version number, e.g. 2.2.
+#   If <version> is not specified, then the current version from manifest.json will be used.
+# - <browser> chrome, firefox, or nothing (defaults to 'chrome')
 
 set -e -u
 shopt -s extglob
@@ -15,6 +17,10 @@ cd "$dir"
 [ $# -ne 0 ] && version="$1" || \
   version=$(perl -MJSON -e '$_ = do {local $/; <STDIN>}; $_ = decode_json $_; print $_->{"version"}' < manifest.json)
 echo "Version: $version"
+
+[ $# -gt 1 ] && browser="$2"
+: ${browser:=chrome}
+echo "Browser: $browser"
 
 crx="$build_dir/bee-${version}.crx"
 echo "Target CRX: $crx"
@@ -35,7 +41,7 @@ manifest_backup_file=manifest.json.bak
 cp manifest.json "$manifest_backup_file" && \
   echo "Created backup for manifest.json: $manifest_backup_file"
 
-./patch-manifest.pl manifest.json "$version" chrome && \
+./patch-manifest.pl manifest.json "$version" "$browser" && \
   echo Patched manifest.json
 
 echo "Building CRX package..."
@@ -46,7 +52,7 @@ mv "$dir/../"?(chrome-)bee.crx "$crx" && \
 echo "Creating ZIP archive..."
 zip_file="$build_dir/bee.zip"
 rm -f "$zip_file"
-zip -x '*~' '*.git*' '*.rope*' '*.swp' '*.bak' host/beectl "${build_dir}*" '*.xcf'  \
+zip -x '*~' '*.git*' '*.rope*' '*.swp' '*.bak' host/beectl "${build_dir}*" '*.xcf' 'host/*' '*.sh'  \
   -r "$zip_file" . && \
   echo "Created ZIP archive: $zip_file"
 
