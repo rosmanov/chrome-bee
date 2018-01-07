@@ -26,6 +26,9 @@ There are two types of the host application setup:
 ### Download the Project
 
 ```bash
+mkdir -p ~/src/chrome-bee
+cd ~/src/chrome-bee
+
 wget -q -O - https://github.com/rosmanov/chrome-bee/archive/master.tar.gz | \
   tar xzvf - --strip-components 1
 ```
