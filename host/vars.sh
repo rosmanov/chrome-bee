@@ -19,6 +19,15 @@ restore_vars_cache() {
   set -o errexit
 }
 
+lib_dir() {
+  local libdir=/usr/lib
+
+  [ \( "$(getconf LONG_BIT)" = '64' -o "$(uname -m)" = 'x86_64' \) -a -d "${libdir}64" ] && \
+    libdir="${libdir}64"
+
+  echo "$libdir"
+}
+
 # Set target_manifest_dir
 kernel=$(uname -s)
 case "$kernel" in
@@ -34,7 +43,7 @@ case "$kernel" in
   *)
     if [ $EUID == 0 ]; then
       chrome_target_manifest_dir='/etc/opt/chrome/native-messaging-hosts'
-      firefox_target_manifest_dir='/usr/lib/mozilla/native-messaging-hosts'
+      firefox_target_manifest_dir="$(lib_dir)/mozilla/native-messaging-hosts"
     else
       chrome_target_manifest_dir="$HOME/.config/google-chrome/NativeMessagingHosts"
       firefox_target_manifest_dir="$HOME/.mozilla/native-messaging-hosts"
@@ -54,4 +63,3 @@ host_name=com.ruslan_osmanov.bee
 chrome_manifest_file="${host_name}.json"
 firefox_manifest_file="firefox-${host_name}.json"
 target_manifest_file="${host_name}.json"
-
