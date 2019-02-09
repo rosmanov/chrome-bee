@@ -27,7 +27,9 @@ source "$dir/vars.sh"
 save_vars_cache
 
 # Get host app filename depending on python version
-let python_version=$(python -c 'import sys; print sys.version_info.major')
+let python_version=$(python -c 'import sys; print sys.version_info.major' 2>/dev/null || \
+  python -c 'import sys; print(sys.version_info.major)')
+
 case "$python_version" in
   2|3)
     source_host_file="beectl-py${python_version}.py"
