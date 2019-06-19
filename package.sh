@@ -6,7 +6,7 @@
 #   If <version> is not specified, then the current version from manifest.json will be used.
 # - <browser> chrome, firefox, or nothing (defaults to 'chrome')
 
-set -e -u
+set -x -e -u
 shopt -s extglob
 
 dir=$(cd "$(dirname "$0")"; pwd)
