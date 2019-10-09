@@ -2,8 +2,9 @@
  * Content script executed by 'bee-editor' command.
  * Communicates with js/eventPage.js
  *
- * Copyright © 2014-2018 Ruslan Osmanov <rrosmanov@gmail.com>
+ * Copyright © 2014-2019 Ruslan Osmanov <rrosmanov@gmail.com>
  */
+'use strict';
 
 var ae = document.activeElement;
 
@@ -33,7 +34,7 @@ if (ae.tagName === 'TEXTAREA' ||
     );
   });
 
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(function(request) {
     if (request && request.bee_editor_output !== undefined) {
       ae.innerText = request.text;
       ae.value = request.text;

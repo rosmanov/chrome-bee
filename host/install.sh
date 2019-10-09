@@ -4,7 +4,7 @@
 # Arguments:
 # $1: Optional. Target directory.
 #
-# Copyright © 2014-2018 Ruslan Osmanov <rrosmanov@gmail.com>
+# Copyright © 2014-2019 Ruslan Osmanov <rrosmanov@gmail.com>
 
 set -e -u
 

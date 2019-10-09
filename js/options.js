@@ -1,26 +1,23 @@
 /**
  * Options Page
  *
- * Copyright © 2014-2018 Ruslan Osmanov <rrosmanov@gmail.com>
+ * Copyright © 2014-2019 Ruslan Osmanov <rrosmanov@gmail.com>
  */
-function save_options() {
-  var editor_input = document.getElementById('bee-editor');
-  localStorage['bee-editor'] = editor_input.value;
-}
+'use strict';
 
-function restore_options() {
-  var editor = localStorage['bee-editor'];
-  if (!editor) {
-    return;
+let save_options = () => {
+  localStorage['bee-editor'] = document.getElementById('bee-editor').value;
+};
+
+let restore_options = () => {
+  let editor = localStorage['bee-editor'];
+  if (editor) {
+      document.getElementById('bee-editor').value = editor;
   }
+};
 
-  var editor_input = document.getElementById('bee-editor');
-  editor_input.value = editor;
-}
-
-function choose_editor_callback(entry) {
-  console.log("choose_editor_callback", "entry", entry);
-}
+let choose_editor_callback = (entry) => console.log("choose_editor_callback", "entry", entry);
 
 document.addEventListener('DOMContentLoaded', restore_options);
-document.querySelector('#bee-editor').addEventListener('blur', save_options);
+document.querySelector('#bee-editor')
+    .addEventListener('blur', save_options);

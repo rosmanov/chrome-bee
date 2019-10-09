@@ -12,7 +12,7 @@
 # When editor's subprocess is finished, the script bypasses the new text back
 # to the textarea control.
 #
-# Copyright © 2014 Ruslan Osmanov <rrosmanov at gmail dot com>
+# Copyright © 2014-2019 Ruslan Osmanov <rrosmanov at gmail dot com>
 
 from __future__ import with_statement
 import json
@@ -68,7 +68,11 @@ def main():
     if not bee_editor:
         sys.exit("No editor found")
 
-    args = shlex.split(bee_editor)
+    if 'args' in conf:
+        args = conf['args']
+        args.insert(0, bee_editor)
+    else:
+        args = shlex.split(bee_editor)
 
     # no-fork option for vim family
     if re.match('.*vim', bee_editor):

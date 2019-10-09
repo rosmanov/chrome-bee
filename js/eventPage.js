@@ -1,56 +1,54 @@
 /**
  * Event Page (new kind of background image)
  *
- * Copyright © 2014-2018 Ruslan Osmanov <rrosmanov@gmail.com>
+ * Copyright © 2014-2019 Ruslan Osmanov <rrosmanov@gmail.com>
  */
+'use strict';
 
 let port = null;
 let hostName = 'com.ruslan_osmanov.bee';
-let currentTab = null;
 let reArgs = /("[^"\\]*(?:\\[\S\s][^"\\]*)*"|'[^'\\]*(?:\\[\S\s][^'\\]*)*'|\/[^\/\\]*(?:\\[\S\s][^\/\\]*)*\/[gimy]*(?=\s|$)|(?:\\\s|\S)+)/;
 let reSpaceOnly = /^\s*$/;
 let reTrimQuotes = /^\s*"|"*\s*$/g;
 
-function onDisconnected() {
+let onDisconnected = () => {
   port = null;
   console.log('onDisconnected', arguments, arguments[0].error);
-}
+};
 
-function onNativeMessage(message) {
-  if (typeof message.text != 'undefined') {
-    message.bee_editor_output = 1;
-    if (currentTab) {
-      chrome.tabs.sendMessage(currentTab.id, message);
-    } else {
-      chrome.tabs.query({active: true/*, currentWindow: true*/}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, message);
-      });
-    }
+let onNativeMessage = (message) => {
+  if (typeof message.text === 'undefined') {
+    return;
   }
-}
 
-function connect() {
+  message.bee_editor_output = 1;
+  chrome.tabs.query(
+    {},
+    (tabs) => {
+      for (let i = 0; i < tabs.length; ++i) {
+        chrome.tabs.sendMessage(tabs[i].id, message)
+      }
+    }
+  );
+};
+
+let connect = () => {
   port = chrome.runtime.connectNative(hostName);
   port.onMessage.addListener(onNativeMessage);
   port.onDisconnect.addListener(onDisconnected);
-}
+};
 
-chrome.commands.onCommand.addListener(function(command) {
-  if (command == 'bee-editor') {
-    chrome.tabs.executeScript(null, {
+chrome.commands.onCommand.addListener((command) => {
+  if (command === 'bee-editor') {
+    chrome.tabs.executeScript({
       file: "/js/content.js"
-      //allFrames: true
-    }).then(function () {
-        chrome.tabs.query({active: true/*, currentWindow: true*/}, function(tabs) {
-          currentTab = tabs[0];
-        });
-    }, function (error) {
-        console.error(error);
-    });
+    }).then(() => {
+        chrome.tabs.query({}, (tabs) => currentTab = tabs[0]);
+    }, (error) => console.error(error));
   }
 });
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.method === 'input') {
     let args = request.bee_editor
       .split(reArgs)
@@ -69,7 +67,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       args: args,
       text: request.bee_input
     });
-  } else if (request.method == 'bee_editor') {
+  } else if (request.method === 'bee_editor') {
     sendResponse({bee_editor: localStorage['bee-editor']});
   }
 });
