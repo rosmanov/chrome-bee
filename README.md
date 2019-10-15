@@ -65,7 +65,13 @@ Install _Bee_ extension from [Chrome Web store](https://chrome.google.com/websto
 
 # Uninstallation
 
-To uninstall the native messaging host and its manifests, run the following command from the project directory (see "Installation" section above):
+## BeeCtl
+
+If you followed the installation instructions, then you only need to invoke the appropriate command of your package manager. For example, on Debian-based systems, you would need to run `apt purge beectl`. 
+
+## Python Script
+
+To uninstall the native messaging host written in Python and the manifests, run the following command from the project directory (see "Installation" section above):
 
 ```bash
 ./host/uninstall.sh
