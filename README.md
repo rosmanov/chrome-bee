@@ -100,5 +100,5 @@ Copyright © 2014-2019 Ruslan Osmanov <rrosmanov@gmail.com>
 ----
 
 <p>
-  <sup><a name="footnote-kbd">1</a></sup> At the time of writing "Keyboard shortcuts" button was available at the bottom of the `chrome://extensions` page.
+  <sup><a name="footnote-kbd">1</a></sup> At the time of writing, in Chrome/Chromium, "Keyboard shortcuts" button was available at the bottom of the `chrome://extensions` page. In Firefox, open `about:addons` tab, then select "Manage Extension Shortcuts" from the dropdown next to the "Manage Your Extensions" title.
 </p>
