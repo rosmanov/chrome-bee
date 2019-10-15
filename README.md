@@ -6,24 +6,37 @@
 
 - **Firefox 57+**
 - **Google Chrome** (**Chromium**)
-- OS **Linux**, or **Mac OS X**
+- OS: **Linux**, **Windows**, and **macOS**
 
-# Requirements
-
-- **Python** 2 or 3
-- **Bash** 4.4+
-- **Perl** 5
+**Note, nothing was tested on macOS, but should work with a host app written in Python (see below.)**
 
 # Installation
 
 ## Host Application
+
+There are two native messaging host applications written for this extension:
+
+1) [BeeCtl](https://github.com/rosmanov/bee-host) written in C, for Linux and Windows.
+2) A Python script shipped with this repository, for Linux and macOS (untested).
+
+### BeeCtl
+
+Follow [instructions on the main page of the repository](https://github.com/rosmanov/bee-host).
+
+### Python Script
+
+#### Requirements
+
+- **Python** 2 or 3
+- **Bash** 4.4+
+- **Perl** 5
 
 There are two types of the host application setup:
 
 - **Local** (for the current user).
 - **System-wide** (for all users). Requires `root` permissions.
 
-### Download the Project
+#### Download the Project
 
 ```bash
 mkdir -p ~/src/chrome-bee
@@ -33,7 +46,7 @@ wget -q -O - https://github.com/rosmanov/chrome-bee/archive/master.tar.gz | \
   tar xzvf - --strip-components 1
 ```
 
-### Run the Installation Script
+#### Run the Installation Script
 
 Run `./host/install.sh` script from the project directory.
 
@@ -46,7 +59,7 @@ By default, the host application is installed into the project directory (where 
 ```
 Refer to [Wiki](https://github.com/rosmanov/chrome-bee/wiki/Installing-Host-Application) for more information.
 
-### Install the Browser Extension
+### The Browser Extension
 
 Install _Bee_ extension from [Chrome Web store](https://chrome.google.com/webstore/) or [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/external-editor/). The browser will ask for some confirmations. Give your approval, and you are done.
 
