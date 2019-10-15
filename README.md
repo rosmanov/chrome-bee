@@ -95,7 +95,7 @@ The text in the text area should be updated.
 
 See `LICENSE` file.
 
-Copyright © 2014-2018 Ruslan Osmanov <rrosmanov@gmail.com>
+Copyright © 2014-2019 Ruslan Osmanov <rrosmanov@gmail.com>
 
 ----
 
