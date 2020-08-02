@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>Bee Extension Options</title>
-  </head>
-  <body>
-    <label>Command to open editor:
-      <input type="text"
-             name="bee-editor"
-             id="bee-editor"
-             value=""
-             size="40"
-             placeholder="/usr/bin/gvim -c &quot;set ft=markdown&quot;"
-             title="Shell command">
-      <span></span>
-    </label>
-  </body>
-  <script src="/js/options.js" type="text/javascript" charset="utf-8"></script>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Bee Extension Options</title>
+        <link rel="stylesheet" type="text/css" href="/css/options.css">
+    </head>
+    <body>
+        <form name="options" action="#">
+            <div class="row">
+                <label for="bee-editor" class="row_label">Command to open editor</label>
+                <div class="row_description row_description__emphasis">
+                    Although the host application resolves the executable from the <code>PATH</code> environment variable, absolute paths are strongly encouraged.
+                </div>
+                <div class="row_description">
+                    Specify a shell command to open a text editor. A path to a temporary file will be appended to this command dynamically.
+                </div>
+                <input id="bee-editor"
+                       type="text"
+                       name="bee-editor"
+                       value=""
+                       size="40"
+                       placeholder="/usr/bin/gvim -c &quot;set ft=markdown&quot;"
+                       title="Shell command">
+            </div>
+            <div id="url-regex-list" class="row">
+                <label class="row_label">File name extensions based on URL patterns</label>
+                <div class="row_description row_description__emphasis">
+                    Requires <a href="https://github.com/rosmanov/bee-host" target="_blank">Bee Host</a> 2.0.0 or newer.
+                </div>
+                <div class="row_description">
+                    Here you can specify file name extensions for various page addresses using
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">regular expressions</a>.
+                </div>
+                <div id="url-regex-list-row-container">
+                </div>
+                <div class="url-regex-list_row">
+                    <input type="button" name="add_url_pattern" value="&#10133; Add Pattern">
+                </div>
+            </div>
+            <div class="row row__align_right">
+                <span id="save-status" class="save-status"></span>
+                <input type="submit" name="submit" value="&#10004; Save">
+            </div>
+        </form>
+    </body>
+    <script src="/js/options.js" type="module" charset="utf-8"></script>
 </html>
