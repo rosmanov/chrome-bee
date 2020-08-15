@@ -97,31 +97,35 @@ function getUrlPatterns(form) {
  */
 function addUrlPatternRow(container) {
   const index = Number(container.querySelectorAll(`.${URL_PATTERN_ROW_CLASS}`).length);
+  const rowHtml = `
+    <div class="${URL_PATTERN_ROW_CLASS}">
+        <div class="${URL_PATTERN_REGEX_CLASS}">
+        <input
+            type="text"
+            name="url_regex[${index}]"
+            value=""
+            size="35"
+            placeholder="Regular expression, e.g. github.com/.*"
+            title="Regular expression">
+      </div>
+      <div class="${URL_PATTERN_EXT_CLASS}">
+          <input type="text"
+               name="url_ext[${index}]"
+               value=""
+               size="9"
+               placeholder="Extension"
+               title="File name extension">
+      </div>
+      <div class="${URL_PATTERN_REMOVE_CLASS}">&#10006; Remove</div>
+    </div>`;
 
-  const row = document.createElement('div');
-  row.className = URL_PATTERN_ROW_CLASS;
-  row.innerHTML = `
-            <div class="${URL_PATTERN_REGEX_CLASS}">
-                <input
-                    type="text"
-                    name="url_regex[${index}]"
-                    value=""
-                    size="35"
-                    placeholder="Regular expression, e.g. github.com/.*"
-                    title="Regular expression">
-            </div>
-            <div class="${URL_PATTERN_EXT_CLASS}">
-                <input type="text"
-                       name="url_ext[${index}]"
-                       value=""
-                       size="9"
-                       placeholder="Extension"
-                       title="File name extension">
-            </div>
-            <div class="${URL_PATTERN_REMOVE_CLASS}">&#10006; Remove</div>
-            `;
-  container.appendChild(row);
-  return row;
+  // Firefox considers row.innerHTML = `...` as "unsafe assignment to innerHTML",
+  // so we are forced to be more verbose here.
+  const parser = new DOMParser()
+  const parsed = parser.parseFromString(rowHtml, 'text/html')
+  const row = parsed.body.querySelector(`.${URL_PATTERN_ROW_CLASS}`);
+
+  return container.appendChild(row);
 }
 
 /**
@@ -196,18 +200,18 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
       saveOptions(form);
       saveStatus.classList.add(SAVE_STATUS_SUCCESS_CLASS);
-      saveStatus.innerHTML = SAVE_STATUS_SUCCESS_TEXT;
+      saveStatus.textContent = SAVE_STATUS_SUCCESS_TEXT;
 
       window.setTimeout(() => {
-        saveStatus.innerHTML = '';
+        saveStatus.textContent = '';
         saveStatus.classList.remove(SAVE_STATUS_ERROR_CLASS);
         saveStatus.classList.remove(SAVE_STATUS_SUCCESS_CLASS);
       }, SAVE_STATUS_TIMEOUT);
     } catch (e) {
       saveStatus.classList.add(SAVE_STATUS_ERROR_CLASS);
-      saveStatus.innerHTML = SAVE_STATUS_ERROR_TEXT;
+      saveStatus.textContent = SAVE_STATUS_ERROR_TEXT;
       if (e instanceof Error) {
-        saveStatus.innerHTML += ` (${e.name}) ${e.message}`;
+        saveStatus.textContent += ` (${e.name}) ${e.message}`;
       }
     }
   };
