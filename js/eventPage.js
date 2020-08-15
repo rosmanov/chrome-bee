@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 /**
- * Event Page (new kind of background image)
+ * Event Page (new kind of background page)
  *
  * Copyright © 2014-2020 Ruslan Osmanov <rrosmanov@gmail.com>
  */
@@ -106,7 +106,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     connect();
 
-    console.log('sending ext ' + ext);
     port.postMessage({
       editor: editor,
       args: args,
