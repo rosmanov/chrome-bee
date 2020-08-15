@@ -78,7 +78,10 @@ def main():
     if re.match('.*vim', bee_editor):
         args.append('-f')
 
-    f = tempfile.mkstemp('.txt', 'chrome_bee_')
+    suffix = '.txt'
+    if 'ext' in text:
+        suffix = '.' + text['ext']
+    f = tempfile.mkstemp(suffix, 'chrome_bee_')
     os.write(f[0], text['text'].encode('utf-8'))
     args.append(f[1])
 

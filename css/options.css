@@ -1,42 +1,58 @@
-.wrapper {
-	margin: auto;
-	padding: 10px 25px;
-	width: 400px;
+body {
+    min-width: 400px;
+    overflow-y: hidden;
+}
+.row {
+    display: block;
+    padding: 0 0 10px 0;
+}
+.row__align_right {
+    text-align: right;
+}
+.row_label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: block;
+    padding: 8px 0;
+}
+.row_description {
+    padding: 0 0 8px 0;
+}
+.row_description__emphasis {
+    font-style: italic;
 }
 
-header {
-	margin: 0 0 10px 0;
+.save-status {
+    font-weight: bold;
+    padding: 0 8px;
+}
+.save-status__success {
+    color: green;
+}
+.save-status__error {
+    color: red;
 }
 
-input[type=text] {
-	width: 100%;
-	font-size: 1.1em;
-	font-family: monospace, courier new;
+.url-regex-list_row {
+    padding: 0 0 8px 0;
+    white-space: nowrap;
 }
 
-header>h1 {
-	font-size: 1.4em;
-	margin: 0;
-	padding: 19px 0 10px;
+.url-regex-list_row_regex, .url-regex-list_row_ext {
+    padding: 0 8px 0 0;
+    display: inline-block;
 }
 
-header::after {
-	height: 1px;
-	background-color: #eee;
-	display: block;
-	content: ' ';
+.url-regex-list_row_regex input, .url-regex-list_row_ext input {
+    font-family: monospace;
 }
 
-.note {
-	padding: 6px;
-	border: 1px solid #e0e0e0;
-	background-color: #e7e7e7;
-	font-size: 0.86em;
-	margin: 14px 1px;
+.url-regex-list_row_remove {
+    cursor: pointer;
+    color: darkred;
+    display: inline-block;
 }
 
-.logo {
-	float: left;
-	margin: 4px 10px;
-	border: 0px none;
+.url-regex-list_row_remove:hover {
+    text-decoration: underline;
 }
