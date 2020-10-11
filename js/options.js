@@ -7,7 +7,7 @@
  */
 'use strict'
 
-import {BeeUrlPattern} from './pattern.js'
+import BeeUrlPattern from './pattern.js'
 import * as Storage from './storage.js'
 
 const URL_PATTERN_REMOVE_CLASS = 'url-regex-list_row_remove'

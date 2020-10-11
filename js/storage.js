@@ -4,7 +4,7 @@
  */
 'use strict';
 
-import {BeeUrlPattern} from './pattern.js'
+import BeeUrlPattern from './pattern.js'
 
 const EDITOR_KEY = 'bee-editor'
 const URL_PATTERNS_KEY = 'url-patterns'

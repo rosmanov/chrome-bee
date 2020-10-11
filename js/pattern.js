@@ -24,4 +24,4 @@ class BeeUrlPattern {
         return this.regex;
     }
 }
-export {BeeUrlPattern};
+export {BeeUrlPattern as default};
