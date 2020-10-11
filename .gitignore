@@ -20,3 +20,4 @@ tags
 *.bak
 host/vars.cache.sh
 host/beectl
+.DS_Store

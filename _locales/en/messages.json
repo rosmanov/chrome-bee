@@ -1,0 +1,74 @@
+{
+    "extName" : {
+        "message": "Browser's external editor",
+        "description": "Extension name"
+    },
+    "extDescription" : {
+        "message": "Allows to edit form text fields with an external editor",
+        "description": "Extension description"
+    },
+    "shortcutOpenEditor" : {
+        "message": "Open external editor",
+        "description": "Description of keyboard shortcut to open external editor"
+    },
+    "optionsSaved" : {
+        "message": "Saved",
+        "description": "Message appearing when the options are saved"
+    },
+    "optionsSaveFailed" : {
+        "message": "Failed",
+        "description": "Message appearing when the options could not be saved"
+    },
+    "filenameExtPlaceholder" : {
+        "message": "Extension",
+        "description": "Placeholder for filename exension input field"
+    },
+    "filenameExtTitle" : {
+        "message": "File name extension",
+        "description": "Filename exension input field title"
+    },
+    "regexPlaceholder" : {
+        "message": "Regular expression, e.g. github.com/.*",
+        "description": "Placeholder for regular expression input field"
+    },
+    "regexTitle" : {
+        "message": "Regular expression",
+        "description": "Regular expression input field title"
+    },
+    "removeButton" : {
+        "message": "Remove",
+        "description": "Remove button caption"
+    },
+    "saveButton" : {
+        "message": "\u2714 Save",
+        "description": "Save button caption"
+    },
+    "addPatternkButton" : {
+        "message": "+ Add Pattern",
+        "description": "Add Pattern button caption"
+    },
+    "patternOptionsDescription" : {
+        "message": "Here you can specify file name extensions for various page addresses using <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">regular expressions</a>",
+        "description" : "Filename extension patterns description"
+    },
+    "beeCtlAppVersionRequirement" : {
+        "message": "Requires <a href=\"https://github.com/rosmanov/bee-host\" target=\"_blank\">Bee Host</a> 1.2.0 or newer.",
+        "description": "Minimum BeeCtl app version requirement text"
+    },
+    "patternListLabel" : {
+        "message": "File name extensions based on URL patterns",
+        "description": "Pattern list label text"
+    },
+    "shellCommandInputDescription" : {
+        "message": "Specify a shell command to open a text editor. A path to a temporary file will be appended to this command dynamically.",
+        "description": "Shell command input field description"
+    },
+    "shellCommandInputPathNote" : {
+        "message": "Although the host application resolves the executable from the <code>PATH</code> environment variable, absolute paths are strongly encouraged.",
+        "description": "Shell command input field description"
+    },
+    "shellCommandInputPathLabel" : {
+        "message": "Command to open editor",
+        "description": "Shell command input field label text"
+    }
+}

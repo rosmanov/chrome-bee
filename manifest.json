@@ -5,27 +5,24 @@
          "js/eventPage.js"
       ]
    },
-   "web_accessible_resources": [
-       "js/pattern.js",
-       "js/storage.js"
-   ],
    "commands" : {
       "bee-editor" : {
-         "description" : "Open external editor",
+         "description" : "__MSG_shortcutOpenEditor__",
          "suggested_key" : {
             "default" : "Ctrl+E",
             "mac" : "Command+E"
          }
       }
    },
-   "description" : "Allows to edit form text fields with an external editor",
+   "default_locale" : "en",
+   "description" : "__MSG_extDescription__",
    "icons" : {
       "128" : "img/icon128.png",
       "16" : "img/icon16.png",
       "48" : "img/icon48.png"
    },
    "manifest_version" : 2,
-   "name" : "Browser's external editor",
+   "name" : "__MSG_extName__",
    "options_ui" : {
       "chrome_style" : true,
       "page" : "html/options.html"
@@ -38,5 +35,9 @@
       "<all_urls>"
    ],
    "short_name" : "Bee",
-   "version" : "2.9"
+   "version" : "2.9",
+   "web_accessible_resources" : [
+      "js/pattern.js",
+      "js/storage.js"
+   ]
 }

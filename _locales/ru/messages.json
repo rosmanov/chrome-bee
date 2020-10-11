@@ -1,0 +1,74 @@
+{
+    "extName" : {
+        "message": "Внешний редактор браузера",
+        "description": "Extension name"
+    },
+    "extDescription" : {
+        "message": "Позволяет редактировать текстовые поля форм при помощи внешнего редактора",
+        "description": "Extension description"
+    },
+    "shortcutOpenEditor" : {
+        "message": "Открыть редактор",
+        "description": "Description of keyboard shortcut to open external editor"
+    },
+    "optionsSaved" : {
+        "message": "Сохранено",
+        "description": "Message appearing when the options are saved"
+    },
+    "optionsSaveFailed" : {
+        "message": "Ошибка",
+        "description": "Message appearing when the options could not be saved"
+    },
+    "filenameExtPlaceholder" : {
+        "message": "Расширение",
+        "description": "Placeholder for filename exension input field"
+    },
+    "filenameExtTitle" : {
+        "message": "Расширение имени файла",
+        "description": "Filename exension input field title"
+    },
+    "regexPlaceholder" : {
+        "message": "Регулярное выражение, напр. github.com/.*",
+        "description": "Placeholder for regular expression input field"
+    },
+    "regexTitle" : {
+        "message": "Регулярное выражение",
+        "description": "Regular expression input field title"
+    },
+    "removeButton" : {
+        "message": "Удалить",
+        "description": "Remove button caption"
+    },
+    "saveButton" : {
+        "message": "\u2714 Сохранить",
+        "description": "Save button caption"
+    },
+    "addPatternkButton" : {
+        "message": "+ Добавить шаблон",
+        "description": "Add Pattern button caption"
+    },
+    "patternOptionsDescription" : {
+        "message": "Здесь Вы можете задать расширения файлов для различных адресов URL, используя <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">регулярные выражения</a>",
+        "description" : "Filename extension patterns description"
+    },
+    "beeCtlAppVersionRequirement" : {
+        "message": "Требуется <a href=\"https://github.com/rosmanov/bee-host\" target=\"_blank\">приложение-хост BeeCtl</a> версии 1.2.0 или выше.",
+        "description": "Minimum BeeCtl app version requirement text"
+    },
+    "patternListLabel" : {
+        "message": "Расширения имён файлов на основе шаблонов URL",
+        "description": "Pattern list label text"
+    },
+    "shellCommandInputDescription" : {
+        "message": "Задайте команду оболочки для открытия редактора. Путь ко временному файлу будет добавлен к этой команде динамически.",
+        "description": "Shell command input field description"
+    },
+    "shellCommandInputPathNote" : {
+        "message": "Настоятельно рекомендуется задавать абсолютные пути, не смотря на то, что в противном случае путь до исполняемого файла будет разрешён при помощи переменной среды PATH",
+        "description": "Shell command input field description"
+    },
+    "shellCommandInputPathLabel" : {
+        "message": "Команда открытия редактора",
+        "description": "Shell command input field label text"
+    }
+}
