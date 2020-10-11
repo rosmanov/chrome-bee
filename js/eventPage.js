@@ -6,116 +6,122 @@
  */
 'use strict';
 
-let EDITOR_KEY = null;
-let URL_PATTERNS_KEY = null;
 let BeeUrlPattern = null;
+let Storage = {};
 
-(async () => {
+(async function () {
   const module = await import('/js/storage.js');
-  EDITOR_KEY = module.EDITOR_KEY;
-  URL_PATTERNS_KEY = module.URL_PATTERNS_KEY;
+  Storage = module;
+  console.log(Storage)
 })();
 
-(async () => {
+(async function () {
   const module = await import('/js/pattern.js');
   BeeUrlPattern = module.BeeUrlPattern;
 })();
 
-let port = null;
-const HOST_NAME = 'com.ruslan_osmanov.bee';
-const RE_ARGS = /("[^"\\]*(?:\\[\S\s][^"\\]*)*"|'[^'\\]*(?:\\[\S\s][^'\\]*)*'|\/[^\/\\]*(?:\\[\S\s][^\/\\]*)*\/[gimy]*(?=\s|$)|(?:\\\s|\S)+)/;
-const RE_SPACES_ONLY = /^\s*$/;
-const RE_TRIM_QUOTES = /^\s*"|"*\s*$/g;
+let port = null
+const HOST_NAME = 'com.ruslan_osmanov.bee'
+const RE_ARGS = /("[^"\\]*(?:\\[\S\s][^"\\]*)*"|'[^'\\]*(?:\\[\S\s][^'\\]*)*'|\/[^\/\\]*(?:\\[\S\s][^\/\\]*)*\/[gimy]*(?=\s|$)|(?:\\\s|\S)+)/
+const RE_SPACES_ONLY = /^\s*$/
+const RE_TRIM_QUOTES = /^\s*"|"*\s*$/g
 
 function onDisconnected() {
-  port = null;
-  console.log('onDisconnected', arguments, arguments[0].error);
+  port = null
+  console.log('onDisconnected', arguments, arguments[0].error)
 }
 
 function onNativeMessage(message) {
   if (typeof message.text === 'undefined') {
-    return;
+    return
   }
 
-  message.bee_editor_output = 1;
+  message.bee_editor_output = 1
   chrome.tabs.query(
     {},
     (tabs) => {
       for (let i = 0; i < tabs.length; ++i) {
-        chrome.tabs.sendMessage(tabs[i].id, message);
+        chrome.tabs.sendMessage(tabs[i].id, message)
       }
     }
-  );
+  )
 }
 
 function connect() {
-  port = chrome.runtime.connectNative(HOST_NAME);
-  port.onMessage.addListener(onNativeMessage);
-  port.onDisconnect.addListener(onDisconnected);
+  port = chrome.runtime.connectNative(HOST_NAME)
+  port.onMessage.addListener(onNativeMessage)
+  port.onDisconnect.addListener(onDisconnected)
 }
 
-function getFilenameExtension(url) {
-  let extension = '';
+/**
+ * @param {string} url
+ * @param {string|undefined} urlPatternsJson
+ * @return {string}
+ */
+function getFilenameExtension(url, urlPatternsJson) {
+  let extension = ''
 
   if (url === '') {
-    return extension;
+    return extension
   }
 
-  if (localStorage[URL_PATTERNS_KEY] === undefined) {
-    return extension;
+  if (urlPatternsJson === undefined) {
+    return extension
   }
 
-  const rawUrlPatterns = JSON.parse(localStorage[URL_PATTERNS_KEY]) || [];
+  const rawUrlPatterns = JSON.parse(urlPatternsJson) || []
   if (!Array.isArray(rawUrlPatterns)) {
-    return extension;
+    return extension
   }
-  const urlPatterns = rawUrlPatterns.map((object) => BeeUrlPattern.fromObject(object));
+  const urlPatterns = rawUrlPatterns.map((object) => BeeUrlPattern.fromObject(object))
 
   for (let pattern of urlPatterns) {
-    const re = new RegExp(pattern.getRegex());
+    const re = new RegExp(pattern.getRegex())
     if (re.test(url)) {
-      extension = pattern.getExtension();
+      extension = pattern.getExtension()
     }
   }
-  return extension;
+  return extension
 }
 
 chrome.commands.onCommand.addListener((command) => {
   if (command === 'bee-editor') {
     chrome.tabs.executeScript({
       file: "/js/content.js"
-    });
+    })
   }
-});
+})
 
 /* jshint unused:false*/
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.method === 'input') {
-    let requestEditor = request.bee_editor || "";
+    let requestEditor = request.bee_editor || ""
     let args = requestEditor
       .split(RE_ARGS)
       .reduce((a, v) => {
         if (!RE_SPACES_ONLY.test(v)) {
-          a.push(v.replace(RE_TRIM_QUOTES, ''));
+          a.push(v.replace(RE_TRIM_QUOTES, ''))
         }
-        return a;
-      }, []);
-    let editor = args.length ? args.shift() : '';
+        return a
+      }, [])
+    let editor = args.length ? args.shift() : ''
 
-    const ext = request.ext || '';
+    const ext = request.ext || ''
 
-    connect();
+    connect()
 
     port.postMessage({
       editor: editor,
       args: args,
       ext: ext,
       text: request.bee_input
-    });
+    })
   } else if (request.method === 'bee_editor') {
-    sendResponse({
-      bee_editor: localStorage[EDITOR_KEY],
-      ext: getFilenameExtension(request.url)
-    });
+      Storage.getOptionValues([Storage.EDITOR_KEY, Storage.URL_PATTERNS_KEY], (values) => {
+          sendResponse({
+              bee_editor: values[Storage.EDITOR_KEY],
+              ext: getFilenameExtension(request.url, values[Storage.URL_PATTERNS_KEY])
+          })
+      })
   }
-});
+})

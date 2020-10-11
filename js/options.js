@@ -5,50 +5,27 @@
  *
  * Copyright © 2014-2020 Ruslan Osmanov <rrosmanov@gmail.com>
  */
-'use strict';
+'use strict'
 
-import {BeeUrlPattern} from './pattern.js';
-import {EDITOR_KEY, URL_PATTERNS_KEY} from './storage.js';
+import {BeeUrlPattern} from './pattern.js'
+import * as Storage from './storage.js'
 
-const EDITOR_FORM_ELEMENT = 'bee-editor';
-const URL_PATTERN_REMOVE_CLASS = 'url-regex-list_row_remove';
-const URL_PATTERN_ROW_CLASS = 'url-regex-list_row';
-const URL_PATTERN_REGEX_CLASS = 'url-regex-list_row_regex';
-const URL_PATTERN_EXT_CLASS = 'url-regex-list_row_ext';
-const URL_PATTERN_CONTAINER_ID = 'url-regex-list-row-container';
-const SAVE_STATUS_ID = 'save-status';
-const SAVE_STATUS_SUCCESS_CLASS = 'save-status__success';
-const SAVE_STATUS_ERROR_CLASS = 'save-status__error';
-const SAVE_STATUS_SUCCESS_TEXT = 'Saved';
-const SAVE_STATUS_ERROR_TEXT = 'Failed';
-const SAVE_STATUS_TIMEOUT = 750;
+const URL_PATTERN_REMOVE_CLASS = 'url-regex-list_row_remove'
+const URL_PATTERN_ROW_CLASS = 'url-regex-list_row'
+const URL_PATTERN_REGEX_CLASS = 'url-regex-list_row_regex'
+const SAVE_STATUS_SUCCESS_CLASS = 'save-status__success'
+const SAVE_STATUS_ERROR_CLASS = 'save-status__error'
 
 /**
  * @return {Node}
  * @throws Error
  */
 function getUrlPatternContainer() {
-  const node = document.getElementById(URL_PATTERN_CONTAINER_ID);
-  if (!node) {
-    throw new Error(`URL pattern container ${URL_PATTERN_CONTAINER_ID} does not exist`);
-  }
-  return node;
-}
-
-/**
- * @param {number} index
- * @returns {string}
- */
-function getUrlRegexInputName(index) {
-  return `url_regex[${index}]`;
-}
-
-/**
- * @param {number} index
- * @returns {string}
- */
-function getUrlExtensionInputName(index) {
-  return `url_ext[${index}]`;
+    const node = document.getElementById('url-regex-list-row-container')
+    if (!node) {
+        throw new Error(`URL pattern container does not exist`)
+    }
+    return node
 }
 
 /**
@@ -57,7 +34,7 @@ function getUrlExtensionInputName(index) {
  * @returns {Node}
  */
 function getUrlRegexInput(form, index) {
-  return form.elements[getUrlRegexInputName(index)];
+    return form.elements[`url_regex[${index}]`]
 }
 
 /**
@@ -66,29 +43,28 @@ function getUrlRegexInput(form, index) {
  * @returns {Node}
  */
 function getUrlExtensionInput(form, index) {
-  return form.elements[getUrlExtensionInputName(index)];
+    return form.elements[`url_ext[${index}]`]
 }
 
 /**
  * @param {Node} form
- * @returns {BeeUrlPattern[]} Regular expressions mapped to file name extensions
+ * @returns {BeeUrlPattern[]}
  * @throws Error
  */
 function getUrlPatterns(form) {
-  let patterns = [];
-  const patternRows = form.querySelectorAll(`.${URL_PATTERN_REGEX_CLASS}`);
-  console.log('getUrlPatterns > patternRows', patternRows);
+    let patterns = []
+    const patternRows = form.querySelectorAll(`.${URL_PATTERN_REGEX_CLASS}`)
 
-  for (let i = 0; i < patternRows.length; i++) {
-    const regexInput = getUrlRegexInput(form, i);
-    const extInput = getUrlExtensionInput(form, i);
-    if (!(regexInput && extInput)) {
-      throw new Error(`Could not find regex form controls with index ${i}`);
+    for (let i = 0; i < patternRows.length; i++) {
+        const regexInput = getUrlRegexInput(form, i)
+        const extInput = getUrlExtensionInput(form, i)
+        if (!(regexInput && extInput)) {
+            throw new Error(`Could not find regex form controls with index ${i}`)
+        }
+        patterns.push(new BeeUrlPattern(extInput.value, regexInput.value))
     }
-    patterns.push(new BeeUrlPattern(extInput.value, regexInput.value));
-  }
 
-  return patterns;
+    return patterns
 }
 
 /**
@@ -96,8 +72,13 @@ function getUrlPatterns(form) {
  * @returns {Node} The new row node
  */
 function addUrlPatternRow(container) {
-  const index = Number(container.querySelectorAll(`.${URL_PATTERN_ROW_CLASS}`).length);
-  const rowHtml = `
+    const index = Number(container.querySelectorAll(`.${URL_PATTERN_ROW_CLASS}`).length)
+    const regexPlaceholder = chrome.i18n.getMessage('regexPlaceholder')
+    const regexTitle = chrome.i18n.getMessage('regexTitle')
+    const filenameExtPlaceholder = chrome.i18n.getMessage('filenameExtPlaceholder')
+    const filenameExtTitle = chrome.i18n.getMessage('filenameExtTitle')
+    const removeButton = chrome.i18n.getMessage('removeButton')
+    const rowHtml = `
     <div class="${URL_PATTERN_ROW_CLASS}">
         <div class="${URL_PATTERN_REGEX_CLASS}">
         <input
@@ -105,34 +86,34 @@ function addUrlPatternRow(container) {
             name="url_regex[${index}]"
             value=""
             size="35"
-            placeholder="Regular expression, e.g. github.com/.*"
-            title="Regular expression">
+            placeholder="${regexPlaceholder}"
+            title="${regexTitle}">
       </div>
-      <div class="${URL_PATTERN_EXT_CLASS}">
+      <div class="url-regex-list_row_ext">
           <input type="text"
                name="url_ext[${index}]"
                value=""
                size="9"
-               placeholder="Extension"
-               title="File name extension">
+               placeholder="${filenameExtPlaceholder}"
+               title="${filenameExtTitle}">
       </div>
-      <div class="${URL_PATTERN_REMOVE_CLASS}">&#10006; Remove</div>
-    </div>`;
+      <div class="${URL_PATTERN_REMOVE_CLASS}">&#10006; ${removeButton}</div>
+    </div>`
 
-  // Firefox considers row.innerHTML = `...` as "unsafe assignment to innerHTML",
-  // so we are forced to be more verbose here.
-  const parser = new DOMParser()
-  const parsed = parser.parseFromString(rowHtml, 'text/html')
-  const row = parsed.body.querySelector(`.${URL_PATTERN_ROW_CLASS}`);
+    // Firefox considers row.innerHTML = `...` as "unsafe assignment to innerHTML",
+    // so we are forced to be more verbose here.
+    const parser = new DOMParser()
+    const parsed = parser.parseFromString(rowHtml, 'text/html')
+    const row = parsed.body.querySelector(`.${URL_PATTERN_ROW_CLASS}`)
 
-  return container.appendChild(row);
+    return container.appendChild(row)
 }
 
 /**
  * @return {Node} Editor form element
  */
 function getEditorElement(form) {
-  return form.elements[EDITOR_FORM_ELEMENT];
+    return form.elements['bee-editor']
 }
 
 /**
@@ -140,98 +121,135 @@ function getEditorElement(form) {
  * @throws Error
  */
 function saveOptions(form) {
-  localStorage[EDITOR_KEY] = getEditorElement(form).value;
-  localStorage[URL_PATTERNS_KEY] = JSON.stringify(getUrlPatterns(form));
+    Storage.saveOptions({
+        [Storage.EDITOR_KEY]: getEditorElement(form).value,
+        [Storage.URL_PATTERNS_KEY]: JSON.stringify(getUrlPatterns(form))
+    })
 }
 
 /**
  * @param {Node} form
  */
 function restoreUrlPatternOptions(form) {
-  if (localStorage[URL_PATTERNS_KEY] === undefined) {
-    return;
-  }
+    Storage.getUrlPatterns((urlPatternsJson) => {
+        if (urlPatternsJson === undefined) {
+            return
+        }
 
-  const urlPatternContainer = getUrlPatternContainer();
-  try {
-    const rawUrlPatterns = JSON.parse(localStorage[URL_PATTERNS_KEY]) || [];
-    if (!Array.isArray(rawUrlPatterns)) {
-      return;
-    }
-    const urlPatterns = rawUrlPatterns.map((object) => BeeUrlPattern.fromObject(object));
+        const urlPatternContainer = getUrlPatternContainer()
+        try {
+            const rawUrlPatterns = JSON.parse(urlPatternsJson) || []
+            if (!Array.isArray(rawUrlPatterns)) {
+                return
+            }
+            const urlPatterns = rawUrlPatterns.map((object) => BeeUrlPattern.fromObject(object))
 
-    urlPatternContainer.style.display = 'none';
-    for (let i = 0; i < urlPatterns.length; ++i) {
-      addUrlPatternRow(urlPatternContainer);
+            urlPatternContainer.style.display = 'none'
+            for (let i = 0; i < urlPatterns.length; ++i) {
+                addUrlPatternRow(urlPatternContainer)
 
-      const regexInput = getUrlRegexInput(form, i);
-      regexInput.value = urlPatterns[i].getRegex();
+                const regexInput = getUrlRegexInput(form, i)
+                regexInput.value = urlPatterns[i].getRegex()
 
-      const extInput = getUrlExtensionInput(form, i);
-      extInput.value = urlPatterns[i].getExtension();
-    }
-  } catch (e) {
-    console.error(`Failed parsing ${URL_PATTERNS_KEY}`, e);
-    // skip
-  }
-  urlPatternContainer.style.display = 'block';
+                const extInput = getUrlExtensionInput(form, i)
+                extInput.value = urlPatterns[i].getExtension()
+            }
+        } catch (e) {
+            console.error(`Failed parsing ${URL_PATTERNS_KEY}`, e)
+            // skip
+        }
+        urlPatternContainer.style.display = 'block'
+    })
 }
 
 /**
  * @param {Node} form
  */
 function restoreOptions(form) {
-  const editor = localStorage[EDITOR_KEY];
-  if (editor) {
-    getEditorElement(form).value = editor;
-  }
+    Storage.getEditor((editor) => {
+        if (editor) {
+            getEditorElement(form).value = editor
+        }
+        restoreUrlPatternOptions(form)
+    })
+}
 
-  restoreUrlPatternOptions(form);
+/**
+ * @param {Node} parentNode
+ */
+function i18n(parentNode) {
+    const targetNodes = parentNode.querySelectorAll('[data-i18n]')
+    if (!targetNodes) {
+        return
+    }
+
+    const parser = new DOMParser()
+    for (const node of targetNodes) {
+        const key = node.dataset['i18n'] || ''
+        const translation = chrome.i18n.getMessage(key)
+        if (translation === '') {
+            continue
+        }
+        if (node.nodeName === 'INPUT') {
+            node.value = translation
+        } else if (node.dataset['i18nHtml'] !== undefined) {
+            while (node.firstChild) {
+                node.removeChild(node.firstChild)
+            }
+            const parsed = parser.parseFromString(translation, 'text/html')
+            while (parsed.body.firstChild) {
+                node.appendChild(parsed.body.firstChild)
+            }
+        } else {
+            node.textContent = translation
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  const form = document.forms.options;
+    i18n(document.body)
 
-  form.onsubmit = function (event) {
-    event.preventDefault();
+    const form = document.forms.options
 
-    const saveStatus = document.getElementById(SAVE_STATUS_ID);
+    form.onsubmit = function (event) {
+        event.preventDefault()
 
-    try {
-      saveOptions(form);
-      saveStatus.classList.add(SAVE_STATUS_SUCCESS_CLASS);
-      saveStatus.textContent = SAVE_STATUS_SUCCESS_TEXT;
+        const saveStatus = document.getElementById('save-status')
 
-      window.setTimeout(() => {
-        saveStatus.textContent = '';
-        saveStatus.classList.remove(SAVE_STATUS_ERROR_CLASS);
-        saveStatus.classList.remove(SAVE_STATUS_SUCCESS_CLASS);
-      }, SAVE_STATUS_TIMEOUT);
-    } catch (e) {
-      saveStatus.classList.add(SAVE_STATUS_ERROR_CLASS);
-      saveStatus.textContent = SAVE_STATUS_ERROR_TEXT;
-      if (e instanceof Error) {
-        saveStatus.textContent += ` (${e.name}) ${e.message}`;
-      }
+        try {
+            saveOptions(form)
+            saveStatus.classList.add(SAVE_STATUS_SUCCESS_CLASS)
+            saveStatus.textContent = chrome.i18n.getMessage('optionsSaved')
+
+            window.setTimeout(() => {
+                saveStatus.textContent = ''
+                saveStatus.classList.remove(SAVE_STATUS_ERROR_CLASS)
+                saveStatus.classList.remove(SAVE_STATUS_SUCCESS_CLASS)
+            }, 750)
+        } catch (e) {
+            saveStatus.classList.add(SAVE_STATUS_ERROR_CLASS)
+            saveStatus.textContent = chrome.i18n.getMessage('optionsSaveFailed')
+            if (e instanceof Error) {
+                saveStatus.textContent += ` (${e.name}) ${e.message}`
+            }
+        }
     }
-  };
 
-  const urlPatternContainer = getUrlPatternContainer();
-  urlPatternContainer.addEventListener('click', function (event) {
-    const target = event.target;
+    const urlPatternContainer = getUrlPatternContainer()
+    urlPatternContainer.addEventListener('click', function (event) {
+        const target = event.target
 
-    if (target.className === URL_PATTERN_REMOVE_CLASS) {
-      const row = target.closest(`.${URL_PATTERN_ROW_CLASS}`);
-      row.parentNode.removeChild(row);
-      event.stopPropagation();
-      return;
-    }
-  });
+        if (target.className === URL_PATTERN_REMOVE_CLASS) {
+            const row = target.closest(`.${URL_PATTERN_ROW_CLASS}`)
+            row.parentNode.removeChild(row)
+            event.stopPropagation()
+            return
+        }
+    })
 
-  form.elements['add_url_pattern'].addEventListener('click', function () {
-    addUrlPatternRow(urlPatternContainer);
-  });
+    form.elements['add_url_pattern'].addEventListener('click', function () {
+        addUrlPatternRow(urlPatternContainer)
+    })
 
-  restoreOptions(form);
-});
-// vim: ts=2 sts=2 sw=2 et
+    restoreOptions(form)
+})

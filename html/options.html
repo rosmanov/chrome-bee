@@ -2,17 +2,17 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Bee Extension Options</title>
+        <title>__MSG_extName__</title>
         <link rel="stylesheet" type="text/css" href="/css/options.css">
     </head>
     <body>
         <form name="options" action="#">
             <div class="row">
-                <label for="bee-editor" class="row_label">Command to open editor</label>
-                <div class="row_description row_description__emphasis">
+                <label for="bee-editor" class="row_label" data-i18n="shellCommandInputPathLabel">Command to open editor</label>
+                <div class="row_description row_description__emphasis" data-i18n-html data-i18n="shellCommandInputPathNote">
                     Although the host application resolves the executable from the <code>PATH</code> environment variable, absolute paths are strongly encouraged.
                 </div>
-                <div class="row_description">
+                <div class="row_description" data-i18n="shellCommandInputDescription">
                     Specify a shell command to open a text editor. A path to a temporary file will be appended to this command dynamically.
                 </div>
                 <input id="bee-editor"
@@ -20,27 +20,26 @@
                        name="bee-editor"
                        value=""
                        size="40"
-                       placeholder="/usr/bin/gvim -c &quot;set ft=markdown&quot;"
-                       title="Shell command">
+                       placeholder="/usr/bin/gvim -c &quot;set ft=markdown&quot;">
             </div>
             <div id="url-regex-list" class="row">
-                <label class="row_label">File name extensions based on URL patterns</label>
-                <div class="row_description row_description__emphasis">
+                <label class="row_label" data-i18n="patternListLabel">File name extensions based on URL patterns</label>
+                <div class="row_description row_description__emphasis" data-i18n-html data-i18n="beeCtlAppVersionRequirement">
                     Requires <a href="https://github.com/rosmanov/bee-host" target="_blank">Bee Host</a> 1.2.0 or newer.
                 </div>
-                <div class="row_description">
+                <div class="row_description" data-i18n="patternOptionsDescription" data-i18n-html>
                     Here you can specify file name extensions for various page addresses using
                     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">regular expressions</a>.
                 </div>
                 <div id="url-regex-list-row-container">
                 </div>
                 <div class="url-regex-list_row">
-                    <input type="button" name="add_url_pattern" value="&plus; Add Pattern">
+                    <input type="button" name="add_url_pattern" data-i18n="addPatternkButton" value="&plus; Add Pattern">
                 </div>
             </div>
             <div class="row row__align_right">
                 <span id="save-status" class="save-status"></span>
-                <input type="submit" name="submit" value="&#10004; Save">
+                <input type="submit" name="submit" data-i18n="saveButton" value="&#10004; Save">
             </div>
         </form>
     </body>
