@@ -35,7 +35,7 @@
       "<all_urls>"
    ],
    "short_name" : "Bee",
-   "version" : "2.9",
+   "version" : "3.1",
    "web_accessible_resources" : [
       "js/pattern.js",
       "js/storage.js"
