@@ -1,5 +1,10 @@
 {
    "author" : "Ruslan Osmanov",
+   "browser_specific_settings": {
+       "gecko": {
+           "id": "bee@ruslan_osmanov.com"
+       }
+   },
    "background" : {
       "scripts" : [
          "js/eventPage.js"

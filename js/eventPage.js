@@ -6,8 +6,8 @@
 (async function () {
   'use strict'
 
-  const Storage = await import(chrome.runtime.getURL('/js/storage.js'))
-  const {default: BeeUrlPattern} = await import(chrome.runtime.getURL('/js/pattern.js'));
+  const Storage = await import('/js/storage.js')
+  const {default: BeeUrlPattern} = await import('/js/pattern.js');
 
   let port = null
   const HOST_NAME = 'com.ruslan_osmanov.bee'
