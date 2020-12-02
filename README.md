@@ -2,6 +2,12 @@
 
 *Bee* (_Browser's External Editor_) extension allows to edit text fields with an external editor.
 
+There are two steps to follow before using this extension:
+1. Install a host application
+2. Configure the extension in browser
+
+**Attention! Both steps are required. Please don't forget to assign a keyboard shortcut for invocation of external editor.**
+
 # Supported browsers
 
 - **Firefox 57+**
