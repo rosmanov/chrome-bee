@@ -60,6 +60,6 @@ fi
 target_host_file=beectl
 host_name=com.ruslan_osmanov.bee
 
-chrome_manifest_file="${host_name}.json"
-firefox_manifest_file="firefox-${host_name}.json"
+chrome_manifest_file="chrome/${host_name}.json"
+firefox_manifest_file="firefox/${host_name}.json"
 target_manifest_file="${host_name}.json"
