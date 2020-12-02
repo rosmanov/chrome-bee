@@ -8,16 +8,14 @@
 - **Google Chrome** (**Chromium**)
 - OS: **Linux**, **Windows**, and **macOS**
 
-**Note, nothing was tested on macOS, but should work with a host app written in Python (see below.)**
-
 # Installation
 
 ## Host Application
 
-There are two native messaging host applications written for this extension:
+Use either of the following native messaging host applications:
 
-1) [BeeCtl](https://github.com/rosmanov/bee-host) written in C, for Linux and Windows.
-2) A Python script shipped with this repository, for Linux and macOS (untested).
+1) [BeeCtl](https://github.com/rosmanov/bee-host) written in C. For Linux, macOS and Windows.
+2) A Python script shipped with this repository. For Linux and macOS (untested).
 
 ### BeeCtl
 
