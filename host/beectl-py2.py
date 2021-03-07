@@ -81,14 +81,15 @@ def main():
     suffix = '.txt'
     if 'ext' in text:
         suffix = '.' + text['ext']
-    f = tempfile.mkstemp(suffix, 'chrome_bee_')
+    f = list(tempfile.mkstemp(suffix, 'chrome_bee_'))
     os.write(f[0], text['text'].encode('utf-8'))
+    os.close(f[0])
     args.append(f[1])
 
     with open(os.devnull, 'w') as devnull:
         subprocess.call(args, stdout = devnull, stderr = devnull)
     st = os.stat(f[1])
-    os.lseek(f[0], 0, os.SEEK_SET)
+    f[0] = os.open(f[1], os.O_RDONLY)
     r = os.read(f[0], st.st_size);
     text = r.decode('utf-8', 'replace')
 
