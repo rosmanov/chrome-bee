@@ -40,10 +40,5 @@
    ],
    "host_permissions": ["*://*/*"],
    "short_name" : "Bee",
-   "version" : "3.2",
-   "web_accessible_resources" : [{
-       "resources": ["js/pattern.js", "js/storage.js"],
-       "matches": [],
-       "extension_ids": []
-   }]
+   "version" : "3.2"
 }
