@@ -3,12 +3,12 @@
 /**
  * Options Page
  *
- * Copyright © 2014-2020 Ruslan Osmanov <rrosmanov@gmail.com>
+ * Copyright © 2014-2023 Ruslan Osmanov <rrosmanov@gmail.com>
  */
 'use strict'
 
 import BeeUrlPattern from './pattern.js'
-import * as Storage from './storage.js'
+import Storage from './storage.js'
 
 const URL_PATTERN_REMOVE_CLASS = 'url-regex-list_row_remove'
 const URL_PATTERN_ROW_CLASS = 'url-regex-list_row'
@@ -131,7 +131,7 @@ function saveOptions(form) {
  * @param {Node} form
  */
 function restoreUrlPatternOptions(form) {
-    Storage.getUrlPatterns((urlPatternsJson) => {
+    Storage.getUrlPatterns().then(urlPatternsJson => {
         if (urlPatternsJson === undefined) {
             return
         }
@@ -166,7 +166,7 @@ function restoreUrlPatternOptions(form) {
  * @param {Node} form
  */
 function restoreOptions(form) {
-    Storage.getEditor((editor) => {
+    Storage.getEditor().then(editor => {
         if (editor) {
             getEditorElement(form).value = editor
         }

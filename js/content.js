@@ -4,18 +4,18 @@
  * Content script executed by 'bee-editor' command.
  * Communicates with js/eventPage.js
  *
- * Copyright © 2014-2020 Ruslan Osmanov <rrosmanov@gmail.com>
+ * Copyright © 2014-2023 Ruslan Osmanov <rrosmanov@gmail.com>
  */
 
 (function () {
     'use strict';
 
-    var ae = document.activeElement;
+    const ae = document.activeElement;
 
     if (ae.tagName === 'TEXTAREA' ||
         ae.isContentEditable ||
         (ae.tagName === 'INPUT' && ae.type === 'text')) {
-        var text = ae.value !== undefined ? ae.value : (ae.innerText || ae.textContent);
+        const text = ae.value !== undefined ? ae.value : (ae.innerText || ae.textContent);
 
         // We can't access page's localStorage directly
         chrome.runtime.sendMessage({method: 'bee_editor', url: window.location.href}, function (response) {

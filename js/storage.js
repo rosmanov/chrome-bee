@@ -1,6 +1,6 @@
 /* jshint strict: true, esversion: 6 */
 /**
- * Copyright © 2014-2020 Ruslan Osmanov <rrosmanov@gmail.com>
+ * Copyright © 2014-2023 Ruslan Osmanov <rrosmanov@gmail.com>
  */
 'use strict';
 
@@ -8,6 +8,7 @@ import BeeUrlPattern from './pattern.js'
 
 const EDITOR_KEY = 'bee-editor'
 const URL_PATTERNS_KEY = 'url-patterns'
+const TAB_KEY = 'tab'
 
 /**
  * @param {object} options
@@ -32,40 +33,57 @@ function saveUrlPatterns(urlPatterns) {
 }
 
 /**
- * @param {string[]} keys
- * @param {function} callback
+ * @param {number} tab ID
  */
-function getOptionValues(keys, callback) {
-    chrome.storage.sync.get(keys, (options) => {
+function saveTabId(tabId) {
+    saveOptions({[TAB_KEY]: tabId})
+}
+
+/**
+ * @param {string[]} keys
+ * @returns Promise<object>
+ */
+function getOptionValues(keys) {
+    return chrome.storage.sync.get(keys).then(options => {
         let result = {}
         for (const key of keys) {
             result[key] = (options && options[key] !== undefined) ? options[key] : localStorage[key]
         }
-        callback.call(this, result)
+        return result
     })
 }
 
 /**
- * @param {function} callback
+ * @returns Promise<string|undefined>
  */
-function getEditor(callback) {
-    getOptionValues([EDITOR_KEY], (values) => callback(values ? values[EDITOR_KEY] : undefined))
+function getEditor() {
+    return getOptionValues([EDITOR_KEY]).then(values => values[EDITOR_KEY] ?? undefined)
 }
 
 /**
- * @param {function} callback
+ * @returns Promise<object[]>
  */
-function getUrlPatterns(callback) {
-    getOptionValues([URL_PATTERNS_KEY], (values) => callback(values ? values[URL_PATTERNS_KEY] : undefined))
+function getUrlPatterns() {
+    return getOptionValues([URL_PATTERNS_KEY]).then(values => values[URL_PATTERNS_KEY] ?? undefined)
 }
 
-export {
+/**
+ * @returns Promise<string|undefined>
+ */
+function getTabId() {
+    return getOptionValues([TAB_KEY]).then(values => values[TAB_KEY] ?? undefined)
+}
+
+export default {
     EDITOR_KEY,
     URL_PATTERNS_KEY,
+    TAB_KEY,
     getOptionValues,
     getEditor,
     getUrlPatterns,
+    getTabId,
     saveOptions,
     saveEditor,
-    saveUrlPatterns
+    saveUrlPatterns,
+    saveTabId,
 }

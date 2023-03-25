@@ -6,10 +6,10 @@
        }
    },
    "background" : {
-      "scripts" : [
-         "js/eventPage.js"
-      ]
+      "service_worker": "js/eventPage.js",
+      "type": "module"
    },
+   "minimum_chrome_version": "92",
    "commands" : {
       "bee-editor" : {
          "description" : "__MSG_shortcutOpenEditor__",
@@ -26,23 +26,24 @@
       "16" : "img/icon16.png",
       "48" : "img/icon48.png"
    },
-   "manifest_version" : 2,
+   "manifest_version" : 3,
    "name" : "__MSG_extName__",
    "options_ui" : {
-      "chrome_style" : true,
       "page" : "html/options.html"
    },
    "permissions" : [
       "activeTab",
-      "tabs",
       "storage",
-      "nativeMessaging",
-      "<all_urls>"
+      "tabs",
+      "scripting",
+      "nativeMessaging"
    ],
+   "host_permissions": ["*://*/*"],
    "short_name" : "Bee",
-   "version" : "3.1",
-   "web_accessible_resources" : [
-      "js/pattern.js",
-      "js/storage.js"
-   ]
+   "version" : "3.2",
+   "web_accessible_resources" : [{
+       "resources": ["js/pattern.js", "js/storage.js"],
+       "matches": [],
+       "extension_ids": []
+   }]
 }

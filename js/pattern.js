@@ -1,6 +1,6 @@
 /* jshint strict: true, esversion: 6 */
 /**
- * Copyright © 2014-2020 Ruslan Osmanov <rrosmanov@gmail.com>
+ * Copyright © 2014-2023 Ruslan Osmanov <rrosmanov@gmail.com>
  */
 class BeeUrlPattern {
     /**
@@ -24,4 +24,4 @@ class BeeUrlPattern {
         return this.regex;
     }
 }
-export {BeeUrlPattern as default};
+export default BeeUrlPattern;
