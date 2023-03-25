@@ -1,0 +1,39 @@
+{
+  "name": "bee",
+  "version": "3.2.0",
+  "description": "Allows to edit form text fields with an external editor",
+  "scripts": {
+    "build": "rm -rf dist && npx webpack --mode=production --config webpack.config.js",
+    "build-dev": "npx webpack --mode=development --config webpack.config.js",
+    "pack-firefox": "./package.sh $npm_package_version firefox",
+    "pack-chrome": "./package.sh $npm_package_version chrome",
+    "package": "npm run pack-firefox && npm run pack-chrome"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rosmanov/chrome-bee.git"
+  },
+  "keywords": [
+    "chrome",
+    "firefox",
+    "extension",
+    "addon",
+    "external",
+    "editor"
+  ],
+  "author": "Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/rosmanov/chrome-bee/issues"
+  },
+  "homepage": "https://github.com/rosmanov/chrome-bee#readme",
+  "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "babel-loader": "^9.1.2",
+    "source-map-loader": "^4.0.1",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1"
+  }
+}

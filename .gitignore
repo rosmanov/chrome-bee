@@ -21,3 +21,7 @@ tags
 host/vars.cache.sh
 host/beectl
 .DS_Store
+
+/node_modules/
+/dist/
+/web-ext-artifacts/

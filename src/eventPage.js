@@ -6,7 +6,6 @@
 import Storage from './storage.js'
 import BeeUrlPattern from './pattern.js'
 
-
 let port = null
 const HOST_NAME = 'com.ruslan_osmanov.bee'
 const RE_ARGS = /("[^"\\]*(?:\\[\S\s][^"\\]*)*"|'[^'\\]*(?:\\[\S\s][^'\\]*)*'|\/[^\/\\]*(?:\\[\S\s][^\/\\]*)*\/[gimy]*(?=\s|$)|(?:\\\s|\S)+)/
@@ -70,17 +69,28 @@ function getFilenameExtension(url, urlPatternsJson) {
   return extension
 }
 
+async function getCurrentTab() {
+  let queryOptions = { active: true, lastFocusedWindow: true };
+  // `tab` will either be a `tabs.Tab` instance or `undefined`.
+  let [tab] = await chrome.tabs.query(queryOptions);
+  return tab;
+}
+
 /**
  * @param {string} command
- * @param {chrome.tabs.Tab} tab
+ * @param {chrome.tabs.Tab|undefined} tab Can be undefined in Firefox
  */
 chrome.commands.onCommand.addListener((command, tab) => {
   if (command === 'bee-editor') {
-    chrome.scripting.executeScript({
-      target: {tabId: tab.id, allFrames: true},
-      files: ["/js/content.js"]
-    }, () => {
-      Storage.saveTabId(tab.id)
+    const p = tab ? Promise.resolve(tab) : getCurrentTab()
+
+    p.then(tab => {
+      chrome.scripting.executeScript({
+        target: {tabId: tab.id, allFrames: true},
+        files: ["/dist/content.js"]
+      }, () => {
+        Storage.saveTabId(tab.id)
+      })
     })
   }
 })

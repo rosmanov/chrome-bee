@@ -15,12 +15,26 @@ my $input = do { local $/; <$fh> };
 
 my $json = JSON->new;
 my $decoded = $json->decode($input);
+my $eventPage = '';
 
 $decoded->{'version'} = $version;
 
 if ($browser ne 'firefox') {
   delete $decoded->{'applications'};
-  delete $decoded->{'options_ui'}{'browser_style'}
+  delete $decoded->{'options_ui'}{'browser_style'};
+
+  # - Chrome manifest v3 requires "background": {"type": "module", "service_worker": "dist/eventPage.js"}
+  $eventPage = $decoded->{'background'}{'scripts'}[0];
+  if ($eventPage) {
+    $decoded->{'background'} = {'service_worker' => $eventPage, 'type' => 'module'};
+  }
+  delete $decoded->{'background'}{'scripts'};
+} else {
+  # - Firefox requires "background": {"scripts": ["dist/eventPage.js"]}
+  $eventPage = $decoded->{'background'}{'service_worker'};
+  if ($eventPage) {
+    $decoded->{'background'} = {'scripts' => [$eventPage]};
+  }
 }
 
 my %result;
