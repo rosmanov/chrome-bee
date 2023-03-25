@@ -1,7 +1,7 @@
 /**
  * Event Page (new kind of background page)
  *
- * Copyright © 2014-2023 Ruslan Osmanov <rrosmanov@gmail.com>
+ * Copyright © 2014-2023 Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>
  */
 import Storage from './storage.js'
 import BeeUrlPattern from './pattern.js'

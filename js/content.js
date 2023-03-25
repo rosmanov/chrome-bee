@@ -4,7 +4,7 @@
  * Content script executed by 'bee-editor' command.
  * Communicates with js/eventPage.js
  *
- * Copyright © 2014-2023 Ruslan Osmanov <rrosmanov@gmail.com>
+ * Copyright © 2014-2023 Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>
  */
 
 (function () {

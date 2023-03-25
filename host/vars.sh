@@ -1,6 +1,6 @@
 #!/bin/bash
 # List of targets shared between install.sh and uninstall.sh
-# Copyright © 2014-2018 Ruslan Osmanov <rrosmanov@gmail.com>
+# Copyright © 2014-2018 Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>
 set -e -u
 
 readonly dir=$(cd "$(dirname "$0")" && pwd)
