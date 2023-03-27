@@ -7,7 +7,8 @@
     "build-dev": "npx webpack --mode=development --config webpack.config.js",
     "pack-firefox": "./package.sh $npm_package_version firefox",
     "pack-chrome": "./package.sh $npm_package_version chrome",
-    "package": "npm run pack-firefox && npm run pack-chrome"
+    "package": "npm run pack-firefox && npm run pack-chrome",
+    "version-sync": "./version-sync"
   },
   "private": true,
   "repository": {
