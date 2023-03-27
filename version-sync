@@ -1,0 +1,48 @@
+#!/usr/bin/perl
+# Syncs manifest.json version with the package.json version.
+
+use warnings;
+use strict;
+use utf8;
+use JSON;
+
+sub decodeFile {
+    my ($filename) = @_;
+
+    open my $fh, '<', $filename or die "Failed to open $filename";
+
+    my $jsonText = do { local $/; <$fh> };
+    my $json = JSON->new;
+    my $decoded = $json->decode($jsonText);
+    close $fh;
+    return $decoded;
+}
+
+sub readPackageVersion {
+    my $decoded = decodeFile('package.json');
+    return $decoded->{'version'};
+}
+
+sub setManifestVersion {
+    my ($version) = @_;
+    my $manifestFilename = 'manifest.json';
+
+    my $decoded = decodeFile($manifestFilename);
+    $decoded->{'version'} = $version;
+
+    my %result;
+    foreach my $key (sort keys %{$decoded}) {
+        $result{$key} = $decoded->{$key};
+    }
+
+    my $json = JSON->new;
+
+    open my $fh, '>:encoding(UTF-8)', $manifestFilename or die "Could not open file $manifestFilename";
+    truncate $fh, 0;
+    seek $fh, 0, 0;
+    print $fh $json->canonical->pretty(1)->encode(\%result);
+    close $fh;
+}
+
+my $version = readPackageVersion;
+setManifestVersion($version);
