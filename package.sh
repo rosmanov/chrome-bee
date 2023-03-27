@@ -1,5 +1,5 @@
 #!/bin/bash -
-# Builds a CRX/ZIP package.
+# Builds a ZIP package.
 # Usage: ./package.sh <version> <browser>
 # where
 # - <version> is a version number, e.g. 2.2.
@@ -46,22 +46,16 @@ cp manifest.json "$manifest_backup_file" && \
 
 case "$browser" in
     *chrome*)
-        crx="${artifacts_dir}/bee-chrome-${version}.crx"
-        crx_src_dir="${dir}/crx"
-        rm -rf "$crx_src_dir"
-        mkdir -p "$crx_src_dir"
-        trap "rm -rf $crx_src_dir; exit" TERM
-
-        cp -a dist html img css _locales manifest.json LICENSE README.md "$crx_src_dir/"
-
-        printf '>> Building CRX package %s...\n' "$crx"
-        set -x
-        "$chrome_bin" --pack-extension="$crx_src_dir" --pack-extension-key="$build_dir/bee.pem"
-        mv -v "$(dirname "$crx_src_dir")/$(basename "$crx_src_dir").crx" "$crx" \
-            && printf ">> Built CRX package: %s\n" "$crx"
-        set +x
-        rm -rf "$crx_src_dir"
+        printf '>> Creating ZIP archive...\n'
+        zip_file="$artifacts_dir/bee-${browser}-${version}.zip"
+        rm -f "$zip_file"
+        zip -x '*~' '*.git*' '*.rope*' '*.swp' '*.bak' host/beectl "${build_dir}*" \
+            '*.xcf' 'img/wiki/*' 'host/*' '*.pl' '*.sh' 'host/*' 'node_modules/*' 'src/*' '.*' \
+            'webpack.*' "$(basename "$artifacts_dir")/*" 'package*' \
+            -r "$zip_file" . && \
+            printf '>> Created ZIP archive: %s\n' "$zip_file"
         ;;
+
     *firefox*)
         printf '>> Linting Firefox manifest...\n'
         web-ext lint
@@ -70,7 +64,7 @@ case "$browser" in
         web-ext build --overwrite-dest \
             --source-dir="${dir}" \
             --artifacts-dir="${artifacts_dir}" \
-            --filename="bee-firefox-${version}.zip" \
+            --filename="bee-web-ext-${browser}-${version}.zip" \
             --ignore-files="${dir}/host/*" \
             --ignore-files="${dir}/node_modules" \
             --ignore-files="${dir}/src" \
@@ -89,16 +83,7 @@ case "$browser" in
     *)
         printf >&2 'Unknown browser %s\n' "$browser"
         exit 3
-
 esac
-printf '>> Creating ZIP archive...\n'
-zip_file="$build_dir/bee-${browser}.zip"
-rm -f "$zip_file"
-zip -x '*~' '*.git*' '*.rope*' '*.swp' '*.bak' host/beectl "${build_dir}*" \
-    '*.xcf' 'img/wiki/*' 'host/*' '*.pl' '*.sh' 'host/*' 'node_modules/*' 'src/*' '.*' \
-    'webpack.*' "$(basename "$artifacts_dir")/*" 'package*' \
-    -r "$zip_file" . && \
-    printf '>> Created ZIP archive: %s\n' "$zip_file"
 
-cp "$manifest_backup_file" manifest.json &&
+cp "$manifest_backup_file" manifest.json && \
   printf '* Restored manifest.json from %s\n' "$manifest_backup_file"
