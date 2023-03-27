@@ -64,7 +64,7 @@ case "$browser" in
         web-ext build --overwrite-dest \
             --source-dir="${dir}" \
             --artifacts-dir="${artifacts_dir}" \
-            --filename="bee-web-ext-${browser}-${version}.zip" \
+            --filename="bee-${browser}-${version}.zip" \
             --ignore-files="${dir}/host/*" \
             --ignore-files="${dir}/node_modules" \
             --ignore-files="${dir}/src" \
