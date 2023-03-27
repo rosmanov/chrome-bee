@@ -29,6 +29,8 @@ if ($browser ne 'firefox') {
     $decoded->{'background'} = {'service_worker' => $eventPage, 'type' => 'module'};
   }
   delete $decoded->{'background'}{'scripts'};
+
+  delete $decoded->{'browser_specific_settings'}
 } else {
   # - Firefox requires "background": {"scripts": ["dist/eventPage.js"]}
   $eventPage = $decoded->{'background'}{'service_worker'};
