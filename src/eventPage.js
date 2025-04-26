@@ -5,12 +5,12 @@
  */
 import Storage from './storage.js'
 import BeeUrlPattern from './pattern.js'
+import {splitCommandLine, replacePlaceholders} from './shell.js'
 
 let port = null
 const HOST_NAME = 'com.ruslan_osmanov.bee'
-const RE_ARGS = /("[^"\\]*(?:\\[\S\s][^"\\]*)*"|'[^'\\]*(?:\\[\S\s][^'\\]*)*'|\/[^\/\\]*(?:\\[\S\s][^\/\\]*)*\/[gimy]*(?=\s|$)|(?:\\\s|\S)+)/
-const RE_SPACES_ONLY = /^\s*$/
-const RE_TRIM_QUOTES = /^\s*"|"*\s*$/g
+const PLACEHOLDER_LINE = '${line}'
+const PLACEHOLDER_COLUMN = '${column}'
 
 function onDisconnected() {
   port = null
@@ -99,17 +99,19 @@ chrome.commands.onCommand.addListener((command, tab) => {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.method === 'input') {
     let requestEditor = request.bee_editor || ""
-    let args = requestEditor
-      .split(RE_ARGS)
-      .reduce((a, v) => {
-        if (!RE_SPACES_ONLY.test(v)) {
-          a.push(v.replace(RE_TRIM_QUOTES, ''))
-        }
-        return a
-      }, [])
+    let args = splitCommandLine(requestEditor)
     let editor = args.length ? args.shift() : ''
 
     const ext = request.ext || ''
+
+    // Placeholder replacement
+    const line = request.bee_cursor_line ?? 1
+    const column = request.bee_cursor_column ?? 1
+    const placeholders = {
+      [PLACEHOLDER_LINE]: line,
+      [PLACEHOLDER_COLUMN]: column
+    }
+    args = replacePlaceholders(args, placeholders)
 
     connect()
 
