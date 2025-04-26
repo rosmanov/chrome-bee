@@ -60,7 +60,7 @@
         "description": "Pattern list label text"
     },
     "shellCommandInputDescription" : {
-        "message": "Specify a shell command to open a text editor. A path to a temporary file will be appended to this command dynamically.",
+        "message": "Specify the shell command to launch your preferred text editor. A path to a temporary file will be appended dynamically. You can use the placeholders ${line} and ${column} to set the 1-based cursor position, for example: /usr/local/bin/gvim --nofork +'call cursor(${line}, ${column})'. Both single and double quotes will be expanded automatically.",
         "description": "Shell command input field description"
     },
     "shellCommandInputPathNote" : {

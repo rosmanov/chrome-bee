@@ -60,7 +60,7 @@
         "description": "Pattern list label text"
     },
     "shellCommandInputDescription" : {
-        "message": "Задайте команду оболочки для открытия редактора. Путь ко временному файлу будет добавлен к этой команде динамически.",
+        "message": "Укажите команду оболочки для запуска предпочитаемого текстового редактора. Путь к временному файлу будет добавлен динамически. Вы можете использовать заполнители ${line} и ${column} для указания позиции курсора (нумерация с 1), например: /usr/local/bin/gvim --nofork +'call cursor(${line}, ${column})'. Одинарные и двойные кавычки будут автоматически обработаны.",
         "description": "Shell command input field description"
     },
     "shellCommandInputPathNote" : {
