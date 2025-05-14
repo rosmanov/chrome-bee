@@ -25,17 +25,22 @@ printf ">> Version: %s\n" "$version"
 : ${browser:=chrome}
 printf ">> Browser: %s\n" "$browser"
 
-# Find chrome executable
-for e in 'google-chrome-stable' 'google-chrome' 'chromium-browser' 'chromium'
-do
-  chrome_bin=$(command -v $e)
-  [ -n "$chrome_bin" ] && break
-done
-if [ -z "$chrome_bin" ]; then
-  printf >&2 '!! Chrome executable not found\n'
-  exit 1
+if [[ "$browser" == *chrome* ]]; then
+    # Find chrome executable
+    for e in 'google-chrome-stable' 'google-chrome' 'chromium-browser' 'chromium'
+    do
+      chrome_bin="$(command -v "$e" 2>/dev/null)"
+      if [ -n "$chrome_bin" ]; then
+          printf '>> Found Chrome executable: %s\n' "$chrome_bin"
+          break
+      fi
+    done
+    if [ -z "$chrome_bin" ]; then
+      printf >&2 '!! Chrome executable not found\n'
+      exit 1
+    fi
+    printf '* Detected Chrome executable: %s\n' "$chrome_bin"
 fi
-printf '* Detected Chrome executable: %s\n' "$chrome_bin"
 
 manifest_backup_file=manifest.json.bak
 cp manifest.json "$manifest_backup_file" && \
