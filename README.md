@@ -1,46 +1,54 @@
-# About
+# Bee: Browser's External Editor Extension
 
-*Bee* (_Browser's External Editor_) extension allows to edit text fields with an external editor.
+**Bee** allows you to edit text fields in your browser using an external editor.
 
-There are two steps to follow before using this extension:
-1. Install a host application
-2. Configure the extension in browser
+There are two steps required before using this extension:
 
-**Attention! Both steps are required. Please don't forget to assign a keyboard shortcut for invocation of external editor.**
+1. Install a host application.
+2. Configure the extension in your browser.
 
-# Supported browsers
+> [!IMPORTANT]  
+> Both steps are required. Be sure to assign a keyboard shortcut to invoke the external editor.
 
-- **Firefox 57+**
-- **Google Chrome** (**Chromium**)
-- OS: **Linux**, **Windows**, and **macOS**
+---
 
-# Installation
+## Supported Browsers
 
-## Host Application
+- Firefox 57+
+- Google Chrome
+- Chromium
 
-Use either of the following native messaging host applications:
+**Supported Operating Systems:** Linux, Windows, and macOS.
 
-1) [BeeCtl](https://github.com/rosmanov/bee-host) written in C. For Linux, macOS and Windows.
-2) A Python script shipped with this repository. For Linux and macOS (untested).
+---
 
-### BeeCtl
+## Installation
 
-Follow [instructions on the main page of the repository](https://github.com/rosmanov/bee-host).
+### 1. Host Application
 
-### Python Script
+Use one of the following native messaging host applications:
 
-#### Requirements
+1. [**BeeCtl**](https://github.com/rosmanov/bee-host) – written in C. Supports Linux, macOS, and Windows.
+2. A **Python script** included in this repository – for Linux and macOS.
 
-- **Python** 2 or 3
-- **Bash** 4.4+
-- **Perl** 5
+#### BeeCtl
 
-There are two types of the host application setup:
+Follow the instructions provided in the [BeeCtl repository](https://github.com/rosmanov/bee-host).
 
-- **Local** (for the current user).
-- **System-wide** (for all users). Requires `root` permissions.
+#### Python Script
 
-#### Download the Project
+**Requirements:**
+
+- Python 2 or 3
+- Bash 4.4+
+- Perl 5
+
+You can install the host application either:
+
+- **Locally** (for the current user), or  
+- **System-wide** (for all users; requires `root` permissions)
+
+**To download the project:**
 
 ```bash
 mkdir -p ~/src/chrome-bee
@@ -50,65 +58,131 @@ wget -q -O - https://github.com/rosmanov/chrome-bee/archive/master.tar.gz | \
   tar xzvf - --strip-components 1
 ```
 
-#### Run the Installation Script
+**To run the installation script**:
 
-Run `./host/install.sh` script from the project directory.
-
-If the script is run on behalf of *superuser*, the host application manifests will be installed system-wide.
-
-By default, the host application is installed into the project directory (where the project is downloaded). It is possible to set different target directory by passing its path as the first argument, e.g.:
-
+From the project directory, execute:
+```bash
+./host/install.sh
 ```
+
+- If run as a superuser, the host application manifests will be installed system-wide.
+- By default, the application installs into the project directory.
+- 
+To specify a different installation path:
+```bash
 ./host/install.sh ~/usr/lib/chrome-bee
 ```
-Refer to [Wiki](https://github.com/rosmanov/chrome-bee/wiki/Installing-Host-Application) for more information.
+See the [Wiki](https://github.com/rosmanov/chrome-bee/wiki/Installing-Host-Application) for more information.
 
-### The Browser Extension
+### 2. Browser Extension
 
-Install _Bee_ extension from [Chrome Web store](https://chrome.google.com/webstore/) or [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/external-editor/). The browser will ask for some confirmations. Give your approval, and you are done.
+Install the Bee extension from:
+- [Chrome Web store](https://chrome.google.com/webstore/)
+- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/external-editor/)
 
-# Uninstallation
+The browser will prompt for confirmation—approve it to complete the installation.
 
-## BeeCtl
+## Uninstallation
 
-If you followed the installation instructions, then you only need to invoke the appropriate command of your package manager. For example, on Debian-based systems, you would need to run `apt purge beectl`. 
+### BeeCtl
 
-## Python Script
+Use your system’s package manager.
+For example, on Debian-based systems:
+```bash
+sudo apt purge beectl
+```
 
-To uninstall the native messaging host written in Python and the manifests, run the following command from the project directory (see "Installation" section above):
+### Python Script
 
+From the project directory, run:
 ```bash
 ./host/uninstall.sh
 ```
 
-Note, the command should be run on behalf of the same user as in the installation step.
+> [!NOTE]
+> Run this command as the same user who performed the installation.
 
-# Configuration
+## Configuration
 
-Extension options page allows to enter a command for an external editor. Simply enter a command like 'gvim -f'.
+Open the extension’s options page to specify the command for launching an external editor.
 
-Optionally assign custom keyboard shortcut for `Bee`<sup>[1](#footnote-kbd)</sup>
-. Default is `<Ctrl>E`.
+Example:
+```bash
+gvim -f
+```
 
-Refer to [Wiki](https://github.com/rosmanov/chrome-bee/wiki/Configuration) for details.
+You should also assign a custom keyboard shortcut to invoke Bee[^1]. The default shortcut is `<Ctrl>E`.
 
-# Usage
+See the [Configuration Wiki](https://github.com/rosmanov/chrome-bee/wiki/Configuration) for full details.
 
-- Set cursor on some editable area.
-- Invoke the keyboard shortcut.
-- After a moment, the entered text should appear in a window of the external editor.
-- Edit the text, save it, and close the window.
+## Usage
 
-The text in the text area should be updated.
+1. Place the cursor in an editable field.
+2. Press the configured keyboard shortcut.
+3. The external editor window will open with the current text.
+4. Edit, save, and close the editor.
 
-# License
+The updated text will appear in the original text field.
+
+## Troubleshooting
+
+### Nothing Happens After Pressing the Keyboard Shortcut
+
+If pressing the keyboard shortcut does not open your editor:
+
+- Make sure you have completed **both steps** of the installation:
+  1. Host application is installed and running.
+  2. The browser extension is installed and properly configured.
+- Ensure the external editor command in the extension options is correct (e.g., `gvim -f`, `code --wait`, `emacsclient -c -n`).
+- Verify the keyboard shortcut is assigned correctly:
+  - In Chrome/Chromium: go to `chrome://extensions/shortcuts`.
+  - In Firefox: open `about:addons`, then click the gear icon → "Manage Extension Shortcuts".
+- Check browser console logs (Developer Tools → Console tab) for error messages.
+- Restart the browser and try again.
+- If using the Python host, make sure all dependencies (Python, Bash, Perl) are installed and available in the `PATH`.
+
+---
+
+### Firefox 138.0.3+ on macOS Silently Drops Native Host Connections
+
+This is a known issue in newer versions of Firefox on macOS where it may silently drop connections to the native messaging host.
+
+#### Suggested Solutions:
+
+1. **Reset the local Firefox profile state**:
+   - Quit Firefox completely.
+   - Delete the following files from your Firefox profile directory:
+     ```bash
+     rm ~/Library/Application\ Support/Firefox/Profiles/<your-profile-id>/SiteSecurityServiceState.bin
+     rm ~/Library/Application\ Support/Firefox/Profiles/<your-profile-id>/permissions.sqlite
+     rm ~/Library/Application\ Support/Firefox/Profiles/<your-profile-id>/content-prefs.sqlite
+     ```
+   - Restart Firefox.
+
+2. **Remove the quarantine attribute from host files**:  
+macOS may block the execution of downloaded files until they are explicitly trusted. Run:
+```bash
+xattr -rd com.apple.quarantine /path/to/chrome-bee
+```
+> [!NOTE]
+> You might need to run it as an administrator (e.g., using `sudo`).
+3. **Reinstall the extension and host application**:
+    -	Uninstall the extension from Firefox.
+    -	Delete and reinstall the host application.
+    - Reinstall the extension from https://addons.mozilla.org/.
+4. **Check Console.app logs**:
+    - Open Console.app and filter logs with Bee or native messaging.
+    - Look for sandboxing or permission-related errors.
+5. **Test with a new Firefox profile**:
+    - To rule out profile-specific corruption, temporarily create a fresh Firefox profile via `about:profiles` and install the extension there.
+
+## License
 
 See `LICENSE` file.
 
-Copyright © 2014-2023 Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>
+© 2014-2025 Ruslan Osmanov
+<608192+rosmanov@users.noreply.github.com>
 
-----
-
-<p>
-  <sup><a name="footnote-kbd">1</a></sup> At the time of writing, in Chrome/Chromium, "Keyboard shortcuts" button was available at the bottom of the `chrome://extensions` page. In Firefox, open `about:addons` tab, then select "Manage Extension Shortcuts" from the dropdown next to the "Manage Your Extensions" title.
-</p>
+[^1]: At the time of writing:
+    - In Chrome/Chromium, click the "Keyboard shortcuts" button at the bottom of chrome://extensions  
+    - In Firefox, open the `about:addons`, then select "Manage Extension Shortcuts" from the dropdown next to the "Manage Your Extensions".  
