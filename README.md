@@ -141,6 +141,15 @@ If pressing the keyboard shortcut does not open your editor:
 - Restart the browser and try again.
 - If using the Python host, make sure all dependencies (Python, Bash, Perl) are installed and available in the `PATH`.
 
+On Windows, you might need to specify the path to the editor in double quotes, if the path contains spaces, e.g.:
+```
+"C:\Users\ruslan.osmanov\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" --wait
+```
+
+> [!NOTE]
+> Note the `--wait` option in the command above. It makes VS Code wait until the file is closed before returning control to the browser. This is important for the extension to work correctly.
+
+
 ---
 
 ### Firefox 138.0.3+ on macOS Silently Drops Native Host Connections
