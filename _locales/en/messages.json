@@ -70,5 +70,13 @@
     "shellCommandInputPathLabel" : {
         "message": "Command to open editor",
         "description": "Shell command input field label text"
+    },
+    "contextMenuTitle": {
+        "message": "Edit in External Editor",
+        "description": "Context menu item title"
+    },
+    "optionEnableContextMenuTitle": {
+        "message": "Enable 'Edit in External Editor' in context menu",
+        "description": "Option to enable the context menu item"
     }
 }

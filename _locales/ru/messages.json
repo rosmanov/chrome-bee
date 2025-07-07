@@ -70,5 +70,14 @@
     "shellCommandInputPathLabel" : {
         "message": "Команда открытия редактора",
         "description": "Shell command input field label text"
+    },
+    "contextMenuTitle": {
+        "message": "Открыть во внешнем редакторе",
+        "description": "Элемент контекстного меню"
+    },
+    "optionEnableContextMenuTitle": {
+        "message": "Включить элемент контекстного меню 'Открыть во внешнем редакторе'",
+        "description": "Опция включения элемента контекстного меню"
     }
+
 }

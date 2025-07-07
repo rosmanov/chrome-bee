@@ -117,14 +117,23 @@ function getEditorElement(form) {
 }
 
 /**
+ * @return {Node} Editor form element
+ */
+function getContextMenuToggleElement(form) {
+  return form.elements['context-menu-toggle']
+}
+
+/**
  * @param {Node} form
  * @throws Error
  */
 function saveOptions(form) {
     Storage.saveOptions({
         [Storage.EDITOR_KEY]: getEditorElement(form).value,
-        [Storage.URL_PATTERNS_KEY]: JSON.stringify(getUrlPatterns(form))
+        [Storage.URL_PATTERNS_KEY]: JSON.stringify(getUrlPatterns(form)),
+        [Storage.CONTEXT_MENU_KEY]: getContextMenuToggleElement(form).checked
     })
+  chrome.runtime.sendMessage({ type: 'updateContextMenu' });
 }
 
 /**
@@ -172,6 +181,9 @@ function restoreOptions(form) {
         }
         restoreUrlPatternOptions(form)
     })
+    Storage.isContextMenuEnabled().then(enabled => {
+        getContextMenuToggleElement(form).checked = enabled
+    })
 }
 
 /**
@@ -210,6 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
     i18n(document.body)
 
     const form = document.forms.options
+    const toggleContextMenu = form.elements['context-menu-toggle']
 
     form.onsubmit = function (event) {
         event.preventDefault()

@@ -9,6 +9,7 @@ import BeeUrlPattern from './pattern.js'
 const EDITOR_KEY = 'bee-editor'
 const URL_PATTERNS_KEY = 'url-patterns'
 const TAB_KEY = 'tab'
+const CONTEXT_MENU_KEY = 'context-menu';
 
 /**
  * @param {object} options
@@ -23,6 +24,13 @@ function saveOptions(options) {
  */
 function saveEditor(editor) {
     saveOptions({[EDITOR_KEY]: editor})
+}
+
+/**
+ * @param {bool} enable
+ */
+function saveContextMenu(enable) {
+  saveOptions({[CONTEXT_MENU_KEY]: enable})
 }
 
 /**
@@ -47,7 +55,7 @@ function getOptionValues(keys) {
     return chrome.storage.sync.get(keys).then(options => {
         let result = {}
         for (const key of keys) {
-            result[key] = (options && options[key] !== undefined) ? options[key] : localStorage[key]
+            result[key] = (options && options[key] !== undefined) ? options[key] : null
         }
         return result
     })
@@ -58,6 +66,13 @@ function getOptionValues(keys) {
  */
 function getEditor() {
     return getOptionValues([EDITOR_KEY]).then(values => values[EDITOR_KEY] ?? undefined)
+}
+
+/**
+ * @returns Promise<bool|undefined>
+ */
+function isContextMenuEnabled() {
+    return getOptionValues([CONTEXT_MENU_KEY]).then(values => values[CONTEXT_MENU_KEY] ?? true)
 }
 
 /**
@@ -78,12 +93,15 @@ export default {
     EDITOR_KEY,
     URL_PATTERNS_KEY,
     TAB_KEY,
+    CONTEXT_MENU_KEY,
     getOptionValues,
     getEditor,
+    isContextMenuEnabled,
     getUrlPatterns,
     getTabId,
     saveOptions,
     saveEditor,
+    saveContextMenu,
     saveUrlPatterns,
     saveTabId,
 }

@@ -11,6 +11,7 @@ let port = null
 const HOST_NAME = 'com.ruslan_osmanov.bee'
 const PLACEHOLDER_LINE = '${line}'
 const PLACEHOLDER_COLUMN = '${column}'
+const CONTEXT_MENU_EVENT = 'bee-editor-menu'
 
 function onDisconnected() {
   port = null
@@ -69,6 +70,17 @@ function getFilenameExtension(url, urlPatternsJson) {
   return extension
 }
 
+function triggerEditor(tab) {
+  if (!tab || !tab.id) return;
+
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id, allFrames: true },
+    files: ["/dist/content.js"]
+  }, () => {
+    Storage.saveTabId(tab.id);
+  });
+}
+
 async function getCurrentTab() {
   let queryOptions = { active: true, lastFocusedWindow: true };
   // `tab` will either be a `tabs.Tab` instance or `undefined`.
@@ -77,23 +89,52 @@ async function getCurrentTab() {
 }
 
 /**
+ * Create or update context menu depending on user preference.
+ */
+function updateContextMenu() {
+  chrome.contextMenus.removeAll(() => {
+    Storage.getOptionValues([Storage.CONTEXT_MENU_KEY]).then(values => {
+      if (values[Storage.CONTEXT_MENU_KEY] ?? true) {
+        const title = chrome.i18n.getMessage("contextMenuTitle");
+        chrome.contextMenus.create({
+          id: CONTEXT_MENU_EVENT,
+          title,
+          contexts: ['editable']
+        });
+      }
+    })
+  })
+}
+
+chrome.runtime.onInstalled.addListener(updateContextMenu);
+chrome.runtime.onStartup?.addListener?.(updateContextMenu); // Defensive for older browsers
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === CONTEXT_MENU_EVENT) {
+    const p = tab ? Promise.resolve(tab) : getCurrentTab();
+    p.then(triggerEditor);
+  }
+});
+
+/**
  * @param {string} command
  * @param {chrome.tabs.Tab|undefined} tab Can be undefined in Firefox
  */
 chrome.commands.onCommand.addListener((command, tab) => {
   if (command === 'bee-editor') {
     const p = tab ? Promise.resolve(tab) : getCurrentTab()
-
-    p.then(tab => {
-      chrome.scripting.executeScript({
-        target: {tabId: tab.id, allFrames: true},
-        files: ["/dist/content.js"]
-      }, () => {
-        Storage.saveTabId(tab.id)
-      })
-    })
+    p.then(triggerEditor)
   }
 })
+
+/**
+ * Listen for messages from options page
+ */
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === 'updateContextMenu') {
+    updateContextMenu();
+  }
+});
 
 /* jshint unused:false*/
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {

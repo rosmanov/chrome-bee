@@ -1,6 +1,6 @@
 {
   "name": "bee",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "description": "Allows to edit form text fields with an external editor",
   "scripts": {
     "build": "rm -rf dist && npx webpack --mode=production --config webpack.config.mjs",
