@@ -29,8 +29,7 @@ if [[ "$browser" == *chrome* ]]; then
     # Find chrome executable
     for e in 'google-chrome-stable' 'google-chrome' 'chromium-browser' 'chromium'
     do
-      chrome_bin="$(command -v "$e" 2>/dev/null)"
-      if [ -n "$chrome_bin" ]; then
+      if chrome_bin="$(command -v "$e" 2>/dev/null)"; then
           printf '>> Found Chrome executable: %s\n' "$chrome_bin"
           break
       fi
