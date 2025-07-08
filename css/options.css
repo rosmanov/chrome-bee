@@ -1,38 +1,45 @@
 :root {
     --font-size: 13px;
     --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --background-color: #ffffff;
-    --text-color: #000000;
-    --fieldset-border: #ccc;
-    --input-bg: #fff;
-    --input-border: #ccc;
-    --button-bg: #007bff;
-    --button-text: #ffffff;
-    --button-hover: #0056b3;
-    --link-color: #0645ad;
-    --link-hover: #0b72d3;
-    --text-muted: #666;
+
+    --background-color: #fffbea;        /* warm off-white, honey-tinted */
+    --text-color: #222222;              /* not full black — easier on eyes */
+    --fieldset-border: #e4b363;         /* honey gold */
+    --input-bg: #ffffff;
+    --input-border: #caa95f;            /* golden border */
+
+    --button-bg: #f4c542;               /* rich honey yellow */
+    --button-text: #000000;             /* black-on-yellow contrast */
+    --button-hover: #e4b000;
+
+    --link-color: #c77d00;              /* amber-ish link */
+    --link-hover: #e09e15;
+
+    --text-muted: #886600;              /* subtle gold-brown */
     --remove-color: #a00;
     --remove-hover-color: #c00;
-    --success-color: green;
+    --success-color: #2e7d32;           /* green to keep success recognizable */
 }
 @media (prefers-color-scheme: dark) {
-    :root {
-        --background-color: #1e1e1e;
-        --text-color: #e0e0e0;
-        --fieldset-border: #444;
-        --input-bg: #2a2a2a;
-        --input-border: #555;
-        --button-bg: #3399ff;
-        --button-text: #ffffff;
-        --button-hover: #2277cc;
-        --link-color: #66aaff;
-        --link-hover: #99ccff;
-        --text-muted: #aaa;
-        --remove-color: #ff6666;
-        --remove-hover-color: #ff4d4d;
-        --success-color: #80ff80;
-    }
+  :root {
+    --background-color: #1a1a1a;
+    --text-color: #f0f0c0;              /* soft yellowish text */
+    --fieldset-border: #6b5200;         /* desaturated dark honey */
+    --input-bg: #2a2a2a;
+    --input-border: #4f3b00;
+
+    --button-bg: #e0ac00;
+    --button-text: #000000;
+    --button-hover: #ffcc00;
+
+    --link-color: #ffcc66;
+    --link-hover: #ffd580;
+
+    --text-muted: #999066;
+    --remove-color: #ff6666;
+    --remove-hover-color: #ff4d4d;
+    --success-color: #80ff80;
+  }
 }
 * {
     box-sizing: border-box;
