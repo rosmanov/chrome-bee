@@ -55,7 +55,13 @@ function getOptionValues(keys) {
     return chrome.storage.sync.get(keys).then(options => {
         let result = {}
         for (const key of keys) {
-            result[key] = (options && options[key] !== undefined) ? options[key] : null
+            if (options && options[key] !== undefined) {
+                result[key] = options[key]
+            } else if (typeof localStorage !== 'undefined' && key in localStorage) {
+                result[key] = localStorage[key]; // Fallback
+            } else {
+                result[key] = null;
+            }
         }
         return result
     })
