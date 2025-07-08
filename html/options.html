@@ -1,53 +1,58 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>__MSG_extName__</title>
         <link rel="stylesheet" type="text/css" href="/css/options.css">
     </head>
     <body>
-        <form name="options" action="#">
-            <div class="row">
-                <label for="bee-editor" class="row_label" data-i18n="shellCommandInputPathLabel">Command to open editor</label>
-                <div class="row_description row_description__emphasis" data-i18n-html data-i18n="shellCommandInputPathNote">
-                    Although the host application resolves the executable from the <code>PATH</code> environment variable, absolute paths are strongly encouraged.
+        <div class="options-container">
+            <form name="options" action="#">
+                <div class="row">
+                    <fieldset>
+                        <legend data-i18n="editorCommandLegend">Editor Launch Command</legend>
+                        <div id="bee-editor-desc">
+                            <div class="row_description" data-i18n-html data-i18n="shellCommandInputDescription">
+                                Specify a shell command to open a text editor. A path to a temporary file will be appended to this command dynamically.
+                            </div>
+                        </div>
+                        <div class="row_description row_description__note">
+                            <em data-i18n-html data-i18n="shellCommandInputPathNote">
+                                Even though the host application resolves executables via the <code>PATH</code> environment variable, using absolute paths is strongly recommended.
+                            </em>
+                        </div>
+                        <input id="bee-editor" type="text" name="bee-editor" value="" size="40"
+                               placeholder="/usr/bin/gvim -c &quot;set ft=markdown&quot;"
+                               aria-describedby="bee-editor-desc">
+                    </fieldset>
                 </div>
-                <div class="row_description" data-i18n="shellCommandInputDescription">
-                    Specify a shell command to open a text editor. A path to a temporary file will be appended to this command dynamically.
+                <div id="url-regex-list" class="row">
+                    <fieldset>
+                        <legend data-i18n="patternListLabel">File name extensions based on URL patterns</legend>
+                        <div class="row_description" data-i18n="patternOptionsDescription" data-i18n-html>
+                            Specify file name extensions for different page URLs using
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank">regular expressions</a>.
+                        </div>
+                        <div id="url-regex-list-row-container">
+                        </div>
+                        <div class="url-regex-list_add_row">
+                            <input type="button" name="add_url_pattern" data-i18n="addPatternkButton" value="&plus; Add Pattern">
+                        </div>
+                    </fieldset>
                 </div>
-                <input id="bee-editor"
-                       type="text"
-                       name="bee-editor"
-                       value=""
-                       size="40"
-                       placeholder="/usr/bin/gvim -c &quot;set ft=markdown&quot;">
-            </div>
-            <div id="url-regex-list" class="row">
-                <label class="row_label" data-i18n="patternListLabel">File name extensions based on URL patterns</label>
-                <div class="row_description row_description__emphasis" data-i18n-html data-i18n="beeCtlAppVersionRequirement">
-                    Requires <a href="https://github.com/rosmanov/bee-host" target="_blank">Bee Host</a> 1.2.0 or newer.
+                <div class="row">
+                    <label>
+                        <input type="checkbox" id="context-menu-toggle">
+                        <span data-i18n="optionEnableContextMenuTitle">Enable 'Edit in External Editor' in context menu</span>
+                    </label>
                 </div>
-                <div class="row_description" data-i18n="patternOptionsDescription" data-i18n-html>
-                    Here you can specify file name extensions for various page addresses using
-                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">regular expressions</a>.
+                <div class="row row__align_right">
+                    <span id="save-status" class="save-status"></span>
+                    <input type="submit" name="submit" data-i18n="saveButton" value="&#10004; Save">
                 </div>
-                <div id="url-regex-list-row-container">
-                </div>
-                <div class="url-regex-list_row">
-                    <input type="button" name="add_url_pattern" data-i18n="addPatternkButton" value="&plus; Add Pattern">
-                </div>
-            </div>
-            <div class="row">
-                <label>
-                    <input type="checkbox" id="context-menu-toggle">
-                    <span data-i18n="optionEnableContextMenuTitle">Enable 'Edit in External Editor' in context menu</span>
-                </label>
-            </div>
-            <div class="row row__align_right">
-                <span id="save-status" class="save-status"></span>
-                <input type="submit" name="submit" data-i18n="saveButton" value="&#10004; Save">
-            </div>
-        </form>
+            </form>
+        </div>
     </body>
     <script src="/dist/options.js" type="module" charset="utf-8"></script>
 </html>

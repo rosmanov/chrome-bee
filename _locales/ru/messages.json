@@ -24,11 +24,11 @@
         "description": "Placeholder for filename exension input field"
     },
     "filenameExtTitle" : {
-        "message": "Расширение имени файла",
+        "message": "Расширение имени файла, напр. md",
         "description": "Filename exension input field title"
     },
     "regexPlaceholder" : {
-        "message": "Регулярное выражение, напр. github.com/.*",
+        "message": "github.com/.*",
         "description": "Placeholder for regular expression input field"
     },
     "regexTitle" : {
@@ -47,37 +47,33 @@
         "message": "+ Добавить шаблон",
         "description": "Add Pattern button caption"
     },
-    "patternOptionsDescription" : {
-        "message": "Здесь Вы можете задать расширения файлов для различных адресов URL, используя <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">регулярные выражения</a>",
+    "patternOptionsDescription": {
+        "message": "Укажите расширения имён файлов для различных URL-адресов страниц с помощью <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">регулярных выражений</a>.",
         "description" : "Filename extension patterns description"
-    },
-    "beeCtlAppVersionRequirement" : {
-        "message": "Требуется <a href=\"https://github.com/rosmanov/bee-host\" target=\"_blank\">приложение-хост BeeCtl</a> версии 1.2.0 или выше.",
-        "description": "Minimum BeeCtl app version requirement text"
     },
     "patternListLabel" : {
         "message": "Расширения имён файлов на основе шаблонов URL",
         "description": "Pattern list label text"
     },
-    "shellCommandInputDescription" : {
-        "message": "Укажите команду оболочки для запуска предпочитаемого текстового редактора. Путь к временному файлу будет добавлен динамически. Вы можете использовать заполнители ${line} и ${column} для указания позиции курсора (нумерация с 1), например: /usr/local/bin/gvim --nofork +'call cursor(${line}, ${column})'. Одинарные и двойные кавычки будут автоматически обработаны.",
-        "description": "Shell command input field description"
+    "shellCommandInputDescription": {
+        "message": "Укажите команду оболочки для запуска редактора. В конец команды будет автоматически добавлен путь к временному файлу. Одинарные и двойные кавычки разворачиваются автоматически. Вы можете использовать <code>$${line}</code> и <code>$${column}</code> для указания позиции курсора (нумерация с единицы), например: <code>/usr/bin/gvim --nofork +'call cursor($${line}, $${column})'</code>.",
+        "description": "Описание поля команды оболочки"
     },
     "shellCommandInputPathNote" : {
-        "message": "Настоятельно рекомендуется задавать абсолютные пути, не смотря на то, что в противном случае путь до исполняемого файла будет разрешён при помощи переменной среды PATH",
+        "message": "Хотя хост-приложение ищет исполняемые файлы через переменную окружения <code>PATH</code>, настоятельно рекомендуется указывать абсолютные пути.",
         "description": "Shell command input field description"
     },
-    "shellCommandInputPathLabel" : {
-        "message": "Команда открытия редактора",
-        "description": "Shell command input field label text"
+    "editorCommandLegend": {
+        "message": "Команда запуска редактора",
+        "description": "Legend on the options page"
     },
     "contextMenuTitle": {
         "message": "Открыть во внешнем редакторе",
-        "description": "Элемент контекстного меню"
+        "description": "Title of the context menu item to open external editor"
     },
     "optionEnableContextMenuTitle": {
         "message": "Включить элемент контекстного меню 'Открыть во внешнем редакторе'",
-        "description": "Опция включения элемента контекстного меню"
+        "description": "The checkbox name on the options page for enabling the context menu item"
     }
 
 }

@@ -20,15 +20,15 @@
         "description": "Message appearing when the options could not be saved"
     },
     "filenameExtPlaceholder" : {
-        "message": "Extension",
+        "message": "Ext",
         "description": "Placeholder for filename exension input field"
     },
     "filenameExtTitle" : {
-        "message": "File name extension",
+        "message": "File name extension, e.g. md",
         "description": "Filename exension input field title"
     },
     "regexPlaceholder" : {
-        "message": "Regular expression, e.g. github.com/.*",
+        "message": "Regex, e.g. github.com/.*",
         "description": "Placeholder for regular expression input field"
     },
     "regexTitle" : {
@@ -48,28 +48,24 @@
         "description": "Add Pattern button caption"
     },
     "patternOptionsDescription" : {
-        "message": "Here you can specify file name extensions for various page addresses using <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">regular expressions</a>",
+        "message": "Specify file name extensions for different page URLs using <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">regular expressions</a>.",
         "description" : "Filename extension patterns description"
-    },
-    "beeCtlAppVersionRequirement" : {
-        "message": "Requires <a href=\"https://github.com/rosmanov/bee-host\" target=\"_blank\">Bee Host</a> 1.2.0 or newer.",
-        "description": "Minimum BeeCtl app version requirement text"
     },
     "patternListLabel" : {
         "message": "File name extensions based on URL patterns",
         "description": "Pattern list label text"
     },
     "shellCommandInputDescription" : {
-        "message": "Specify the shell command to launch your preferred text editor. A path to a temporary file will be appended dynamically. You can use the placeholders ${line} and ${column} to set the 1-based cursor position, for example: /usr/local/bin/gvim --nofork +'call cursor(${line}, ${column})'. Both single and double quotes will be expanded automatically.",
+        "message": "Specify a shell command to launch your editor. A temporary file path will be appended. Quotes are expanded automatically. You can use <code>$${line}</code> and <code>$${column}</code> for the 1-based cursor position, e.g., <code>/usr/bin/gvim --nofork +'call cursor($${line}, $${column})'</code>.",
         "description": "Shell command input field description"
     },
     "shellCommandInputPathNote" : {
-        "message": "Although the host application resolves the executable from the <code>PATH</code> environment variable, absolute paths are strongly encouraged.",
+        "message": "Even though the host application resolves executables via the <code>PATH</code> environment variable, using absolute paths is strongly recommended.",
         "description": "Shell command input field description"
     },
-    "shellCommandInputPathLabel" : {
-        "message": "Command to open editor",
-        "description": "Shell command input field label text"
+    "editorCommandLegend": {
+        "message": "Editor Launch Command",
+        "description": "Legend on the options page"
     },
     "contextMenuTitle": {
         "message": "Edit in External Editor",

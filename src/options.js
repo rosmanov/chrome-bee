@@ -52,15 +52,17 @@ function getUrlExtensionInput(form, index) {
  * @throws Error
  */
 function getUrlPatterns(form) {
-    let patterns = []
-    const patternRows = form.querySelectorAll(`.${URL_PATTERN_REGEX_CLASS}`)
+    const rows = form.querySelectorAll(`.${URL_PATTERN_ROW_CLASS}`)
+    const patterns = []
 
-    for (let i = 0; i < patternRows.length; i++) {
-        const regexInput = getUrlRegexInput(form, i)
-        const extInput = getUrlExtensionInput(form, i)
+    for (const row of rows) {
+        const regexInput = row.querySelector('input[name^="url_regex"]')
+        const extInput = row.querySelector('input[name^="url_ext"]')
+
         if (!(regexInput && extInput)) {
-            throw new Error(`Could not find regex form controls with index ${i}`)
+            throw new Error(`Missing inputs in a pattern row`)
         }
+
         patterns.push(new BeeUrlPattern(extInput.value, regexInput.value))
     }
 
@@ -85,7 +87,6 @@ function addUrlPatternRow(container) {
             type="text"
             name="url_regex[${index}]"
             value=""
-            size="35"
             placeholder="${regexPlaceholder}"
             title="${regexTitle}">
       </div>
@@ -93,7 +94,6 @@ function addUrlPatternRow(container) {
           <input type="text"
                name="url_ext[${index}]"
                value=""
-               size="9"
                placeholder="${filenameExtPlaceholder}"
                title="${filenameExtTitle}">
       </div>
@@ -106,7 +106,11 @@ function addUrlPatternRow(container) {
     const parsed = parser.parseFromString(rowHtml, 'text/html')
     const row = parsed.body.querySelector(`.${URL_PATTERN_ROW_CLASS}`)
 
-    return container.appendChild(row)
+    const child = container.appendChild(row)
+    requestAnimationFrame(() => {
+        row.classList.add('url-regex-list_row--visible')
+    })
+    return child
 }
 
 /**
