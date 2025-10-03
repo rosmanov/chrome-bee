@@ -81,8 +81,14 @@
   const setText = (el, text) => {
     if ('value' in el) {
       el.value = text;
+
+      // Fire events GitHub (React) listens for.
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
     } else {
       el.textContent = text;
+      // Fire events for frameworks.
+      el.dispatchEvent(new Event('input', { bubbles: true }));
     }
   }
 
