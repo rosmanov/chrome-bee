@@ -101,7 +101,7 @@
         const ae = window.beeRequests.get(request.requestId);
         if (ae) {
           setText(ae, request.text);
-          window.beeRequests.delete(request.requestId);
+          // Don't delete - keep the element to allow multiple updates (save, close)
         }
       }
     });
@@ -110,6 +110,13 @@
   const ae = findFocusedEditable()
 
   if (ae) {
+    // Keep only the last 10 requests to prevent unbounded memory growth
+    const MAX_REQUESTS = 10;
+    if (window.beeRequests.size >= MAX_REQUESTS) {
+      const oldestKey = window.beeRequests.keys().next().value;
+      window.beeRequests.delete(oldestKey);
+    }
+
     const text = ae.value !== undefined ? ae.value : (ae.innerText || ae.textContent);
     const caretPosition = getCaretPosition(ae);
     const { line, column } = getLineAndColumn(text, caretPosition);
