@@ -62,10 +62,10 @@ case "$browser" in
 
     *firefox*)
         printf '>> Linting Firefox manifest...\n'
-        web-ext lint
+        npx web-ext lint
 
         printf '>> Building Firefox package...\n'
-        web-ext build --overwrite-dest \
+        npx web-ext build --overwrite-dest \
             --source-dir="${dir}" \
             --artifacts-dir="${artifacts_dir}" \
             --filename="bee-${browser}-${version}.zip" \
