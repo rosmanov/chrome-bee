@@ -92,12 +92,30 @@
     }
   }
 
+  if (typeof window.beeListenerAdded === 'undefined') {
+    window.beeListenerAdded = true;
+    window.beeRequests = new Map();
+
+    chrome.runtime.onMessage.addListener(function (request) {
+      if (request && request.bee_editor_output !== undefined) {
+        const ae = window.beeRequests.get(request.requestId);
+        if (ae) {
+          setText(ae, request.text);
+          window.beeRequests.delete(request.requestId);
+        }
+      }
+    });
+  }
+
   const ae = findFocusedEditable()
 
   if (ae) {
     const text = ae.value !== undefined ? ae.value : (ae.innerText || ae.textContent);
     const caretPosition = getCaretPosition(ae);
     const { line, column } = getLineAndColumn(text, caretPosition);
+    const requestId = Math.random().toString(36).substring(2);
+
+    window.beeRequests.set(requestId, ae);
 
     // We can't access page's localStorage directly
     chrome.runtime.sendMessage({method: 'bee_editor', url: window.location.href}, function (response) {
@@ -112,18 +130,13 @@
           bee_editor: response.bee_editor,
           bee_cursor_line: line,
           bee_cursor_column: column,
-          ext: response.ext || ''
+          ext: response.ext || '',
+          requestId: requestId
         },
         function (response) {
           setText(ae, response.text);
         }
       );
-    });
-
-    chrome.runtime.onMessage.addListener(function (request) {
-      if (request && request.bee_editor_output !== undefined) {
-        setText(ae, request.text)
-      }
     });
   }
 })();

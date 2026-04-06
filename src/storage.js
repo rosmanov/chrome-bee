@@ -8,7 +8,6 @@ import BeeUrlPattern from './pattern.js'
 
 const EDITOR_KEY = 'bee-editor'
 const URL_PATTERNS_KEY = 'url-patterns'
-const TAB_KEY = 'tab'
 const CONTEXT_MENU_KEY = 'context-menu';
 
 /**
@@ -38,13 +37,6 @@ function saveContextMenu(enable) {
  */
 function saveUrlPatterns(urlPatterns) {
     saveOptions({[URL_PATTERNS_KEY]: JSON.stringify(urlPatterns)})
-}
-
-/**
- * @param {number} tab ID
- */
-function saveTabId(tabId) {
-    saveOptions({[TAB_KEY]: tabId})
 }
 
 /**
@@ -88,26 +80,16 @@ function getUrlPatterns() {
     return getOptionValues([URL_PATTERNS_KEY]).then(values => values[URL_PATTERNS_KEY] ?? undefined)
 }
 
-/**
- * @returns Promise<string|undefined>
- */
-function getTabId() {
-    return getOptionValues([TAB_KEY]).then(values => values[TAB_KEY] ?? undefined)
-}
-
 export default {
     EDITOR_KEY,
     URL_PATTERNS_KEY,
-    TAB_KEY,
     CONTEXT_MENU_KEY,
     getOptionValues,
     getEditor,
     isContextMenuEnabled,
     getUrlPatterns,
-    getTabId,
     saveOptions,
     saveEditor,
     saveContextMenu,
     saveUrlPatterns,
-    saveTabId,
 }

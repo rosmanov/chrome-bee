@@ -7,37 +7,10 @@ import Storage from './storage.js'
 import BeeUrlPattern from './pattern.js'
 import {splitCommandLine, replacePlaceholders} from './shell.js'
 
-let port = null
 const HOST_NAME = 'com.ruslan_osmanov.bee'
 const PLACEHOLDER_LINE = '${line}'
 const PLACEHOLDER_COLUMN = '${column}'
 const CONTEXT_MENU_EVENT = 'bee-editor-menu'
-
-function onDisconnected() {
-  port = null
-  console.log('onDisconnected', arguments, arguments[0].error)
-  if (chrome.runtime.lastError) {
-    console.log('onDisconnected runtime error', chrome.runtime.lastError)
-  }
-}
-
-function onNativeMessage(message) {
-  if (typeof message.text === 'undefined') {
-    return
-  }
-
-  message.bee_editor_output = 1
-  Storage.getTabId().then(tabId => {
-    console.log('sending message to tabId', tabId)
-    chrome.tabs.sendMessage(tabId, message)
-  })
-}
-
-function connect() {
-  port = chrome.runtime.connectNative(HOST_NAME)
-  port.onMessage.addListener(onNativeMessage)
-  port.onDisconnect.addListener(onDisconnected)
-}
 
 /**
  * @param {string} url
@@ -76,8 +49,6 @@ function triggerEditor(tab) {
   chrome.scripting.executeScript({
     target: { tabId: tab.id, allFrames: true },
     files: ["/dist/content.js"]
-  }, () => {
-    Storage.saveTabId(tab.id);
   });
 }
 
@@ -154,7 +125,25 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
     args = replacePlaceholders(args, placeholders)
 
-    connect()
+    const tabId = sender.tab.id;
+    const requestId = request.requestId;
+
+    const port = chrome.runtime.connectNative(HOST_NAME);
+    port.onMessage.addListener((message) => {
+      if (typeof message.text === 'undefined') {
+        return
+      }
+
+      message.bee_editor_output = 1
+      message.requestId = requestId
+      chrome.tabs.sendMessage(tabId, message)
+    });
+
+    port.onDisconnect.addListener(() => {
+      if (chrome.runtime.lastError) {
+        console.log('onDisconnected runtime error', chrome.runtime.lastError)
+      }
+    });
 
     const response = {
       editor: editor,
