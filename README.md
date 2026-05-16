@@ -45,7 +45,7 @@ Follow the instructions provided in the [BeeCtl repository](https://github.com/r
 
 You can install the host application either:
 
-- **Locally** (for the current user), or  
+- **Locally** (for the current user), or
 - **System-wide** (for all users; requires `root` permissions)
 
 **To download the project:**
@@ -61,22 +61,25 @@ wget -q -O - https://github.com/rosmanov/chrome-bee/archive/master.tar.gz | \
 **To run the installation script**:
 
 From the project directory, execute:
+
 ```bash
 ./host/install.sh
 ```
 
 - If run as a superuser, the host application manifests will be installed system-wide.
 - By default, the application installs into the project directory.
-- 
-To specify a different installation path:
+- To specify a different installation path:
+
 ```bash
 ./host/install.sh ~/usr/lib/chrome-bee
 ```
+
 See the [Wiki](https://github.com/rosmanov/chrome-bee/wiki/Installing-Host-Application) for more information.
 
 ### 2. Browser Extension
 
 Install the Bee extension from:
+
 - [Chrome Web store](https://chrome.google.com/webstore/)
 - [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/external-editor/)
 
@@ -88,6 +91,7 @@ The browser will prompt for confirmation—approve it to complete the installati
 
 Use your system’s package manager.
 For example, on Debian-based systems:
+
 ```bash
 sudo apt purge beectl
 ```
@@ -95,6 +99,7 @@ sudo apt purge beectl
 ### Python Script
 
 From the project directory, run:
+
 ```bash
 ./host/uninstall.sh
 ```
@@ -111,21 +116,22 @@ Open the extension’s options page to specify the command for launching an exte
 
 Most GUI editors provide a flag to stay in the foreground. Terminal editors (Vim, Neovim, Nano, Helix, Micro, etc.) do not fork and require no extra flag.
 
-| Editor | Command |
-|--------|---------|
-| GVim | `gvim -f` &nbsp;(or `gvim --nofork`) |
-| Sublime Text | `subl --wait` &nbsp;(or `/usr/bin/subl --wait`) |
-| VS Code | `code --wait` |
-| VSCodium | `codium --wait` |
-| Kate | `kate --block` |
-| Geany | `geany --new-instance` |
-| Emacs (client) | `emacsclient -c` |
-| Atom *(deprecated)* | `atom --wait` |
-| TextEdit (macOS) | `open -W -a TextEdit` |
-| Notepad++ (Windows) | `notepad++` *(waits only when no instance is already open)* |
-| vim / nvim / nano / hx | `vim` / `nvim` / `nano` / `hx` &nbsp;*(no flag needed)* |
+| Editor              | Command                                                     |
+| ------------------- | ----------------------------------------------------------- |
+| GVim                | `gvim -f` &nbsp;(or `gvim --nofork`)                        |
+| Neovim Qt           | `nvim-qt --nofork`                                          |
+| Sublime Text        | `subl --wait` &nbsp;(or `/usr/bin/subl --wait`)             |
+| VS Code             | `code --wait`                                               |
+| VSCodium            | `codium --wait`                                             |
+| Kate                | `kate --block`                                              |
+| Geany               | `geany --new-instance`                                      |
+| Emacs (client)      | `emacsclient -c`                                            |
+| Atom _(deprecated)_ | `atom --wait`                                               |
+| TextEdit (macOS)    | `open -W -a TextEdit`                                       |
+| Notepad++ (Windows) | `notepad++` _(waits only when no instance is already open)_ |
 
 Example:
+
 ```bash
 gvim -f
 ```
@@ -161,13 +167,13 @@ If pressing the keyboard shortcut does not open your editor:
 - If using the Python host, make sure all dependencies (Python, Bash, Perl) are installed and available in the `PATH`.
 
 On Windows, you might need to specify the path to the editor in double quotes, if the path contains spaces, e.g.:
+
 ```
 "C:\Users\ruslan.osmanov\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" --wait
 ```
 
 > [!NOTE]
 > Note the `--wait` option in the command above. It makes VS Code wait until the file is closed before returning control to the browser. This is important for the extension to work correctly.
-
 
 ---
 
@@ -188,21 +194,24 @@ This is a known issue in newer versions of Firefox on macOS where it may silentl
    - Restart Firefox.
 
 2. **Remove the quarantine attribute from host files**:  
-macOS may block the execution of downloaded files until they are explicitly trusted. Run:
+   macOS may block the execution of downloaded files until they are explicitly trusted. Run:
+
 ```bash
 xattr -rd com.apple.quarantine /path/to/chrome-bee
 ```
+
 > [!NOTE]
-> You might need to run it as an administrator (e.g., using `sudo`).
-3. **Reinstall the extension and host application**:
+> You might need to run it as an administrator (e.g., using `sudo`). 3. **Reinstall the extension and host application**:
+
     -	Uninstall the extension from Firefox.
     -	Delete and reinstall the host application.
     - Reinstall the extension from https://addons.mozilla.org/.
+
 4. **Check Console.app logs**:
-    - Open Console.app and filter logs with Bee or native messaging.
-    - Look for sandboxing or permission-related errors.
+   - Open Console.app and filter logs with Bee or native messaging.
+   - Look for sandboxing or permission-related errors.
 5. **Test with a new Firefox profile**:
-    - To rule out profile-specific corruption, temporarily create a fresh Firefox profile via `about:profiles` and install the extension there.
+   - To rule out profile-specific corruption, temporarily create a fresh Firefox profile via `about:profiles` and install the extension there.
 
 ## License
 
@@ -212,5 +221,6 @@ See `LICENSE` file.
 <608192+rosmanov@users.noreply.github.com>
 
 [^1]: At the time of writing:
-    - In Chrome/Chromium, click the "Keyboard shortcuts" button at the bottom of chrome://extensions  
-    - In Firefox, open the `about:addons`, then select "Manage Extension Shortcuts" from the dropdown next to the "Manage Your Extensions".  
+
+    - In Chrome/Chromium, click the "Keyboard shortcuts" button at the bottom of chrome://extensions
+    - In Firefox, open the `about:addons`, then select "Manage Extension Shortcuts" from the dropdown next to the "Manage Your Extensions".
