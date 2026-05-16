@@ -106,6 +106,25 @@ From the project directory, run:
 
 Open the extension’s options page to specify the command for launching an external editor.
 
+> [!IMPORTANT]
+> The editor command **must not fork** (i.e., must not detach and return immediately). The extension waits for the editor process to exit before reading the updated text back into the browser. If the editor forks into the background, the extension reads the file before any edits are saved.
+
+Most GUI editors provide a flag to stay in the foreground. Terminal editors (Vim, Neovim, Nano, Helix, Micro, etc.) do not fork and require no extra flag.
+
+| Editor | Command |
+|--------|---------|
+| GVim | `gvim -f` &nbsp;(or `gvim --nofork`) |
+| Sublime Text | `subl --wait` &nbsp;(or `/usr/bin/subl --wait`) |
+| VS Code | `code --wait` |
+| VSCodium | `codium --wait` |
+| Kate | `kate --block` |
+| Geany | `geany --new-instance` |
+| Emacs (client) | `emacsclient -c` |
+| Atom *(deprecated)* | `atom --wait` |
+| TextEdit (macOS) | `open -W -a TextEdit` |
+| Notepad++ (Windows) | `notepad++` *(waits only when no instance is already open)* |
+| vim / nvim / nano / hx | `vim` / `nvim` / `nano` / `hx` &nbsp;*(no flag needed)* |
+
 Example:
 ```bash
 gvim -f
@@ -133,7 +152,7 @@ If pressing the keyboard shortcut does not open your editor:
 - Make sure you have completed **both steps** of the installation:
   1. Host application is installed and running.
   2. The browser extension is installed and properly configured.
-- Ensure the external editor command in the extension options is correct (e.g., `gvim -f`, `code --wait`, `emacsclient -c -n`).
+- Ensure the external editor command in the extension options is correct and includes a no-fork/wait flag where required (e.g., `gvim -f`, `subl --wait`, `code --wait`, `kate --block`, `emacsclient -c`). See the [Configuration](#configuration) section for a full list.
 - Verify the keyboard shortcut is assigned correctly:
   - In Chrome/Chromium: go to `chrome://extensions/shortcuts`.
   - In Firefox: open `about:addons`, then click the gear icon → "Manage Extension Shortcuts".
