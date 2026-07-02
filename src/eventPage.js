@@ -3,14 +3,15 @@
  *
  * Copyright © 2014-2023 Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>
  */
-import Storage from './storage.js'
-import BeeUrlPattern from './pattern.js'
-import {splitCommandLine, replacePlaceholders} from './shell.js'
+import Storage from "./storage.js";
+import BeeUrlPattern from "./pattern.js";
+import { splitCommandLine, replacePlaceholders } from "./shell.js";
 
-const HOST_NAME = 'com.ruslan_osmanov.bee'
-const PLACEHOLDER_LINE = '${line}'
-const PLACEHOLDER_COLUMN = '${column}'
-const CONTEXT_MENU_EVENT = 'bee-editor-menu'
+const HOST_NAME = "com.ruslan_osmanov.bee";
+const PLACEHOLDER_LINE = "${line}";
+const PLACEHOLDER_COLUMN = "${column}";
+const CONTEXT_MENU_EVENT = "bee-editor-menu";
+const BEE_EDITOR_COMMAND = "bee-editor";
 
 /**
  * @param {string} url
@@ -18,38 +19,46 @@ const CONTEXT_MENU_EVENT = 'bee-editor-menu'
  * @return {string}
  */
 function getFilenameExtension(url, urlPatternsJson) {
-  let extension = ''
+  let extension = "";
 
-  if (url === '') {
-    return extension
+  if (url === "") {
+    return extension;
   }
 
   if (urlPatternsJson === undefined) {
-    return extension
+    return extension;
   }
 
-  const rawUrlPatterns = JSON.parse(urlPatternsJson) || []
+  const rawUrlPatterns = JSON.parse(urlPatternsJson) || [];
   if (!Array.isArray(rawUrlPatterns)) {
-    return extension
+    return extension;
   }
-  const urlPatterns = rawUrlPatterns.map((object) => BeeUrlPattern.fromObject(object))
+  const urlPatterns = rawUrlPatterns.map((object) =>
+    BeeUrlPattern.fromObject(object),
+  );
 
   for (let pattern of urlPatterns) {
-    const re = new RegExp(pattern.getRegex())
+    const re = new RegExp(pattern.getRegex());
     if (re.test(url)) {
-      extension = pattern.getExtension()
+      extension = pattern.getExtension();
     }
   }
-  return extension
+  return extension;
 }
 
 function triggerEditor(tab) {
   if (!tab || !tab.id) return;
 
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id, allFrames: true },
-    files: ["/dist/content.js"]
-  });
+  chrome.scripting
+    .executeScript({
+      target: { tabId: tab.id, allFrames: true },
+      files: ["/dist/content.js"],
+    })
+    .catch((error) => {
+      /* Surface injection failures instead of failing silently, which is how the
+       keyboard-shortcut regression (issue #35) stayed hidden. */
+      console.warn("Bee: failed to inject content script", error);
+    });
 }
 
 async function getCurrentTab() {
@@ -64,20 +73,53 @@ async function getCurrentTab() {
  */
 function updateContextMenu() {
   chrome.contextMenus.removeAll(() => {
-    Storage.getOptionValues([Storage.CONTEXT_MENU_KEY]).then(values => {
+    Storage.getOptionValues([Storage.CONTEXT_MENU_KEY]).then((values) => {
       if (values[Storage.CONTEXT_MENU_KEY] ?? true) {
         const title = chrome.i18n.getMessage("contextMenuTitle");
         chrome.contextMenus.create({
           id: CONTEXT_MENU_EVENT,
           title,
-          contexts: ['editable']
+          contexts: ["editable"],
         });
       }
-    })
-  })
+    });
+  });
 }
 
-chrome.runtime.onInstalled.addListener(updateContextMenu);
+/* The old default shortcut (Ctrl+E / Cmd+E) is intercepted by the browser and,
+   on macOS, by the text field itself, so it never reaches the extension (issue
+   #35). Browsers keep a stored shortcut across updates and do not re-apply the
+   new suggested_key, so migrate existing users explicitly — but only when the
+   binding is still the old default, never a shortcut the user chose. */
+const OLD_DEFAULT_SHORTCUTS = ["Ctrl+E", "Command+E"];
+
+async function migrateEditorShortcut() {
+  /* commands.update()/getPlatformInfo() are Firefox-only; Chrome cannot change
+     a shortcut programmatically, so there it is a no-op (documented in README). */
+  if (!chrome.commands.update) {
+    return;
+  }
+  try {
+    const commands = await chrome.commands.getAll();
+    const command = commands.find((c) => c.name === BEE_EDITOR_COMMAND);
+    if (!command || !OLD_DEFAULT_SHORTCUTS.includes(command.shortcut)) {
+      return;
+    }
+
+    const { os } = await chrome.runtime.getPlatformInfo();
+    const shortcut = os === "mac" ? "MacCtrl+Command+E" : "Alt+Shift+E";
+    await chrome.commands.update({ name: BEE_EDITOR_COMMAND, shortcut });
+  } catch (error) {
+    console.warn("Bee: failed to migrate keyboard shortcut", error);
+  }
+}
+
+chrome.runtime.onInstalled.addListener((details) => {
+  updateContextMenu();
+  if (details.reason === "update") {
+    migrateEditorShortcut();
+  }
+});
 chrome.runtime.onStartup?.addListener?.(updateContextMenu); // Defensive for older browsers
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -92,56 +134,56 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
  * @param {chrome.tabs.Tab|undefined} tab Can be undefined in Firefox
  */
 chrome.commands.onCommand.addListener((command, tab) => {
-  if (command === 'bee-editor') {
-    const p = tab ? Promise.resolve(tab) : getCurrentTab()
-    p.then(triggerEditor)
+  if (command === BEE_EDITOR_COMMAND) {
+    const p = tab ? Promise.resolve(tab) : getCurrentTab();
+    p.then(triggerEditor);
   }
-})
+});
 
 /**
  * Listen for messages from options page
  */
 chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === 'updateContextMenu') {
+  if (msg.type === "updateContextMenu") {
     updateContextMenu();
   }
 });
 
 /* jshint unused:false*/
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.method === 'input') {
-    let requestEditor = request.bee_editor || ""
-    let args = splitCommandLine(requestEditor)
-    let editor = args.length ? args.shift() : ''
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.method === "input") {
+    let requestEditor = request.bee_editor || "";
+    let args = splitCommandLine(requestEditor);
+    let editor = args.length ? args.shift() : "";
 
-    const ext = request.ext || ''
+    const ext = request.ext || "";
 
     // Placeholder replacement
-    const line = request.bee_cursor_line ?? 1
-    const column = request.bee_cursor_column ?? 1
+    const line = request.bee_cursor_line ?? 1;
+    const column = request.bee_cursor_column ?? 1;
     const placeholders = {
       [PLACEHOLDER_LINE]: line,
-      [PLACEHOLDER_COLUMN]: column
-    }
-    args = replacePlaceholders(args, placeholders)
+      [PLACEHOLDER_COLUMN]: column,
+    };
+    args = replacePlaceholders(args, placeholders);
 
     const tabId = sender.tab.id;
     const requestId = request.requestId;
 
     const port = chrome.runtime.connectNative(HOST_NAME);
     port.onMessage.addListener((message) => {
-      if (typeof message.text === 'undefined') {
-        return
+      if (typeof message.text === "undefined") {
+        return;
       }
 
-      message.bee_editor_output = 1
-      message.requestId = requestId
-      chrome.tabs.sendMessage(tabId, message)
+      message.bee_editor_output = 1;
+      message.requestId = requestId;
+      chrome.tabs.sendMessage(tabId, message);
     });
 
     port.onDisconnect.addListener(() => {
       if (chrome.runtime.lastError) {
-        console.log('onDisconnected runtime error', chrome.runtime.lastError)
+        console.log("onDisconnected runtime error", chrome.runtime.lastError);
       }
     });
 
@@ -149,18 +191,24 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       editor: editor,
       args: args,
       ext: ext,
-      text: request.bee_input
+      text: request.bee_input,
     };
-    port.postMessage(response)
-    sendResponse(response)
-  } else if (request.method === 'bee_editor') {
-    Storage.getOptionValues([Storage.EDITOR_KEY, Storage.URL_PATTERNS_KEY]).then(values => {
+    port.postMessage(response);
+    sendResponse(response);
+  } else if (request.method === "bee_editor") {
+    Storage.getOptionValues([
+      Storage.EDITOR_KEY,
+      Storage.URL_PATTERNS_KEY,
+    ]).then((values) => {
       sendResponse({
         bee_editor: values[Storage.EDITOR_KEY],
-        ext: getFilenameExtension(request.url, values[Storage.URL_PATTERNS_KEY])
-      })
-    })
+        ext: getFilenameExtension(
+          request.url,
+          values[Storage.URL_PATTERNS_KEY],
+        ),
+      });
+    });
   }
   // returning true indicates that sendResponse will or may be called asynchronously
-  return true
-})
+  return true;
+});

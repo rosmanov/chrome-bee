@@ -7,6 +7,11 @@
    },
    "browser_specific_settings" : {
       "gecko" : {
+         "data_collection_permissions" : {
+            "required" : [
+               "none"
+            ]
+         },
          "id" : "bee@ruslan_osmanov.com"
       }
    },
@@ -14,8 +19,8 @@
       "bee-editor" : {
          "description" : "__MSG_shortcutOpenEditor__",
          "suggested_key" : {
-            "default" : "Ctrl+E",
-            "mac" : "Command+E"
+            "default" : "Alt+Shift+E",
+            "mac" : "Command+Shift+E"
          }
       }
    },

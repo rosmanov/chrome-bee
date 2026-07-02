@@ -136,7 +136,10 @@ Example:
 gvim -f
 ```
 
-You should also assign a custom keyboard shortcut to invoke Bee[^1]. The default shortcut is `<Ctrl>E`.
+You should also assign a custom keyboard shortcut to invoke Bee[^1]. The default shortcut is `Alt+Shift+E` (on macOS: `Control+Command+E` in Firefox, `Command+Shift+E` in Chrome).
+
+> [!NOTE]
+> Avoid `Ctrl+E` / `Cmd+E`. These are captured by the browser or the OS before they can reach the extension — `Ctrl+E` focuses the search bar (and, in a focused text field on macOS, moves the cursor to the end of the line), while `Cmd+E` is "Use Selection for Find" on macOS. Pick a combination that is not already used by the browser, the page, or the focused text field.
 
 See the [Configuration Wiki](https://github.com/rosmanov/chrome-bee/wiki/Configuration) for full details.
 
@@ -162,6 +165,7 @@ If pressing the keyboard shortcut does not open your editor:
 - Verify the keyboard shortcut is assigned correctly:
   - In Chrome/Chromium: go to `chrome://extensions/shortcuts`.
   - In Firefox: open `about:addons`, then click the gear icon → "Manage Extension Shortcuts".
+- If you **upgraded** from a version that used `Ctrl+E`/`Cmd+E`, the browser keeps your old shortcut and does not automatically apply the new default. Firefox is migrated automatically on update; in Chrome, reassign the shortcut manually on `chrome://extensions/shortcuts` (Chrome does not allow extensions to change shortcuts programmatically).
 - Check browser console logs (Developer Tools → Console tab) for error messages.
 - Restart the browser and try again.
 - If using the Python host, make sure all dependencies (Python, Bash, Perl) are installed and available in the `PATH`.

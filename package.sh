@@ -26,19 +26,22 @@ printf ">> Version: %s\n" "$version"
 printf ">> Browser: %s\n" "$browser"
 
 if [[ "$browser" == *chrome* ]]; then
-    # Find chrome executable
-    for e in 'google-chrome-stable' 'google-chrome' 'chromium-browser' 'chromium'
+    # Locate a Chrome/Chromium executable for informational purposes only.
+    # Packaging only builds a ZIP and does not need the browser, so a missing
+    # executable must not abort the build - notably on macOS, where Chrome is
+    # installed as an app bundle and is not on the PATH.
+    chrome_bin=''
+    for e in 'google-chrome-stable' 'google-chrome' 'chromium-browser' 'chromium' \
+             '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' \
+             '/Applications/Chromium.app/Contents/MacOS/Chromium'
     do
       if chrome_bin="$(command -v "$e" 2>/dev/null)"; then
-          printf '>> Found Chrome executable: %s\n' "$chrome_bin"
+          printf '* Detected Chrome executable: %s\n' "$chrome_bin"
           break
       fi
     done
-    if [ -z "$chrome_bin" ]; then
-      printf >&2 '!! Chrome executable not found\n'
-      exit 1
-    fi
-    printf '* Detected Chrome executable: %s\n' "$chrome_bin"
+    [ -n "$chrome_bin" ] || \
+      printf >&2 '!! Chrome executable not found (continuing; not required for packaging)\n'
 fi
 
 manifest_backup_file=manifest.json.bak
@@ -55,7 +58,7 @@ case "$browser" in
         rm -f "$zip_file"
         zip -x '*~' '*.git*' '*.rope*' '*.swp' '*.bak' host/beectl "${build_dir}*" \
             '*.xcf' 'img/wiki/*' 'host/*' '*.pl' '*.sh' 'host/*' 'node_modules/*' 'src/*' '.*' \
-            'webpack.*' "$(basename "$artifacts_dir")/*" 'package*' \
+            'webpack.*' "$(basename "$artifacts_dir")/*" 'package*' 'version-sync' \
             -r "$zip_file" . && \
             printf '>> Created ZIP archive: %s\n' "$zip_file"
         ;;
@@ -74,6 +77,7 @@ case "$browser" in
             --ignore-files="${dir}/src" \
             --ignore-files="${dir}/img/wiki/*" \
             --ignore-files="*.pl" \
+            --ignore-files="version-sync" \
             --ignore-files="*.bak" \
             --ignore-files="*.sh" \
             --ignore-files="*.xcf" \
