@@ -1,79 +1,106 @@
 {
-    "extName" : {
-        "message": "Внешний редактор браузера",
-        "description": "Extension name"
-    },
-    "extDescription" : {
-        "message": "Позволяет редактировать текстовые поля форм при помощи внешнего редактора",
-        "description": "Extension description"
-    },
-    "shortcutOpenEditor" : {
-        "message": "Открыть редактор",
-        "description": "Description of keyboard shortcut to open external editor"
-    },
-    "optionsSaved" : {
-        "message": "Сохранено",
-        "description": "Message appearing when the options are saved"
-    },
-    "optionsSaveFailed" : {
-        "message": "Ошибка",
-        "description": "Message appearing when the options could not be saved"
-    },
-    "filenameExtPlaceholder" : {
-        "message": "Расширение",
-        "description": "Placeholder for filename exension input field"
-    },
-    "filenameExtTitle" : {
-        "message": "Расширение имени файла, напр. md",
-        "description": "Filename exension input field title"
-    },
-    "regexPlaceholder" : {
-        "message": "github.com/.*",
-        "description": "Placeholder for regular expression input field"
-    },
-    "regexTitle" : {
-        "message": "Регулярное выражение",
-        "description": "Regular expression input field title"
-    },
-    "removeButton" : {
-        "message": "Удалить",
-        "description": "Remove button caption"
-    },
-    "saveButton" : {
-        "message": "\u2714 Сохранить",
-        "description": "Save button caption"
-    },
-    "addPatternkButton" : {
-        "message": "+ Добавить шаблон",
-        "description": "Add Pattern button caption"
-    },
-    "patternOptionsDescription": {
-        "message": "Укажите расширения имён файлов для различных URL-адресов страниц с помощью <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">регулярных выражений</a>.",
-        "description" : "Filename extension patterns description"
-    },
-    "patternListLabel" : {
-        "message": "Расширения имён файлов на основе шаблонов URL",
-        "description": "Pattern list label text"
-    },
-    "shellCommandInputDescription": {
-        "message": "Укажите команду оболочки для запуска редактора. В конец команды будет автоматически добавлен путь к временному файлу. Одинарные и двойные кавычки разворачиваются автоматически. Вы можете использовать <code>$${line}</code> и <code>$${column}</code> для указания позиции курсора (нумерация с единицы), например: <code>/usr/bin/gvim --nofork +'call cursor($${line}, $${column})'</code>.",
-        "description": "Описание поля команды оболочки"
-    },
-    "shellCommandInputPathNote" : {
-        "message": "Хотя хост-приложение ищет исполняемые файлы через переменную окружения <code>PATH</code>, настоятельно рекомендуется указывать абсолютные пути.",
-        "description": "Shell command input field description"
-    },
-    "editorCommandLegend": {
-        "message": "Команда запуска редактора",
-        "description": "Legend on the options page"
-    },
-    "contextMenuTitle": {
-        "message": "Открыть во внешнем редакторе",
-        "description": "Title of the context menu item to open external editor"
-    },
-    "optionEnableContextMenuTitle": {
-        "message": "Включить элемент контекстного меню 'Открыть во внешнем редакторе'",
-        "description": "The checkbox name on the options page for enabling the context menu item"
-    }
-
+  "extName": {
+    "message": "Внешний редактор браузера",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Позволяет редактировать текстовые поля форм при помощи внешнего редактора",
+    "description": "Extension description"
+  },
+  "shortcutOpenEditor": {
+    "message": "Открыть редактор",
+    "description": "Description of keyboard shortcut to open external editor"
+  },
+  "optionsSaved": {
+    "message": "Сохранено",
+    "description": "Message appearing when the options are saved"
+  },
+  "optionsSaveFailed": {
+    "message": "Ошибка",
+    "description": "Message appearing when the options could not be saved"
+  },
+  "filenameExtPlaceholder": {
+    "message": "Расширение",
+    "description": "Placeholder for filename exension input field"
+  },
+  "filenameExtTitle": {
+    "message": "Расширение имени файла, напр. md",
+    "description": "Filename exension input field title"
+  },
+  "regexPlaceholder": {
+    "message": "github.com/.*",
+    "description": "Placeholder for regular expression input field"
+  },
+  "regexTitle": {
+    "message": "Регулярное выражение",
+    "description": "Regular expression input field title"
+  },
+  "removeButton": {
+    "message": "Удалить",
+    "description": "Remove button caption"
+  },
+  "saveButton": {
+    "message": "✔ Сохранить",
+    "description": "Save button caption"
+  },
+  "addPatternkButton": {
+    "message": "+ Добавить шаблон",
+    "description": "Add Pattern button caption"
+  },
+  "patternOptionsDescription": {
+    "message": "Укажите расширения имён файлов для различных URL-адресов страниц с помощью <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">регулярных выражений</a>.",
+    "description": "Filename extension patterns description"
+  },
+  "patternListLabel": {
+    "message": "Расширения имён файлов на основе шаблонов URL",
+    "description": "Pattern list label text"
+  },
+  "shellCommandInputDescription": {
+    "message": "Укажите команду оболочки для запуска редактора. В конец команды будет автоматически добавлен путь к временному файлу. Одинарные и двойные кавычки разворачиваются автоматически. Вы можете использовать <code>$${line}</code> и <code>$${column}</code> для указания позиции курсора (нумерация с единицы), например: <code>/usr/bin/gvim --nofork +'call cursor($${line}, $${column})'</code>.",
+    "description": "Описание поля команды оболочки"
+  },
+  "shellCommandInputPathNote": {
+    "message": "Хотя хост-приложение ищет исполняемые файлы через переменную окружения <code>PATH</code>, настоятельно рекомендуется указывать абсолютные пути.",
+    "description": "Shell command input field description"
+  },
+  "editorCommandLegend": {
+    "message": "Команда запуска редактора",
+    "description": "Legend on the options page"
+  },
+  "contextMenuTitle": {
+    "message": "Открыть во внешнем редакторе",
+    "description": "Title of the context menu item to open external editor"
+  },
+  "optionEnableContextMenuTitle": {
+    "message": "Включить элемент контекстного меню 'Открыть во внешнем редакторе'",
+    "description": "The checkbox name on the options page for enabling the context menu item"
+  },
+  "keyboardShortcutLegend": {
+    "message": "Сочетание клавиш",
+    "description": "Legend for keyboard shortcut section"
+  },
+  "shortcutLabel": {
+    "message": "Сочетание клавиш:",
+    "description": "Label for shortcut display"
+  },
+  "changeShortcutBtn": {
+    "message": "Изменить сочетание клавиш",
+    "description": "Button to change the shortcut"
+  },
+  "updateShortcutBtn": {
+    "message": "Обновить сочетание клавиш",
+    "description": "Button to update keyboard shortcut in Chrome/Firefox"
+  },
+  "shortcutWarningBroken": {
+    "message": "Текущее сочетание клавиш ({shortcut}) является устаревшим и может перехватываться браузером или ОС.",
+    "description": "Warning message when the shortcut is a broken default"
+  },
+  "shortcutWarningEmpty": {
+    "message": "Сочетание клавиш не задано. Рекомендуется использовать по умолчанию Ctrl+Shift+9 (или Cmd+Shift+9 на macOS).",
+    "description": "Warning message when the shortcut is empty"
+  },
+  "shortcutNone": {
+    "message": "нет",
+    "description": "Label when no shortcut is assigned"
+  }
 }

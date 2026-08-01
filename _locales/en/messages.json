@@ -1,78 +1,106 @@
 {
-    "extName" : {
-        "message": "Browser's external editor",
-        "description": "Extension name"
-    },
-    "extDescription" : {
-        "message": "Allows to edit form text fields with an external editor",
-        "description": "Extension description"
-    },
-    "shortcutOpenEditor" : {
-        "message": "Open external editor",
-        "description": "Description of keyboard shortcut to open external editor"
-    },
-    "optionsSaved" : {
-        "message": "Saved",
-        "description": "Message appearing when the options are saved"
-    },
-    "optionsSaveFailed" : {
-        "message": "Failed",
-        "description": "Message appearing when the options could not be saved"
-    },
-    "filenameExtPlaceholder" : {
-        "message": "Ext",
-        "description": "Placeholder for filename exension input field"
-    },
-    "filenameExtTitle" : {
-        "message": "File name extension, e.g. md",
-        "description": "Filename exension input field title"
-    },
-    "regexPlaceholder" : {
-        "message": "Regex, e.g. github.com/.*",
-        "description": "Placeholder for regular expression input field"
-    },
-    "regexTitle" : {
-        "message": "Regular expression",
-        "description": "Regular expression input field title"
-    },
-    "removeButton" : {
-        "message": "Remove",
-        "description": "Remove button caption"
-    },
-    "saveButton" : {
-        "message": "\u2714 Save",
-        "description": "Save button caption"
-    },
-    "addPatternkButton" : {
-        "message": "+ Add Pattern",
-        "description": "Add Pattern button caption"
-    },
-    "patternOptionsDescription" : {
-        "message": "Specify file name extensions for different page URLs using <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">regular expressions</a>.",
-        "description" : "Filename extension patterns description"
-    },
-    "patternListLabel" : {
-        "message": "File name extensions based on URL patterns",
-        "description": "Pattern list label text"
-    },
-    "shellCommandInputDescription" : {
-        "message": "Specify a shell command to launch your editor. A temporary file path will be appended. Quotes are expanded automatically. You can use <code>$${line}</code> and <code>$${column}</code> for the 1-based cursor position, e.g., <code>/usr/bin/gvim --nofork +'call cursor($${line}, $${column})'</code>.",
-        "description": "Shell command input field description"
-    },
-    "shellCommandInputPathNote" : {
-        "message": "Even though the host application resolves executables via the <code>PATH</code> environment variable, using absolute paths is strongly recommended.",
-        "description": "Shell command input field description"
-    },
-    "editorCommandLegend": {
-        "message": "Editor Launch Command",
-        "description": "Legend on the options page"
-    },
-    "contextMenuTitle": {
-        "message": "Edit in External Editor",
-        "description": "Context menu item title"
-    },
-    "optionEnableContextMenuTitle": {
-        "message": "Enable 'Edit in External Editor' in context menu",
-        "description": "Option to enable the context menu item"
-    }
+  "extName": {
+    "message": "Browser's external editor",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Allows to edit form text fields with an external editor",
+    "description": "Extension description"
+  },
+  "shortcutOpenEditor": {
+    "message": "Open external editor",
+    "description": "Description of keyboard shortcut to open external editor"
+  },
+  "optionsSaved": {
+    "message": "Saved",
+    "description": "Message appearing when the options are saved"
+  },
+  "optionsSaveFailed": {
+    "message": "Failed",
+    "description": "Message appearing when the options could not be saved"
+  },
+  "filenameExtPlaceholder": {
+    "message": "Ext",
+    "description": "Placeholder for filename exension input field"
+  },
+  "filenameExtTitle": {
+    "message": "File name extension, e.g. md",
+    "description": "Filename exension input field title"
+  },
+  "regexPlaceholder": {
+    "message": "Regex, e.g. github.com/.*",
+    "description": "Placeholder for regular expression input field"
+  },
+  "regexTitle": {
+    "message": "Regular expression",
+    "description": "Regular expression input field title"
+  },
+  "removeButton": {
+    "message": "Remove",
+    "description": "Remove button caption"
+  },
+  "saveButton": {
+    "message": "✔ Save",
+    "description": "Save button caption"
+  },
+  "addPatternkButton": {
+    "message": "+ Add Pattern",
+    "description": "Add Pattern button caption"
+  },
+  "patternOptionsDescription": {
+    "message": "Specify file name extensions for different page URLs using <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">regular expressions</a>.",
+    "description": "Filename extension patterns description"
+  },
+  "patternListLabel": {
+    "message": "File name extensions based on URL patterns",
+    "description": "Pattern list label text"
+  },
+  "shellCommandInputDescription": {
+    "message": "Specify a shell command to launch your editor. A temporary file path will be appended. Quotes are expanded automatically. You can use <code>$${line}</code> and <code>$${column}</code> for the 1-based cursor position, e.g., <code>/usr/bin/gvim --nofork +'call cursor($${line}, $${column})'</code>.",
+    "description": "Shell command input field description"
+  },
+  "shellCommandInputPathNote": {
+    "message": "Even though the host application resolves executables via the <code>PATH</code> environment variable, using absolute paths is strongly recommended.",
+    "description": "Shell command input field description"
+  },
+  "editorCommandLegend": {
+    "message": "Editor Launch Command",
+    "description": "Legend on the options page"
+  },
+  "contextMenuTitle": {
+    "message": "Edit in External Editor",
+    "description": "Context menu item title"
+  },
+  "optionEnableContextMenuTitle": {
+    "message": "Enable 'Edit in External Editor' in context menu",
+    "description": "Option to enable the context menu item"
+  },
+  "keyboardShortcutLegend": {
+    "message": "Keyboard Shortcut",
+    "description": "Legend for keyboard shortcut section"
+  },
+  "shortcutLabel": {
+    "message": "Shortcut:",
+    "description": "Label for shortcut display"
+  },
+  "changeShortcutBtn": {
+    "message": "Change keyboard shortcut",
+    "description": "Button to change the shortcut"
+  },
+  "updateShortcutBtn": {
+    "message": "Update keyboard shortcut",
+    "description": "Button to update keyboard shortcut in Chrome/Firefox"
+  },
+  "shortcutWarningBroken": {
+    "message": "The current shortcut ({shortcut}) is a known broken default and might be intercepted by your browser or OS.",
+    "description": "Warning message when the shortcut is a broken default"
+  },
+  "shortcutWarningEmpty": {
+    "message": "No keyboard shortcut is assigned. The default Ctrl+Shift+9 (or Cmd+Shift+9 on macOS) is suggested.",
+    "description": "Warning message when the shortcut is empty"
+  },
+  "shortcutNone": {
+    "message": "none",
+    "description": "Label when no shortcut is assigned"
+  }
 }

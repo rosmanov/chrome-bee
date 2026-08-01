@@ -3,29 +3,30 @@
 /**
  * Options Page
  *
- * Copyright © 2014-2023 Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>
+ * Copyright © 2014-2026 Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>
  */
-'use strict'
+"use strict";
 
-import BeeUrlPattern from './pattern.js'
-import Storage from './storage.js'
+import BeeUrlPattern from "./pattern.js";
+import Storage from "./storage.js";
+import { BROKEN_DEFAULTS } from "./shortcuts.js";
 
-const URL_PATTERN_REMOVE_CLASS = 'url-regex-list_row_remove'
-const URL_PATTERN_ROW_CLASS = 'url-regex-list_row'
-const URL_PATTERN_REGEX_CLASS = 'url-regex-list_row_regex'
-const SAVE_STATUS_SUCCESS_CLASS = 'save-status__success'
-const SAVE_STATUS_ERROR_CLASS = 'save-status__error'
+const URL_PATTERN_REMOVE_CLASS = "url-regex-list_row_remove";
+const URL_PATTERN_ROW_CLASS = "url-regex-list_row";
+const URL_PATTERN_REGEX_CLASS = "url-regex-list_row_regex";
+const SAVE_STATUS_SUCCESS_CLASS = "save-status__success";
+const SAVE_STATUS_ERROR_CLASS = "save-status__error";
 
 /**
  * @return {Node}
  * @throws Error
  */
 function getUrlPatternContainer() {
-    const node = document.getElementById('url-regex-list-row-container')
-    if (!node) {
-        throw new Error(`URL pattern container does not exist`)
-    }
-    return node
+  const node = document.getElementById("url-regex-list-row-container");
+  if (!node) {
+    throw new Error(`URL pattern container does not exist`);
+  }
+  return node;
 }
 
 /**
@@ -34,7 +35,7 @@ function getUrlPatternContainer() {
  * @returns {Node}
  */
 function getUrlRegexInput(form, index) {
-    return form.elements[`url_regex[${index}]`]
+  return form.elements[`url_regex[${index}]`];
 }
 
 /**
@@ -43,7 +44,7 @@ function getUrlRegexInput(form, index) {
  * @returns {Node}
  */
 function getUrlExtensionInput(form, index) {
-    return form.elements[`url_ext[${index}]`]
+  return form.elements[`url_ext[${index}]`];
 }
 
 /**
@@ -52,21 +53,21 @@ function getUrlExtensionInput(form, index) {
  * @throws Error
  */
 function getUrlPatterns(form) {
-    const rows = form.querySelectorAll(`.${URL_PATTERN_ROW_CLASS}`)
-    const patterns = []
+  const rows = form.querySelectorAll(`.${URL_PATTERN_ROW_CLASS}`);
+  const patterns = [];
 
-    for (const row of rows) {
-        const regexInput = row.querySelector('input[name^="url_regex"]')
-        const extInput = row.querySelector('input[name^="url_ext"]')
+  for (const row of rows) {
+    const regexInput = row.querySelector('input[name^="url_regex"]');
+    const extInput = row.querySelector('input[name^="url_ext"]');
 
-        if (!(regexInput && extInput)) {
-            throw new Error(`Missing inputs in a pattern row`)
-        }
-
-        patterns.push(new BeeUrlPattern(extInput.value, regexInput.value))
+    if (!(regexInput && extInput)) {
+      throw new Error(`Missing inputs in a pattern row`);
     }
 
-    return patterns
+    patterns.push(new BeeUrlPattern(extInput.value, regexInput.value));
+  }
+
+  return patterns;
 }
 
 /**
@@ -74,13 +75,17 @@ function getUrlPatterns(form) {
  * @returns {Node} The new row node
  */
 function addUrlPatternRow(container) {
-    const index = Number(container.querySelectorAll(`.${URL_PATTERN_ROW_CLASS}`).length)
-    const regexPlaceholder = chrome.i18n.getMessage('regexPlaceholder')
-    const regexTitle = chrome.i18n.getMessage('regexTitle')
-    const filenameExtPlaceholder = chrome.i18n.getMessage('filenameExtPlaceholder')
-    const filenameExtTitle = chrome.i18n.getMessage('filenameExtTitle')
-    const removeButton = chrome.i18n.getMessage('removeButton')
-    const rowHtml = `
+  const index = Number(
+    container.querySelectorAll(`.${URL_PATTERN_ROW_CLASS}`).length,
+  );
+  const regexPlaceholder = chrome.i18n.getMessage("regexPlaceholder");
+  const regexTitle = chrome.i18n.getMessage("regexTitle");
+  const filenameExtPlaceholder = chrome.i18n.getMessage(
+    "filenameExtPlaceholder",
+  );
+  const filenameExtTitle = chrome.i18n.getMessage("filenameExtTitle");
+  const removeButton = chrome.i18n.getMessage("removeButton");
+  const rowHtml = `
     <div class="${URL_PATTERN_ROW_CLASS}">
         <div class="${URL_PATTERN_REGEX_CLASS}">
         <input
@@ -98,33 +103,33 @@ function addUrlPatternRow(container) {
                title="${filenameExtTitle}">
       </div>
       <div class="${URL_PATTERN_REMOVE_CLASS}">&#10006; ${removeButton}</div>
-    </div>`
+    </div>`;
 
-    // Firefox considers row.innerHTML = `...` as "unsafe assignment to innerHTML",
-    // so we are forced to be more verbose here.
-    const parser = new DOMParser()
-    const parsed = parser.parseFromString(rowHtml, 'text/html')
-    const row = parsed.body.querySelector(`.${URL_PATTERN_ROW_CLASS}`)
+  // Firefox considers row.innerHTML = `...` as "unsafe assignment to innerHTML",
+  // so we are forced to be more verbose here.
+  const parser = new DOMParser();
+  const parsed = parser.parseFromString(rowHtml, "text/html");
+  const row = parsed.body.querySelector(`.${URL_PATTERN_ROW_CLASS}`);
 
-    const child = container.appendChild(row)
-    requestAnimationFrame(() => {
-        row.classList.add('url-regex-list_row--visible')
-    })
-    return child
+  const child = container.appendChild(row);
+  requestAnimationFrame(() => {
+    row.classList.add("url-regex-list_row--visible");
+  });
+  return child;
 }
 
 /**
  * @return {Node} Editor form element
  */
 function getEditorElement(form) {
-    return form.elements['bee-editor']
+  return form.elements["bee-editor"];
 }
 
 /**
  * @return {Node} Editor form element
  */
 function getContextMenuToggleElement(form) {
-  return form.elements['context-menu-toggle']
+  return form.elements["context-menu-toggle"];
 }
 
 /**
@@ -132,141 +137,218 @@ function getContextMenuToggleElement(form) {
  * @throws Error
  */
 function saveOptions(form) {
-    Storage.saveOptions({
-        [Storage.EDITOR_KEY]: getEditorElement(form).value,
-        [Storage.URL_PATTERNS_KEY]: JSON.stringify(getUrlPatterns(form)),
-        [Storage.CONTEXT_MENU_KEY]: getContextMenuToggleElement(form).checked
-    })
-  chrome.runtime.sendMessage({ type: 'updateContextMenu' });
+  Storage.saveOptions({
+    [Storage.EDITOR_KEY]: getEditorElement(form).value,
+    [Storage.URL_PATTERNS_KEY]: JSON.stringify(getUrlPatterns(form)),
+    [Storage.CONTEXT_MENU_KEY]: getContextMenuToggleElement(form).checked,
+  });
+  chrome.runtime.sendMessage({ type: "updateContextMenu" });
 }
 
 /**
  * @param {Node} form
  */
 function restoreUrlPatternOptions(form) {
-    Storage.getUrlPatterns().then(urlPatternsJson => {
-        if (urlPatternsJson === undefined) {
-            return
-        }
+  Storage.getUrlPatterns().then((urlPatternsJson) => {
+    if (urlPatternsJson === undefined) {
+      return;
+    }
 
-        const urlPatternContainer = getUrlPatternContainer()
-        try {
-            const rawUrlPatterns = JSON.parse(urlPatternsJson) || []
-            if (!Array.isArray(rawUrlPatterns)) {
-                return
-            }
-            const urlPatterns = rawUrlPatterns.map((object) => BeeUrlPattern.fromObject(object))
+    const urlPatternContainer = getUrlPatternContainer();
+    try {
+      const rawUrlPatterns = JSON.parse(urlPatternsJson) || [];
+      if (!Array.isArray(rawUrlPatterns)) {
+        return;
+      }
+      const urlPatterns = rawUrlPatterns.map((object) =>
+        BeeUrlPattern.fromObject(object),
+      );
 
-            urlPatternContainer.style.display = 'none'
-            for (let i = 0; i < urlPatterns.length; ++i) {
-                addUrlPatternRow(urlPatternContainer)
+      urlPatternContainer.style.display = "none";
+      for (let i = 0; i < urlPatterns.length; ++i) {
+        addUrlPatternRow(urlPatternContainer);
 
-                const regexInput = getUrlRegexInput(form, i)
-                regexInput.value = urlPatterns[i].getRegex()
+        const regexInput = getUrlRegexInput(form, i);
+        regexInput.value = urlPatterns[i].getRegex();
 
-                const extInput = getUrlExtensionInput(form, i)
-                extInput.value = urlPatterns[i].getExtension()
-            }
-        } catch (e) {
-            console.error(`Failed parsing ${URL_PATTERNS_KEY}`, e)
-            // skip
-        }
-        urlPatternContainer.style.display = 'block'
-    })
+        const extInput = getUrlExtensionInput(form, i);
+        extInput.value = urlPatterns[i].getExtension();
+      }
+    } catch (e) {
+      console.error(`Failed parsing ${URL_PATTERNS_KEY}`, e);
+      // skip
+    }
+    urlPatternContainer.style.display = "block";
+  });
 }
 
 /**
  * @param {Node} form
  */
 function restoreOptions(form) {
-    Storage.getEditor().then(editor => {
-        if (editor) {
-            getEditorElement(form).value = editor
-        }
-        restoreUrlPatternOptions(form)
-    })
-    Storage.isContextMenuEnabled().then(enabled => {
-        getContextMenuToggleElement(form).checked = enabled
-    })
+  Storage.getEditor().then((editor) => {
+    if (editor) {
+      getEditorElement(form).value = editor;
+    }
+    restoreUrlPatternOptions(form);
+  });
+  Storage.isContextMenuEnabled().then((enabled) => {
+    getContextMenuToggleElement(form).checked = enabled;
+  });
 }
 
 /**
  * @param {Node} parentNode
  */
 function i18n(parentNode) {
-    const targetNodes = parentNode.querySelectorAll('[data-i18n]')
-    if (!targetNodes) {
-        return
-    }
+  const targetNodes = parentNode.querySelectorAll("[data-i18n]");
+  if (!targetNodes) {
+    return;
+  }
 
-    const parser = new DOMParser()
-    for (const node of targetNodes) {
-        const key = node.dataset['i18n'] || ''
-        const translation = chrome.i18n.getMessage(key)
-        if (translation === '') {
-            continue
-        }
-        if (node.nodeName === 'INPUT') {
-            node.value = translation
-        } else if (node.dataset['i18nHtml'] !== undefined) {
-            while (node.firstChild) {
-                node.removeChild(node.firstChild)
-            }
-            const parsed = parser.parseFromString(translation, 'text/html')
-            while (parsed.body.firstChild) {
-                node.appendChild(parsed.body.firstChild)
-            }
-        } else {
-            node.textContent = translation
-        }
+  const parser = new DOMParser();
+  for (const node of targetNodes) {
+    const key = node.dataset["i18n"] || "";
+    const translation = chrome.i18n.getMessage(key);
+    if (translation === "") {
+      continue;
     }
+    if (node.nodeName === "INPUT") {
+      node.value = translation;
+    } else if (node.dataset["i18nHtml"] !== undefined) {
+      while (node.firstChild) {
+        node.removeChild(node.firstChild);
+      }
+      const parsed = parser.parseFromString(translation, "text/html");
+      while (parsed.body.firstChild) {
+        node.appendChild(parsed.body.firstChild);
+      }
+    } else {
+      node.textContent = translation;
+    }
+  }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    i18n(document.body)
+const BEE_EDITOR_COMMAND = "bee-editor";
 
-    const form = document.forms.options
-    const toggleContextMenu = form.elements['context-menu-toggle']
+const isFirefox = chrome.runtime.getURL("").startsWith("moz-extension://");
 
-    form.onsubmit = function (event) {
-        event.preventDefault()
+async function updateShortcutUI() {
+  try {
+    const commands = await chrome.commands.getAll();
+    const command = commands.find((c) => c.name === BEE_EDITOR_COMMAND);
+    const shortcut = command ? command.shortcut : "";
 
-        const saveStatus = document.getElementById('save-status')
-
-        try {
-            saveOptions(form)
-            saveStatus.classList.add(SAVE_STATUS_SUCCESS_CLASS)
-            saveStatus.textContent = chrome.i18n.getMessage('optionsSaved')
-
-            window.setTimeout(() => {
-                saveStatus.textContent = ''
-                saveStatus.classList.remove(SAVE_STATUS_ERROR_CLASS)
-                saveStatus.classList.remove(SAVE_STATUS_SUCCESS_CLASS)
-            }, 750)
-        } catch (e) {
-            saveStatus.classList.add(SAVE_STATUS_ERROR_CLASS)
-            saveStatus.textContent = chrome.i18n.getMessage('optionsSaveFailed')
-            if (e instanceof Error) {
-                saveStatus.textContent += ` (${e.name}) ${e.message}`
-            }
-        }
+    const currentShortcutEl = document.getElementById("current-shortcut");
+    if (currentShortcutEl) {
+      currentShortcutEl.textContent =
+        shortcut || chrome.i18n.getMessage("shortcutNone") || "none";
     }
 
-    const urlPatternContainer = getUrlPatternContainer()
-    urlPatternContainer.addEventListener('click', function (event) {
-        const target = event.target
+    const warningEl = document.getElementById("shortcut-warning");
+    const warningTextEl = document.getElementById("shortcut-warning-text");
+    const updateBtn = document.getElementById("update-shortcut-btn");
 
-        if (target.className === URL_PATTERN_REMOVE_CLASS) {
-            const row = target.closest(`.${URL_PATTERN_ROW_CLASS}`)
-            row.parentNode.removeChild(row)
-            event.stopPropagation()
-            return
-        }
-    })
+    if (warningEl && warningTextEl && updateBtn) {
+      warningEl.style.display = "none";
+      updateBtn.style.display = "none";
 
-    form.elements['add_url_pattern'].addEventListener('click', function () {
-        addUrlPatternRow(urlPatternContainer)
-    })
+      if (BROKEN_DEFAULTS.has(shortcut)) {
+        warningEl.style.display = "block";
+        updateBtn.style.display = "inline-block";
+        warningTextEl.textContent = chrome.i18n
+          .getMessage("shortcutWarningBroken")
+          .replace("{shortcut}", shortcut);
+      } else if (shortcut === "") {
+        warningEl.style.display = "block";
+        updateBtn.style.display = "inline-block";
+        warningTextEl.textContent = chrome.i18n.getMessage(
+          "shortcutWarningEmpty",
+        );
+      }
+    }
+  } catch (error) {
+    console.error("Error updating shortcut UI:", error);
+  }
+}
 
-    restoreOptions(form)
-})
+function openShortcutSettings() {
+  if (
+    typeof browser !== "undefined" &&
+    browser.commands &&
+    browser.commands.openShortcutSettings
+  ) {
+    browser.commands.openShortcutSettings().catch(() => {
+      chrome.tabs.create({ url: "about:addons" });
+    });
+  } else if (chrome.commands && chrome.commands.openShortcutSettings) {
+    chrome.commands.openShortcutSettings();
+  } else {
+    if (isFirefox) {
+      chrome.tabs.create({ url: "about:addons" });
+    } else {
+      chrome.tabs.create({ url: "chrome://extensions/shortcuts" });
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  i18n(document.body);
+
+  const form = document.forms.options;
+  const toggleContextMenu = form.elements["context-menu-toggle"];
+
+  form.onsubmit = function (event) {
+    event.preventDefault();
+
+    const saveStatus = document.getElementById("save-status");
+
+    try {
+      saveOptions(form);
+      saveStatus.classList.add(SAVE_STATUS_SUCCESS_CLASS);
+      saveStatus.textContent = chrome.i18n.getMessage("optionsSaved");
+
+      window.setTimeout(() => {
+        saveStatus.textContent = "";
+        saveStatus.classList.remove(SAVE_STATUS_ERROR_CLASS);
+        saveStatus.classList.remove(SAVE_STATUS_SUCCESS_CLASS);
+      }, 750);
+    } catch (e) {
+      saveStatus.classList.add(SAVE_STATUS_ERROR_CLASS);
+      saveStatus.textContent = chrome.i18n.getMessage("optionsSaveFailed");
+      if (e instanceof Error) {
+        saveStatus.textContent += ` (${e.name}) ${e.message}`;
+      }
+    }
+  };
+
+  const urlPatternContainer = getUrlPatternContainer();
+  urlPatternContainer.addEventListener("click", function (event) {
+    const target = event.target;
+
+    if (target.className === URL_PATTERN_REMOVE_CLASS) {
+      const row = target.closest(`.${URL_PATTERN_ROW_CLASS}`);
+      row.parentNode.removeChild(row);
+      event.stopPropagation();
+      return;
+    }
+  });
+
+  form.elements["add_url_pattern"].addEventListener("click", function () {
+    addUrlPatternRow(urlPatternContainer);
+  });
+
+  restoreOptions(form);
+
+  const changeShortcutBtn = document.getElementById("change-shortcut-btn");
+  if (changeShortcutBtn) {
+    changeShortcutBtn.addEventListener("click", openShortcutSettings);
+  }
+
+  const updateShortcutBtn = document.getElementById("update-shortcut-btn");
+  if (updateShortcutBtn) {
+    updateShortcutBtn.addEventListener("click", openShortcutSettings);
+  }
+
+  updateShortcutUI();
+});

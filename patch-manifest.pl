@@ -37,13 +37,6 @@ if ($browser ne 'firefox') {
   if ($eventPage) {
     $decoded->{'background'} = {'scripts' => [$eventPage]};
   }
-
-  # Firefox can use Control+Command+E, which avoids the Cmd+E collision.
-  # Chrome's manifest validator rejects MacCtrl+Command+E, so the base manifest
-  # keeps a Chrome-compatible macOS shortcut and this Firefox-only patch overrides it.
-  if (exists $decoded->{'commands'}{'bee-editor'}{'suggested_key'}) {
-    $decoded->{'commands'}{'bee-editor'}{'suggested_key'}{'mac'} = 'MacCtrl+Command+E';
-  }
 }
 
 my %result;

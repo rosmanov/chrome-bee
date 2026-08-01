@@ -42,6 +42,23 @@
                     </fieldset>
                 </div>
                 <div class="row">
+                    <fieldset>
+                        <legend data-i18n="keyboardShortcutLegend">Keyboard Shortcut</legend>
+                        <div class="row_description row_description__shortcut">
+                            <strong data-i18n="shortcutLabel">Shortcut:</strong>
+                            <span id="current-shortcut" class="row_description__shortcut_current_shortcut">...</span>
+                            <input type="button" id="change-shortcut-btn" data-i18n="changeShortcutBtn" value="Change keyboard shortcut">
+                        </div>
+                        <div id="shortcut-warning" class="row_description row_description__note row_description__shortcut_warning">
+                            <span id="shortcut-warning-text"></span>
+                            <div style="margin-top: 8px;">
+                                <input type="button" id="update-shortcut-btn" data-i18n="updateShortcutBtn" value="Update keyboard shortcut" style="display: none;">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="row">
                     <label>
                         <input type="checkbox" id="context-menu-toggle">
                         <span data-i18n="optionEnableContextMenuTitle">Enable 'Edit in External Editor' in context menu</span>

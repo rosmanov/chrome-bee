@@ -19,8 +19,8 @@
       "bee-editor" : {
          "description" : "__MSG_shortcutOpenEditor__",
          "suggested_key" : {
-            "default" : "Alt+Shift+E",
-            "mac" : "Command+Shift+E"
+            "default" : "Ctrl+Shift+9",
+            "mac" : "Command+Shift+9"
          }
       }
    },
@@ -46,5 +46,5 @@
       "contextMenus"
    ],
    "short_name" : "Bee",
-   "version" : "3.5.1"
+   "version" : "3.5.2"
 }

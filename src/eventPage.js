@@ -1,8 +1,12 @@
+/* jshint strict: true, esversion: 6 */
 /**
  * Event Page (new kind of background page)
  *
- * Copyright © 2014-2023 Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>
+ * Copyright © 2014-2026 Ruslan Osmanov <608192+rosmanov@users.noreply.github.com>
  */
+
+"use strict";
+
 import Storage from "./storage.js";
 import BeeUrlPattern from "./pattern.js";
 import { splitCommandLine, replacePlaceholders } from "./shell.js";
@@ -86,39 +90,8 @@ function updateContextMenu() {
   });
 }
 
-/* The old default shortcut (Ctrl+E / Cmd+E) is intercepted by the browser and,
-   on macOS, by the text field itself, so it never reaches the extension (issue
-   #35). Browsers keep a stored shortcut across updates and do not re-apply the
-   new suggested_key, so migrate existing users explicitly — but only when the
-   binding is still the old default, never a shortcut the user chose. */
-const OLD_DEFAULT_SHORTCUTS = ["Ctrl+E", "Command+E"];
-
-async function migrateEditorShortcut() {
-  /* commands.update()/getPlatformInfo() are Firefox-only; Chrome cannot change
-     a shortcut programmatically, so there it is a no-op (documented in README). */
-  if (!chrome.commands.update) {
-    return;
-  }
-  try {
-    const commands = await chrome.commands.getAll();
-    const command = commands.find((c) => c.name === BEE_EDITOR_COMMAND);
-    if (!command || !OLD_DEFAULT_SHORTCUTS.includes(command.shortcut)) {
-      return;
-    }
-
-    const { os } = await chrome.runtime.getPlatformInfo();
-    const shortcut = os === "mac" ? "MacCtrl+Command+E" : "Alt+Shift+E";
-    await chrome.commands.update({ name: BEE_EDITOR_COMMAND, shortcut });
-  } catch (error) {
-    console.warn("Bee: failed to migrate keyboard shortcut", error);
-  }
-}
-
 chrome.runtime.onInstalled.addListener((details) => {
   updateContextMenu();
-  if (details.reason === "update") {
-    migrateEditorShortcut();
-  }
 });
 chrome.runtime.onStartup?.addListener?.(updateContextMenu); // Defensive for older browsers
 
@@ -212,3 +185,5 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // returning true indicates that sendResponse will or may be called asynchronously
   return true;
 });
+
+export { BEE_EDITOR_COMMAND };
