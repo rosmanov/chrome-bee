@@ -64,29 +64,37 @@ case "$browser" in
         ;;
 
     *firefox*)
+        ignore_files=( \
+            "${dir}/host/*" \
+            "${dir}/node_modules" \
+            "${dir}/src" \
+            "${dir}/img/wiki/*" \
+            "*.pl" \
+            "version-sync" \
+            "*.bak" \
+            "*.sh" \
+            "*.xcf" \
+            "*~" \
+            "${dir}/.git*" \
+            "*.sw[op]" \
+            "${artifacts_dir}/*" \
+            "${dir}/package.sh" \
+            "${dir}/webpack*" \
+        )
+        ignore_args=()
+        for f in "${ignore_files[@]}"; do
+            ignore_args+=( "--ignore-files=$f" )
+        done
+
         printf '>> Linting Firefox manifest...\n'
-        npx web-ext lint
+        npx web-ext lint --source-dir="$dir" "${ignore_args[@]}"
 
         printf '>> Building Firefox package...\n'
         npx web-ext build --overwrite-dest \
             --source-dir="${dir}" \
             --artifacts-dir="${artifacts_dir}" \
             --filename="bee-${browser}-${version}.zip" \
-            --ignore-files="${dir}/host/*" \
-            --ignore-files="${dir}/node_modules" \
-            --ignore-files="${dir}/src" \
-            --ignore-files="${dir}/img/wiki/*" \
-            --ignore-files="*.pl" \
-            --ignore-files="version-sync" \
-            --ignore-files="*.bak" \
-            --ignore-files="*.sh" \
-            --ignore-files="*.xcf" \
-            --ignore-files="*~" \
-            --ignore-files="${dir}/.git*" \
-            --ignore-files="*.sw[op]" \
-            --ignore-files="${artifacts_dir}/*" \
-            --ignore-files="${dir}/package*" \
-            --ignore-files="${dir}/webpack*" \
+            "${ignore_args[@]}"
         ;;
     *)
         printf >&2 'Unknown browser %s\n' "$browser"
