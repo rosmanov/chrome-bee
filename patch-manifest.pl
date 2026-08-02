@@ -19,21 +19,25 @@ my $eventPage = '';
 
 $decoded->{'version'} = $version;
 
+my $background = $decoded->{'background'};
+if ($background && ref($background) eq 'HASH') {
+  if (exists $background->{'scripts'} && ref($background->{'scripts'}) eq 'ARRAY') {
+    $eventPage = $background->{'scripts'}[0];
+  } elsif (exists $background->{'service_worker'}) {
+    $eventPage = $background->{'service_worker'};
+  }
+}
+
 if ($browser ne 'firefox') {
   delete $decoded->{'applications'};
   delete $decoded->{'options_ui'}{'browser_style'};
 
-  # - Chrome manifest v3 requires "background": {"type": "module", "service_worker": "dist/eventPage.js"}
-  $eventPage = $decoded->{'background'}{'scripts'}[0];
   if ($eventPage) {
     $decoded->{'background'} = {'service_worker' => $eventPage, 'type' => 'module'};
   }
-  delete $decoded->{'background'}{'scripts'};
 
   delete $decoded->{'browser_specific_settings'}
 } else {
-  # - Firefox requires "background": {"scripts": ["dist/eventPage.js"]}
-  $eventPage = $decoded->{'background'}{'service_worker'};
   if ($eventPage) {
     $decoded->{'background'} = {'scripts' => [$eventPage]};
   }

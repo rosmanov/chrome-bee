@@ -1,9 +1,8 @@
 {
    "author" : "Ruslan Osmanov",
    "background" : {
-      "scripts" : [
-         "dist/eventPage.js"
-      ]
+      "service_worker" : "dist/eventPage.js",
+      "type" : "module"
    },
    "browser_specific_settings" : {
       "gecko" : {
@@ -37,8 +36,10 @@
    "options_ui" : {
       "page" : "html/options.html"
    },
+   "host_permissions": [
+     "<all_urls>"
+   ],
    "permissions" : [
-      "activeTab",
       "storage",
       "tabs",
       "scripting",

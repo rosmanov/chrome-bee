@@ -72,22 +72,38 @@ async function getCurrentTab() {
   return tab;
 }
 
+function removeAllContextMenus() {
+  return new Promise((resolve) => {
+    chrome.contextMenus.removeAll(() => {
+      const error = chrome.runtime.lastError;
+      if (error) {
+        // Log the error but resolve anyway so we don't break the creation flow
+        console.warn("Bee: contextMenus.removeAll warning/error:", error.message || error);
+      }
+      resolve();
+    });
+  });
+}
+
 /**
  * Create or update context menu depending on user preference.
  */
-function updateContextMenu() {
-  chrome.contextMenus.removeAll(() => {
-    Storage.getOptionValues([Storage.CONTEXT_MENU_KEY]).then((values) => {
-      if (values[Storage.CONTEXT_MENU_KEY] ?? true) {
-        const title = chrome.i18n.getMessage("contextMenuTitle");
-        chrome.contextMenus.create({
-          id: CONTEXT_MENU_EVENT,
-          title,
-          contexts: ["editable"],
-        });
-      }
-    });
-  });
+async function updateContextMenu() {
+  try {
+    await removeAllContextMenus();
+
+    const values = await Storage.getOptionValues([Storage.CONTEXT_MENU_KEY]);
+    if (values[Storage.CONTEXT_MENU_KEY] ?? true) {
+      const title = chrome.i18n.getMessage("contextMenuTitle");
+      chrome.contextMenus.create({
+        id: CONTEXT_MENU_EVENT,
+        title,
+        contexts: ["editable"],
+      });
+    }
+  } catch (error) {
+    console.error("Bee: Failed to update context menu.", error);
+  }
 }
 
 chrome.runtime.onInstalled.addListener((details) => {
