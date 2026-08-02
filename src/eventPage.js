@@ -143,11 +143,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     const tabId = sender.tab.id;
     const requestId = request.requestId;
 
+    console.log("Connecting to native host");
     const port = chrome.runtime.connectNative(HOST_NAME);
+    console.log("Connected?");
+
+    let hostSentOutput = false;
+
     port.onMessage.addListener((message) => {
       if (typeof message.text === "undefined") {
         return;
       }
+
+      hostSentOutput = true;
 
       message.bee_editor_output = 1;
       message.requestId = requestId;
@@ -155,8 +162,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     });
 
     port.onDisconnect.addListener(() => {
-      if (chrome.runtime.lastError) {
-        console.log("onDisconnected runtime error", chrome.runtime.lastError);
+      if (!hostSentOutput) {
+        let errorMessage = "Failed to start the native messaging host.";
+
+        if (chrome.runtime.lastError) {
+          errorMessage = chrome.runtime.lastError.message;
+        }
+
+        chrome.tabs.sendMessage(tabId, {
+          bee_editor_error: errorMessage,
+          requestId,
+        });
       }
     });
 
@@ -168,6 +184,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     };
     port.postMessage(response);
     sendResponse(response);
+    return false;
   } else if (request.method === "bee_editor") {
     Storage.getOptionValues([
       Storage.EDITOR_KEY,
@@ -181,9 +198,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         ),
       });
     });
+    return true;
   }
   // returning true indicates that sendResponse will or may be called asynchronously
-  return true;
+  return false;
 });
 
 export { BEE_EDITOR_COMMAND };
