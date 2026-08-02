@@ -36,10 +36,8 @@
    "options_ui" : {
       "page" : "html/options.html"
    },
-   "host_permissions": [
-     "<all_urls>"
-   ],
    "permissions" : [
+      "activeTab",
       "storage",
       "tabs",
       "scripting",
@@ -47,5 +45,5 @@
       "contextMenus"
    ],
    "short_name" : "Bee",
-   "version" : "3.5.3"
+   "version" : "3.5.4"
 }
