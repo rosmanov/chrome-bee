@@ -70,6 +70,8 @@ def main():
 
     if 'args' in conf:
         args = conf['args']
+        if not isinstance(args, list) or not all(isinstance(a, (str, unicode)) for a in args):
+            sys.exit("Invalid args")
         args.insert(0, bee_editor)
     else:
         args = shlex.split(bee_editor)
