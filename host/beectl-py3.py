@@ -44,6 +44,27 @@ def get_editor(conf):
     return os.getenv('EDITOR')
 
 
+def sanitize_args(args):
+    # Enforce expected structure: reject non-list, non-string elements, and NUL
+    # bytes that would be silently truncated by execve().
+    if not isinstance(args, list):
+        sys.exit("Invalid args: expected a list")
+    for a in args:
+        if not isinstance(a, str):
+            sys.exit("Invalid args: each argument must be a string")
+        if '\x00' in a:
+            sys.exit("Invalid args: NUL byte in argument")
+    return args
+
+
+def sanitize_ext(ext):
+    # ext is used verbatim as mkstemp() suffix; constrain to alphanumeric to
+    # prevent path traversal.
+    if not isinstance(ext, str) or not re.match(r'^[A-Za-z0-9]{1,16}$', ext):
+        return 'txt'
+    return ext
+
+
 def main():
     # 1st 4 bytes is the message type
     text_len_bytes = sys.stdin.buffer.read(4)
@@ -65,8 +86,8 @@ def main():
     if not bee_editor:
         sys.exit("No editor found")
 
-    if 'args' in conf:
-        args = conf['args']
+    if conf and 'args' in conf:
+        args = sanitize_args(conf['args'])
         args.insert(0, bee_editor)
     else:
         args = shlex.split(bee_editor)
@@ -75,9 +96,7 @@ def main():
     if re.match('.*vim', bee_editor):
         args.append('-f')
 
-    suffix = '.txt'
-    if 'ext' in text:
-        suffix = '.' + text['ext']
+    suffix = '.' + sanitize_ext(text.get('ext', 'txt'))
     f = list(tempfile.mkstemp(suffix, 'chrome_bee_'))
     os.write(f[0], bytes(text['text'], 'utf-8'))
     os.close(f[0])
