@@ -217,6 +217,10 @@ xattr -rd com.apple.quarantine /path/to/chrome-bee
 5. **Test with a new Firefox profile**:
    - To rule out profile-specific corruption, temporarily create a fresh Firefox profile via `about:profiles` and install the extension there.
 
+### Windows Defender blocks the native messaging host
+
+On some Windows installations, Microsoft Defender may block `beectl.exe` after installation. See the [beectl Windows Defender troubleshooting instructions](https://github.com/rosmanov/bee-host#windows-defender-blocks-beectlexe) for a workaround.
+
 ## License
 
 See `LICENSE` file.
