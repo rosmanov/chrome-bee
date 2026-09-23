@@ -79,7 +79,18 @@
   }
 
   const setText = (el, text) => {
-    if ("value" in el) {
+    if (el.isContentEditable) { // WYSIWYG editors
+      el.focus(); // just to ensure the correct element is targeted
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      // `execCommand` is deprecated, but is the only way to "paste" without
+      // affecting system clipboard.
+      document.execCommand('insertText', false, text);
+    } else if ("value" in el) { // standard <textarea> and <input> fields
       el.value = text;
 
       // Fire events GitHub (React) listens for.
