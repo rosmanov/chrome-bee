@@ -79,7 +79,47 @@
   }
 
   const setText = (el, text) => {
-    if ("value" in el) {
+    if (el.isContentEditable) { // WYSIWYG editors
+      el.focus(); // ensure the correct element is targeted
+
+      const selection = window.getSelection();
+      if (selection && typeof document.execCommand === "function") {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        let inputFired = false;
+        const onInput = () => {
+          inputFired = true;
+        };
+
+        el.addEventListener("input", onInput);
+
+        let inserted = false;
+        try {
+          // Although deprecated, insertText goes through the browser's editing
+          // machinery rather than modifying the DOM directly. Some WYSIWYG
+          // editors rely on this to keep their internal state in sync.
+          inserted = document.execCommand("insertText", false, text);
+        } catch {
+          // Fall through to the DOM-based fallback.
+        } finally {
+          el.removeEventListener("input", onInput);
+        }
+
+        if (inserted) {
+          if (!inputFired) {
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+          return;
+        }
+      }
+
+      // Fallback for environments where insertText is unavailable or fails.
+      el.textContent = text;
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    } else if ("value" in el) { // standard <textarea> and <input> fields
       el.value = text;
 
       // Fire events GitHub (React) listens for.
