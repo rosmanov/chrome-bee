@@ -12,6 +12,7 @@ shopt -s extglob
 dir=$(cd "$(dirname "$0")"; pwd)
 build_dir=$(dirname "$dir")/build
 artifacts_dir="${dir}/web-ext-artifacts"
+tests_dir="${dir}/tests"
 
 mkdir -p "$artifacts_dir"
 
@@ -58,17 +59,20 @@ case "$browser" in
         rm -f "$zip_file"
         zip -x '*~' '*.git*' '*.rope*' '*.swp' '*.bak' host/beectl "${build_dir}*" \
             '*.xcf' 'img/wiki/*' 'host/*' '*.pl' '*.sh' 'host/*' 'node_modules/*' 'src/*' '.*' \
-            'webpack.*' "$(basename "$artifacts_dir")/*" 'package*' 'version-sync' \
+            'webpack.*' "$(basename "$artifacts_dir")/*" "$(basename "$tests_dir")/*" 'package*' 'version-sync' \
+            'Makefile' 'jest.config.js' \
             -r "$zip_file" . && \
             printf '>> Created ZIP archive: %s\n' "$zip_file"
         ;;
 
     *firefox*)
         ignore_files=( \
-            "${dir}/host/*" \
+            "${dir}/host" \
             "${dir}/node_modules" \
             "${dir}/src" \
             "${dir}/img/wiki/*" \
+            'Makefile' \
+            'jest.config.js' \
             "*.pl" \
             "version-sync" \
             "*.bak" \
@@ -77,7 +81,8 @@ case "$browser" in
             "*~" \
             "${dir}/.git*" \
             "*.sw[op]" \
-            "${artifacts_dir}/*" \
+            "${artifacts_dir}" \
+            "${tests_dir}" \
             "${dir}/package.sh" \
             "${dir}/webpack*" \
         )
