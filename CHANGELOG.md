@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## 3.5.5 - 2026-09-28
+
+### Fixed
+
+- **Support contenteditable WYSIWYG editors via execCommand.**  Handle
+  contenteditable elements separately from standard form controls. Use
+  `execCommand("insertText")` for WYSIWYG editors so text insertion goes
+  through the browser's editing machinery, allowing editors to keep their
+  internal state in sync. Fall back to updating textContent when insertText is
+  unavailable or fails, and ensure an input event is dispatched when necessary.
+
 ## 3.5.1 - 2026-07-02
 
 ### Fixed
