@@ -47,8 +47,10 @@ def get_editor(conf):
 
 
 def sanitize_args(args):
-    # Enforce expected structure: reject non-list, non-string elements, and NUL
-    # bytes that would be silently truncated by execve().
+    # Enforce expected structure: reject non-list, non-string elements, NUL
+    # bytes that would be silently truncated by execve(), and option-like
+    # arguments (leading '-'/'+') that many editors (vim, emacs, etc.) can
+    # interpret as commands to execute, enabling arbitrary command execution.
     if not isinstance(args, list):
         sys.exit("Invalid args: expected a list")
     for a in args:
@@ -56,6 +58,8 @@ def sanitize_args(args):
             sys.exit("Invalid args: each argument must be a string")
         if u'\x00' in a:
             sys.exit("Invalid args: NUL byte in argument")
+        if a.startswith('-') or a.startswith('+'):
+            sys.exit("Invalid args: option-like arguments are not allowed")
     return args
 
 
